@@ -13,7 +13,6 @@ window.onload = function () {
 	  },
 	  methods: {
 		add_message: function() {
-			alert('test')
 			if (this.input.length > 0) {
 				var message = {
 					'text': this.input,
