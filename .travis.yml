@@ -1,2 +1,5 @@
 language: python
 
+install: pip install -r site/requirements.txt
+
+script: pytest 
