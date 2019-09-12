@@ -1,5 +1,5 @@
-def test1(x):
-    return x
+def test1():
+    return True
 
 def test_answer():
-    assert test1(3) == 3
+    assert test1() == True;
