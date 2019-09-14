@@ -7,6 +7,8 @@ from yelpapi import YelpAPI
 import argparse
 from pprint import pprint
 
+import json
+
 argparser = argparse.ArgumentParser(description='Example Yelp queries using yelpapi. '
                                                 'Visit https://www.yelp.com/developers/v3/manage_app to get the '
                                                 'necessary API keys.')
@@ -24,5 +26,10 @@ print('***** 5 best rated ice cream places in Austin, TX *****\n{}\n'.format("ye
                                                                              "location='austin, tx', sort_by='rating', "
                                                                              "limit=5)"))
 response = yelp_api.search_query(term='ice cream', location='austin, tx', sort_by='rating', limit=5)
+
+# WRITE THE RESULTS OF THE API CALL TO A NEW FILE
+f = open("yelpResponse.json", "w")
+f.write(json.dumps(response, indent=4))
+
 pprint(response)
 print('\n-------------------------------------------------------------------------\n')
