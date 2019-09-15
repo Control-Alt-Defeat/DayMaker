@@ -9,27 +9,16 @@ from pprint import pprint
 
 import json
 
-argparser = argparse.ArgumentParser(description='Example Yelp queries using yelpapi. '
-                                                'Visit https://www.yelp.com/developers/v3/manage_app to get the '
-                                                'necessary API keys.')
+argparser = argparse.ArgumentParser(description='Example Yelp queries using yelpapi. Visit https://www.yelp.com/developers/v3/manage_app to get the necessary API keys.')
 argparser.add_argument('api_key', type=str, help='Yelp Fusion API Key')
 args = argparser.parse_args()
 
 yelp_api = YelpAPI(args.api_key)
 
-"""
-    Example search by location text and term. 
-    
-    Search API: https://www.yelp.com/developers/documentation/v3/business_search
-"""
-print('***** 5 best rated ice cream places in Austin, TX *****\n{}\n'.format("yelp_api.search_query(term='ice cream', "
-                                                                             "location='austin, tx', sort_by='rating', "
-                                                                             "limit=5)"))
+# SEARCH BY LOCATION TEXT AND TERM
 response = yelp_api.search_query(term='ice cream', location='austin, tx', sort_by='rating', limit=5)
 
 # WRITE THE RESULTS OF THE API CALL TO A NEW FILE
 f = open("yelpResponse.json", "w")
-f.write(json.dumps(response, indent=4))
-
-pprint(response)
-print('\n-------------------------------------------------------------------------\n')
+filteredResponse = json.dumps(response["businesses"], indent=4)
+f.write(filteredResponse)
