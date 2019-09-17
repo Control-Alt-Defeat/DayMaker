@@ -1,4 +1,4 @@
-"""Common URL Configuration
+"""App URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.0/topics/http/urls/
@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from common.views import home, get_response
+from app.views import chat, home, get_response
 
 from django.conf.urls.static import static
 from django.conf import settings
@@ -24,6 +24,7 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home),
+    path('chat/', home),
     path('get-response/', get_response),
 ]
 
