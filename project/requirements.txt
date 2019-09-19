@@ -1,0 +1,2 @@
+Django
+ipython==6.4.0

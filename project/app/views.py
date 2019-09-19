@@ -29,3 +29,7 @@ def get_response(request):
 def home(request, template_name="home.html"):
 	context = {'title': 'DayMaker Version 1.0'}
 	return render_to_response(template_name, context)
+
+def chat(request, template_name="chat.html"):
+	context = {'title': 'DayMaker Chat Version 1.0'}
+	return render_to_response(template_name, context)
