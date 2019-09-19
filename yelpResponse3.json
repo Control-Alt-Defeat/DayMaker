@@ -1,0 +1,42 @@
+{
+    "id": "nyu3Xu7XL3ohpisrprvDzg",
+    "alias": "tylers-pizzeria-and-bakery-reynoldsburg",
+    "name": "Tyler's Pizzeria & Bakery",
+    "image_url": "https://s3-media2.fl.yelpcdn.com/bphoto/4IWjhVZoKRKgIZyr-hjxiA/o.jpg",
+    "is_closed": false,
+    "url": "https://www.yelp.com/biz/tylers-pizzeria-and-bakery-reynoldsburg?adjust_creative=ur16BbJSSiHsMLJdBfNP2g&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=ur16BbJSSiHsMLJdBfNP2g",
+    "review_count": 188,
+    "categories": [
+        {
+            "alias": "bakeries",
+            "title": "Bakeries"
+        },
+        {
+            "alias": "pizza",
+            "title": "Pizza"
+        }
+    ],
+    "rating": 5.0,
+    "coordinates": {
+        "latitude": 39.9558,
+        "longitude": -82.79751
+    },
+    "transactions": [],
+    "price": "$",
+    "location": {
+        "address1": "7516 E Main St",
+        "address2": "",
+        "address3": "",
+        "city": "Reynoldsburg",
+        "zip_code": "43068",
+        "country": "US",
+        "state": "OH",
+        "display_address": [
+            "7516 E Main St",
+            "Reynoldsburg, OH 43068"
+        ]
+    },
+    "phone": "+16143229587",
+    "display_phone": "(614) 322-9587",
+    "distance": 18250.6581279751
+}
