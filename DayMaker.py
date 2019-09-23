@@ -36,6 +36,7 @@ def scheduleEvent(start, stop, id, dayList):
     for i in r:
         dayList[i] = id
 
+# Queries discovery data base using natural language query
 def natLangQuery(queryStr = 'restaurant'):
     my_query = config.discovery.query(config.environment_id,
                             config.collection_id,
