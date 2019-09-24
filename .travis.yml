@@ -1,2 +1,16 @@
 language: python
 
+env:
+  -DJANGO=2.2.5
+  - MOZ_HEADLESS=1
+
+addons:
+  firefox: latest
+
+install:
+  - pip install -r project/requirements.txt
+
+script:
+  - python project/manage.py makemigrations
+  - python project/manage.py runserver
+  - python project/manage.py test tests
