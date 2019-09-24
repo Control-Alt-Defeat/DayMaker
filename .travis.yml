@@ -12,5 +12,6 @@ install:
 
 script:
   - python project/manage.py makemigrations
+  - python project/manage.py migrate
   - python project/manage.py runserver
   - python project/manage.py test tests
