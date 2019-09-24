@@ -13,5 +13,6 @@ class PageTestCase(TestCase):
         self.driver.get(homepage)
         pass
 
+    #TODO: Add tests for all functionality on page
     def tearDown(self):
         self.driver.quit()
