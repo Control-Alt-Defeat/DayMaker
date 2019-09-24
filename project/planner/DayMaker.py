@@ -2,6 +2,10 @@
 # Group: Ctrl+Alt+Defeat
 # Application: DayMaker
 
+import config
+import os
+import json
+
 ## Function definitions
 
 # Main function (called when "python DayMaker.py" is run)
@@ -32,6 +36,14 @@ def scheduleEvent(start, stop, id, dayList):
     for i in r:
         dayList[i] = id
 
+# Queries discovery data base using natural language query
+def natLangQuery(queryStr = 'restaurant'):
+    my_query = config.discovery.query(config.environment_id,
+                            config.collection_id,
+                            count=1,
+                            natural_language_query=queryStr)
+    return my_query
+
 # Test function
 def runTests(dayList):
     
@@ -45,6 +57,7 @@ def runTests(dayList):
                 print(indexConvert(x) + ' - ' + str(dayList[x]))
         else:
                 print(indexConvert(x) + ' - ' + 'Your Concert!')
+    print(json.dumps(natLangQuery('ice cream').result, indent=2))
         
 
 # Calls the main function
