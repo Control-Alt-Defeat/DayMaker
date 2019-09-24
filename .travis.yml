@@ -10,8 +10,10 @@ addons:
 install:
   - pip install -r project/requirements.txt
 
-script:
+before_script:
   - python project/manage.py makemigrations
   - python project/manage.py migrate
-  - python project/manage.py runserver
+  - python manage.py runserver &
+
+script:
   - python project/manage.py test tests
