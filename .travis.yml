@@ -26,4 +26,5 @@ before_script:
   - python project/manage.py runserver &
 
 script:
+  - sleep 3
   - python project/manage.py test tests
