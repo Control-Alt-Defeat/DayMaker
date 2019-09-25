@@ -23,9 +23,9 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', home),
-    path('chat/', chat),
+    path('', include('planner.urls')),
     path('planner/', include('planner.urls')),
+    path('chat/', chat),
     path('get-response/', get_response),
 ]
 

@@ -1,0 +1,18 @@
+<!-- Main Home Page -->
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if event_list %}
+    <ul>
+    {% for event in event_list %}
+        <li><a href="{% url 'planner:edit' event.id %}">{{ event.loc_name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No events are available.</p>
+{% endif %}
+<button class="addEventButton" onclick="window.location.href='/planner/add'">+ Add Event</button>
+
+{% endblock %}
+

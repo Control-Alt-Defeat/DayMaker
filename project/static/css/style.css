@@ -47,3 +47,20 @@
 #app p {
 	margin-bottom: 0px;
 }
+
+.addEventButton {
+	display: block;
+	width: 100%;
+	border: none;
+	background-color: #60a9a6;
+	color: white;
+	padding: 14px 28px;
+	font-size: 16px;
+	cursor: pointer;
+	text-align: center;
+}
+	
+.addEventButton:hover {
+	background-color: #caf2d7;
+	color: black;
+}
