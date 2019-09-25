@@ -1,9 +1,15 @@
 window.onload = function () {
     Vue.component('event-item', {
         props: ['event'],
-        template: '<div> <p> {{ event.location }} </p><p> {{ event.type }} </p><p> {{ event.start }} - {{ event.end }} </p></div>'
+        template: '\
+        <div>\
+            <p> {{ event.location }} </p>\
+            <p> {{ event.type }} </p>\
+            <p> {{ event.start }} - {{ event.end }} </p>\
+        </div>\
+        '
     })
-    
+
     var app = new Vue({
 	  delimiters: ['[[', ']]'],
 	  el: '#app',
@@ -14,7 +20,14 @@ window.onload = function () {
             { id: 2, location: 'Dahlia', type: 'Club', start: '12:00 am', end: '2:00 am'},
         ],
         addEventString: '+ Add Event',
-        showBottomEventButton: true,
+      },
+      computed: {
+        showBottomEventButton: function () {
+            return this.eventList.length > 0
+        }
+      },
+      created: function () {
+
       },
     });
 }
