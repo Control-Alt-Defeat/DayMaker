@@ -24,11 +24,33 @@
             background-color: #caf2d7;
             color: black;
         }
+
+        .eventStyle {
+            display:block;
+            width: 100%;
+            border: none;
+            background-color: #ff9c91;
+            color: white;
+            padding: 14px 28px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .eventStyle:hover {
+            background-color: #fddede;
+            color: black;
+        }
     </style>
 {% endblock %}
 
 {% block content %}
-<body>
-    <button class="addEventButton" onclick="window.location.href='/planner/'">+ Add Event</button>
-</body>
+    <div id="app">
+        <!-- Top add event button going to polls -->
+        <button class="addEventButton" onclick="window.location.href='/planner/'"> [[ addEventString ]] </button>
+        <!-- Display every event in events -->
+        <event-item class="eventStyle" v-for="item in eventList" v-bind:event="item" v-bind:key="item.id"></event-item>
+        <!-- Bottom add event button going to polls -->
+        <button class="addEventButton" v-if="showBottomEventButton" onclick="window.location.href='/planner/'"> [[ addEventString ]] </button>
+    </div>
 {% endblock %}
