@@ -1,0 +1,23 @@
+from selenium import webdriver
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+from selenium.webdriver.firefox.options import Options
+
+homepage = "http://localhost:8000/"
+class PageTestCase(StaticLiveServerTestCase):
+
+
+    def setUp(self):
+        options = Options()
+        options.add_argument('-headless')
+        self.driver = webdriver.Firefox(firefox_options=options)
+        self.driver.implicitly_wait(5)
+        self.driver.maximize_window()
+
+
+    def testNavigateToPage(self):
+        self.driver.get(homepage)
+        pass
+
+    #TODO: Add tests for all functionality on page
+    def tearDown(self):
+        self.driver.quit()
