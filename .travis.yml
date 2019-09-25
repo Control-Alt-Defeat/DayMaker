@@ -4,6 +4,9 @@ env:
   -DJANGO=2.2.5
   -MOZ_HEADLESS=1
   -DISPLAY=:99.0
+services:
+  - xvfb
+
 
 addons:
   firefox: latest
@@ -13,9 +16,6 @@ before_install:
   - mkdir geckodriver
   - tar -xzf geckodriver-v0.11.1-linux64.tar.gz -C geckodriver
   - export PATH=$PATH:$PWD/geckodriver
-  - sudo apt-get install xvfb
-  - "sh -e /etc/init.d/xvfb start"
-  - sleep 5 # give xvfb some time to start
 
 install:
   - pip install -r project/requirements.txt
