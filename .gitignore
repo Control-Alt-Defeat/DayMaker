@@ -81,3 +81,6 @@ venv.bak/
 
 # API keys
 config.py
+
+discovery_search_result_example.txt
+.vscode/
