@@ -1,12 +1,15 @@
 from selenium import webdriver
 from django.test import TestCase
+from selenium.webdriver.firefox.options import Options
 
 homepage = "http://localhost:8000/"
 class PageTestCase(TestCase):
 
 
     def setUp(self):
-        self.driver = webdriver.Firefox()
+        options = Options()
+        options.add_argument('-headless')
+        self.driver = webdriver.Firefox(firefox_options=options)
 
 
     def testNavigateToPage(self):
