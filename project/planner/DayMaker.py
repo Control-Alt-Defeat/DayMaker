@@ -45,8 +45,13 @@ def natLangQuery(queryStr = 'restaurant', num_results=1):
     return json.loads(json.dumps(my_query.result, indent=2))
 
 # retrieve property of json results from a query
-def specifyItem(data_dict, index=0, key='name'):
-    return data_dict['results'][index][key]
+def specifyItem(data_dict, index=0):
+    return data_dict['results'][index]
+
+# display (property) of each result to console
+def viewResults(data_dict, key='name'):
+    for num, item in enumerate(data_dict['results'], start=1):
+        print("Option {}: {}".format(num, item[key]))
 
 # Test function
 def runTests(dayList):
@@ -66,7 +71,7 @@ def runTests(dayList):
     property_key = 'name'
 
     my_json = natLangQuery(search_term, 5)
-    print(specifyItem(my_json, 0, property_key))
+    viewResults(my_json)
 
         
 
