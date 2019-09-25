@@ -49,7 +49,13 @@
         <!-- Top add event button going to polls -->
         <button class="addEventButton" onclick="window.location.href='/planner/'"> [[ addEventString ]] </button>
         <!-- Display every event in events -->
-        <event-item class="eventStyle" v-for="item in eventList" v-bind:event="item" v-bind:key="item.id"></event-item>
+        <event-item 
+            class="eventStyle" 
+            v-for="(item, index) in eventList" 
+            v-bind:event="item" 
+            v-bind:key="item.id" 
+            v-on:remove="eventList.splice(index, 1)"
+        ></event-item>
         <!-- Bottom add event button going to polls -->
         <button class="addEventButton" v-if="showBottomEventButton" onclick="window.location.href='/planner/'"> [[ addEventString ]] </button>
     </div>
