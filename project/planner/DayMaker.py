@@ -37,12 +37,15 @@ def scheduleEvent(start, stop, id, dayList):
         dayList[i] = id
 
 # Queries discovery data base using natural language query
-def natLangQuery(queryStr = 'restaurant'):
+def natLangQuery(queryStr = 'restaurant', num_results=1):
     my_query = config.discovery.query(config.environment_id,
                             config.collection_id,
-                            count=1,
+                            count=num_results,
                             natural_language_query=queryStr)
-    return my_query
+    return json.loads(json.dumps(my_query.result, indent=2))
+
+def specifyItem(data_dict, index=0, key='name'):
+    return data_dict['results'][index][key]
 
 # Test function
 def runTests(dayList):
@@ -57,7 +60,13 @@ def runTests(dayList):
                 print(indexConvert(x) + ' - ' + str(dayList[x]))
         else:
                 print(indexConvert(x) + ' - ' + 'Your Concert!')
-    print(json.dumps(natLangQuery('ice cream').result, indent=2))
+
+    search_term = 'ice cream'
+    property_key = 'name'
+
+    my_json = natLangQuery(search_term, 5)
+    print(specifyItem(my_json, 0, property_key))
+
         
 
 # Calls the main function
