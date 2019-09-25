@@ -22,7 +22,7 @@ before_script:
   - export MOZ_HEADLESS=1
   - python project/manage.py makemigrations
   - python project/manage.py migrate
-  - python manage.py runserver &
+  - python project/manage.py runserver &
   - sleep 3
 script:
-  - python project/manage.py test tests --liveserver=localhost:8000
+  - python project/manage.py test tests
