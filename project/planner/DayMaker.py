@@ -44,6 +44,7 @@ def natLangQuery(queryStr = 'restaurant', num_results=1):
                             natural_language_query=queryStr)
     return json.loads(json.dumps(my_query.result, indent=2))
 
+# retrieve property of json results from a query
 def specifyItem(data_dict, index=0, key='name'):
     return data_dict['results'][index][key]
 
