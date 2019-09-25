@@ -11,21 +11,18 @@ services:
 addons:
   firefox: latest
 
-before_install:
-  - wget https://github.com/mozilla/geckodriver/releases/download/v0.11.1/geckodriver-v0.11.1-linux64.tar.gz
-  - mkdir geckodriver
-  - tar -xzf geckodriver-v0.11.1-linux64.tar.gz -C geckodriver
-  - export PATH=$PATH:$PWD/geckodriver
-
 install:
   - pip install -r project/requirements.txt
 
 before_script:
+  - wget https://github.com/mozilla/geckodriver/releases/download/v0.18.0/geckodriver-v0.18.0-linux64.tar.gz
+  - mkdir geckodriver
+  - tar -xzf geckodriver-v0.18.0-linux64.tar.gz -C geckodriver
+  - export PATH=$PATH:$PWD/geckodriver
+  - export MOZ_HEADLESS=1
   - python project/manage.py makemigrations
   - python project/manage.py migrate
-  - python project/manage.py runserver &
-
-script:
-  - xvfb-run make test
+  - python manage.py runserver &
   - sleep 3
-  - python project/manage.py test tests
+script:
+  - python project/manage.py test tests --liveserver=localhost:8000
