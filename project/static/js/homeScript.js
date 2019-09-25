@@ -3,13 +3,15 @@ window.onload = function () {
         props: ['event'],
         template: '\
         <div>\
-            <p> {{ event.location }} </p>\
+            <p> {{ event.location }}  \
+                <button v-on:click="$emit(\'remove\')">Remove</button>\
+            </p>\
             <p> {{ event.type }} </p>\
             <p> {{ event.start }} - {{ event.end }} </p>\
         </div>\
         '
     })
-
+      
     var app = new Vue({
 	  delimiters: ['[[', ']]'],
 	  el: '#app',
