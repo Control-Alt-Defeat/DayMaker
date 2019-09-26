@@ -66,14 +66,6 @@ def viewResults(data_dict, key='name'):
     for num, item in enumerate(data_dict['results'], start=1):
         print("Option {}: {}".format(num, item[key]))
 
-# Queries discovery data base using natural language query
-def natLangQuery(queryStr = 'restaurant'):
-    my_query = config.discovery.query(config.environment_id,
-                            config.collection_id,
-                            count=1,
-                            natural_language_query=queryStr)
-    return my_query
-
 # Test function
 def runTests(dayList):
     
