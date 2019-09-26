@@ -4,6 +4,7 @@ window.onload = function () {
         template: '\
         <div>\
             <div class="eventColumnLeft eventDetails"">\
+                <i class="fa fa-car"></i>\
                 <p> {{ event.address }} </p>\
                 <p> {{ event.price }} </p>\
             </div>\
@@ -15,7 +16,10 @@ window.onload = function () {
             </div>\
             <div class="eventColumnRight">\
                 <p>\
-                    <button v-on:click="$emit(\'remove\')">Remove</button>\
+                    <button class="removeEventButton eventDetails" v-on:click="$emit(\'remove\')">\
+                        <i class="fa fa-trash"></i>\
+                        Remove\
+                    </button>\
                 </p>\
             </div>\
         </div>\

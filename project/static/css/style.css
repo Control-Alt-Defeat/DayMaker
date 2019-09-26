@@ -118,3 +118,14 @@
 #app .eventDetails {
 	font-weight: 300;
 }
+
+#app .removeEventButton {
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+	border: 5px;
+	border-radius: 10px;
+	background-color: #e8e8e8;
+}
+
+#app .removeEventButton:hover {
+	background-color: #ffdbdb;
+}
