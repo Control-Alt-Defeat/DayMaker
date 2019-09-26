@@ -34,6 +34,7 @@
 
 .navbar {
 	background-color: #0006;
+	font-size: 25px;
 }
 
 #app {
@@ -48,19 +49,83 @@
 	margin-bottom: 0px;
 }
 
-.addEventButton {
-	display: block;
-	width: 100%;
-	border: none;
-	background-color: #60a9a6;
-	color: white;
-	padding: 14px 28px;
+#app *{
+	box-sizing: border-box;
+}
+
+#app .addEventButton {
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+	border: 5px;
+	border-radius: 10px;
+	background-color: #daf0b1;
+	color: black;
+	padding: 16px;
 	font-size: 16px;
 	cursor: pointer;
 	text-align: center;
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	width: 98.5%;
 }
 	
-.addEventButton:hover {
-	background-color: #caf2d7;
+#app .addEventButton:hover {
+	background-color: #c5fa61;
 	color: black;
+}
+
+#app .eventRow {
+	width: 100%;
+	display: grid; 
+}
+
+#app .eventRow:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+#app .eventColumnLeft, .eventColumnMiddle, .eventColumnRight {
+	float: left;
+	width: 33%;
+	display: block;
+}
+
+#app .eventStyle {
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+	border: 5px;
+	border-radius: 10px;
+	background-color: #cfccce;
+	color: black;
+	padding: 16px;
+	font-size: 16px;
+	cursor: pointer;
+	text-align: center;
+	margin: 10px;
+}
+
+#app .eventStyle:hover {
+	background-color: #eccfff;
+	color: black;
+}
+
+#app .eventTitle {
+	font-size: 20px;
+	font-weight: 600;
+}
+
+#app .eventDetails {
+	font-weight: 300;
+}
+
+#app .removeEventButton {
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+	border: 5px;
+	border-radius: 10px;
+	background-color: #e8e8e8;
+}
+
+#app .removeEventButton:hover {
+	background-color: #ffdbdb;
 }
