@@ -47,31 +47,35 @@ class Event(models.Model):
     end_time = models.DateTimeField('end time of event')
     cost = models.IntegerField()
     rating = models.IntegerField()
+
+    def addAddress(self, address):
+        self.location = address
+        
+        
 class EventForm(ModelForm):
     class Meta:
         model = Event
         fields = [
             'loc_name', 
             'loc_type', 
-            'address', 
-            'phone_number', 
+            'address',  
             'start_time',
             'end_time',
+            'cost',
+            'rating'
             ]
-        
-        
-    def __init__(self, name, id,*args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super(EventForm, self).__init__(*args, **kwargs)
         self.fields['loc_name'].widget.attrs.update({'class' : 'form-control form-control-lg'})
         self.fields['loc_type'].widget.attrs.update({'class' : 'form-control form-control-lg'})
         self.fields['address'].widget.attrs.update({'class' : 'form-control form-control-lg'})
-        self.fields['phone_number'].widget.attrs.update({'class' : 'form-control form-control-lg'})
         self.fields['start_time'].widget.attrs.update({'class' : 'form-control form-control-lg'})
         self.fields['end_time'].widget.attrs.update({'class' : 'form-control form-control-lg'})
-        self.title = name
-        self.id = id
+        self.fields['cost'].widget.attrs.update({'class' : 'form-control form-control-lg'})
+        self.fields['rating'].widget.attrs.update({'class' : 'form-control form-control-lg'})
+       
+    
 
-    def addAddress(self, address):
-        self.location = address
+
 
 
