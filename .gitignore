@@ -84,3 +84,5 @@ config.py
 
 discovery_search_result_example.txt
 .vscode/
+# MVP event class
+mvp_event.py
