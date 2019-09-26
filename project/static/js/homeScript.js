@@ -36,14 +36,21 @@ window.onload = function () {
             { id: 2, location: 'Dahlia', type: 'Club', start: '12:00 am', end: '2:00 am', address: '3000 North High Street', price: '$$'},
         ],
         addEventString: '+ Add Event',
+        dateOfPlan: '',
       },
       computed: {
         showBottomEventButton: function () {
             return this.eventList.length > 0
-        }
+        },
       },
-      created: function () {
-
-      },
+      methods: {
+          getPlanData: function() {
+            fetch("/get-date-of-plan/").then(response => response.json()).then((json) => {
+                this.dateOfPlan = json['dateOfPlan']
+            })
+          },
+      }
     });
+
+    app.getPlanData();
 }

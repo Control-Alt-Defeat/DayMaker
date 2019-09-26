@@ -21,12 +21,15 @@ from app.views import chat, home, get_response
 from django.conf.urls.static import static
 from django.conf import settings
 
+from . import views
+app_name = 'app'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home),
     path('chat/', chat),
     path('planner/', include('planner.urls')),
     path('get-response/', get_response),
+    path('get-date-of-plan/', views.get_date_of_plan, name='get_date_of_plan'),
 ]
 
 if settings.DEBUG == True:
