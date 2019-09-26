@@ -30,20 +30,34 @@ window.onload = function () {
 	  delimiters: ['[[', ']]'],
 	  el: '#app',
 	  data: {
-        eventList: [
-            { id: 0, location: 'Cazuelas', type: 'Restaurant', start: '5:00 pm', end: '6:30 pm', address: '123 North High Street', price: '$' },
-            { id: 1, location: 'Newport', type: 'Concert', start: '7:00 pm', end: '11:00 pm', address: '2231 North High Street', price: '$' },
-            { id: 2, location: 'Dahlia', type: 'Club', start: '12:00 am', end: '2:00 am', address: '3000 North High Street', price: '$$'},
-        ],
+        eventList: event_list,
         addEventString: '+ Add Event',
       },
+    //   mounted: function() {
+    //     this.getEvents();
+    //   },
       computed: {
         showBottomEventButton: function () {
             return this.eventList.length > 0
         }
       },
-      created: function () {
-
-      },
+    //   methods: {
+    //     getEvents: function() {
+    //         console.log('getEvents() ran')
+    //         this.loading = true;
+    //         //this.$http.get('/api/event/')
+    //         fetch('/api/event/')
+    //             .then((response) => {
+    //               console.log('received data in getEvents()')
+    //               console.log(response)
+    //               this.eventList = response.data;
+    //               this.loading = false;
+    //             })
+    //             .catch((err) => {
+    //              this.loading = false;
+    //              console.log(err);
+    //             })
+    //     },
+    //   }
     });
 }
