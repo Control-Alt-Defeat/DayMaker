@@ -2,17 +2,40 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div id="app">
+    <!-- Top add event button -->
+    <div class="eventRow">
+        <button class="addEventButton" v-if="showBottomEventButton" onclick="window.location.href='/planner/add'"> [[ addEventString ]] </button>
+    </div>
 
-{% if event_list %}
-    <ul>
-    {% for event in event_list %}
-        <li><a href="{% url 'planner:edit' event.id %}">{{ event.loc_name }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No events are available.</p>
-{% endif %}
-<button class="addEventButton" onclick="window.location.href='/planner/add'">+ Add Event</button>
+    {% if event_list %}
+        <div class="eventRow">
+            <event-item 
+            class="eventStyle"
+            v-for="(item, index) in eventList" 
+            v-bind:event="item"
+            v-bind:key="item.id" 
+            v-on:remove="eventList.splice(index, 1)"
+            ></event-item>
 
+        </div>
+
+    {% else %}
+        <p>No events are available. Click below to add one now! </p>
+    {% endif %}
+    <!-- Bottom add event button -->
+    <div class="eventRow">
+        <button class="addEventButton" onclick="window.location.href='/planner/add'"> [[ addEventString ]] </button>
+    </div>
+</div>
+
+{% endblock %}
+
+<!-- Home js script -->
+{% block js %}
+  <script type='text/javascript'>
+      var event_list = {{ event_list_json|safe }};
+  </script>
+  <script type="text/javascript" src="/static/js/homeScript.js"></script>
 {% endblock %}
 

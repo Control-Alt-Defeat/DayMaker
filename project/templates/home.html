@@ -12,7 +12,7 @@
     <div id="app">
         <!-- Top add event button going to polls -->
         <div class="eventRow">
-            <button class="addEventButton" onclick="window.location.href='/planner/add_event'"> [[ addEventString ]] </button>
+            <button class="addEventButton" onclick="window.location.href='/planner/add'"> [[ addEventString ]] </button>
         </div>
         <!-- Display every event in events -->
         <div class="eventRow">
@@ -26,7 +26,7 @@
         </div>
         <!-- Bottom add event button going to polls -->
         <div class="eventRow">
-            <button class="addEventButton" v-if="showBottomEventButton" onclick="window.location.href='/planner/add_event'"> [[ addEventString ]] </button>
+            <button class="addEventButton" v-if="showBottomEventButton" onclick="window.location.href='/planner/add'"> [[ addEventString ]] </button>
         </div>
     </div>
 {% endblock %}

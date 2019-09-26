@@ -1,18 +1,21 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 #from django.http import HttpResponse
 from .models import Event, EventForm
+import json
 
 
 def index(request):
     event_list = Event.objects.order_by('-start_time')
-    #template = loader.get_template('planner/index.html')
+    event_list_json = [event.json() for event in event_list]
+    template_name = 'planner/index.html'
     context = {
         'event_list': event_list,
+        'event_list_json': json.dumps(event_list_json)
     }
-    #return HttpResponse(template.render(context, request))
-    return render(request, 'planner/index.html', context)
+    return render(request, template_name, context)
 
 def add_event(request):
+    template_name = 'add_event.html'
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
@@ -20,22 +23,14 @@ def add_event(request):
         # check whether it's valid:
         if form.is_valid():
             # process the data in form.cleaned_data as required
-            # ...
+            form.save()
             # redirect to a new URL:
-            return HttpResponseRedirect('/planner/')
-
+            return redirect('planner:index')
     # if a GET (or any other method) we'll create a blank form
     else:
         form = EventForm()
 
-    return render(request, 'add_event.html', {'form': form})
+    return render(request, template_name, {'form': form})
 
 def edit_event(request, question_id):
     return HttpResponse("You're looking at question %s." % question_id)
-
-#def results(request, question_id):
-#    response = "You're looking at the results of question %s."
-#    return HttpResponse(response % question_id)
-#
-#def vote(request, question_id):
-#    return HttpResponse("You're voting on question %s." % question_id)
