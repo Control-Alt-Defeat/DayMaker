@@ -34,6 +34,7 @@
 
 .navbar {
 	background-color: #0006;
+	font-size: 25px;
 }
 
 #app {
@@ -76,7 +77,7 @@
 
 #app .eventRow {
 	width: 100%;
-	display: block;
+	display: grid; 
 }
 
 #app .eventRow:after {
@@ -85,9 +86,10 @@
 	clear: both;
 }
 
-#app .eventColumn {
+#app .eventColumnLeft, .eventColumnMiddle, .eventColumnRight {
 	float: left;
 	width: 33%;
+	display: block;
 }
 
 #app .eventStyle {
@@ -106,4 +108,13 @@
 #app .eventStyle:hover {
 	background-color: #eccfff;
 	color: black;
+}
+
+#app .eventTitle {
+	font-size: 20px;
+	font-weight: 600;
+}
+
+#app .eventDetails {
+	font-weight: 300;
 }
