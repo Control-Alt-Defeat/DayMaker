@@ -25,9 +25,9 @@ def add_eventfinder(request):
         form = EventFinderForm(request.POST)
         # check whether it's valid:
         if form.is_valid():
-            #price = form.cleaned_data['price']
-            #type = form.cleaned_data['type']
-            #return HttpResponse('Type:' + type + "\Price: "+ price)
+            price = form.cleaned_data['price']
+            type = form.cleaned_data['type']
+            return HttpResponse('Type:' + type + "\Price: "+ price)
 
     # if a GET (or any other method) we'll create a blank form
     else:
@@ -43,7 +43,7 @@ def add_event(request):
         form = EventForm(request.POST)
         # check whether it's valid:
         if form.is_valid():
-            #DO SOMETHING HERE
+            return HttpResponse('Success!')#DO SOMETHING HERE
 
     # if a GET (or any other method) we'll create a blank form
     else:
