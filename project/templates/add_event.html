@@ -4,6 +4,6 @@
 <form action="{% url 'planner:add' %}" method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value="Add Event">
+    <input class=".btn-success" type="submit" value="Add Event">
 </form>
 {% endblock %}

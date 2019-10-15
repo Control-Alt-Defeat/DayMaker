@@ -2,10 +2,10 @@
 # Group: Ctrl+Alt+Defeat
 # Application: DayMaker
 
-import config
+from . import config
 import os
 import json
-import mvp_event
+#import mvp_event
 
 ## Function definitions
 
@@ -45,9 +45,9 @@ def scheduleEvent(event_obj, dayList):
         dayList[i] = event_obj.getDetail('name') + ' Event id:' + str(event_obj.id)
 
 # creates and returns an Mvp_event object
-def createEvent(item, start, end):
-    my_event = mvp_event.Mvp_event(item, start, end)
-    return my_event
+# def createEvent(item, start, end):
+#     my_event = mvp_event.Mvp_event(item, start, end)
+#     return my_event
 
 # Queries discovery data base using natural language query
 def natLangQuery(queryStr = 'restaurant', num_results=1):

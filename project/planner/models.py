@@ -1,5 +1,4 @@
 from django.db import models
-from django.forms import ModelForm, TimeInput
 
 # Create your models here.
 
@@ -39,32 +38,6 @@ class Event(models.Model):
             'start'        : str(self.start_time),
             'end'          : str(self.end_time),
         }
-    def addAddress(self, address):
-        self.location = address
-
-
-class EventForm(ModelForm):
-    class Meta:
-        model = Event
-        fields = [
-            'loc_name', 
-            'loc_type', 
-            'address',  
-            'start_time',
-            'end_time',
-            'cost',
-            'rating'
-        ]
-
-    def __init__(self, *args, **kwargs):
-        super(EventForm, self).__init__(*args, **kwargs)
-        self.fields['loc_name'].widget.attrs.update({'class' : 'form-control form-control-lg'})
-        self.fields['loc_type'].widget.attrs.update({'class' : 'form-control form-control-lg'})
-        self.fields['address'].widget.attrs.update({'class' : 'form-control form-control-lg'})
-        self.fields['start_time'].widget.attrs.update({'class' : 'form-control form-control-lg'})
-        self.fields['end_time'].widget.attrs.update({'class' : 'form-control form-control-lg'})
-        self.fields['cost'].widget.attrs.update({'class' : 'form-control form-control-lg'})
-        self.fields['rating'].widget.attrs.update({'class' : 'form-control form-control-lg'})
 
 
 class EventFinder(models.Model):
@@ -75,27 +48,21 @@ class EventFinder(models.Model):
         ('3', '$$$')
     )
     TYPE = (
-        ('1','Food'),('2','Bar'),('3','Movie'))
+        #('1','Food'),('2','Bar'),('3','Movie'))
+        ('1','Mexican Food'), ('2','Ice Cream'), ('3','Coffee Shop'), ('4','Seafood'), ('5','Other Restaurants')
+    )
     SIZE = (
-        ('1','1'),('2','2-3'),('3','4+'))
-    TRANSPORTATION = (('1','Walk'),('2','Car'),('3','Both'))
+        ('1','1'),('2','2-3'),('3','4+')
+    )
+    TRANSPORTATION = (
+        ('1','Walk'), ('2','Car'), ('3','Both')
+    )
     
-    type = models.CharField(max_length=1, choices=TYPE)   
+    loc_type = models.CharField('Location Type', max_length=1, choices=TYPE)   
     price = models.CharField(max_length=1, choices=PRICES)
-    size = models.CharField(max_length=1, choices=SIZE)
-    transportation = models.CharField(max_length=1, choices =TRANSPORTATION)
+    size = models.CharField('Group Size', max_length=1, choices=SIZE)
+    transportation = models.CharField('Mode of Transportation', max_length=1, choices =TRANSPORTATION)
 
-class EventFinderForm(ModelForm):
-    class Meta:
-        model = EventFinder
-        fields = ['type','price','size','transportation']
-        
-    def __init__(self, *args, **kwargs):
-        super(EventFinderForm, self).__init__(*args, **kwargs)
-        self.fields['price'].widget.attrs.update({'class' : 'form-control form-control-lg'})
-        self.fields['type'].widget.attrs.update({'class' : 'form-control form-control-lg'})
-        self.fields['size'].widget.attrs.update({'class' : 'form-control form-control-lg'})
-        self.fields['transportation'].widget.attrs.update({'class' : 'form-control form-control-lg'})
 
 # class EventForm(ModelForm):
 #     class Meta:

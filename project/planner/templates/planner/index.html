@@ -5,19 +5,12 @@
 <div id="app">
     <!-- Top add event button -->
     <div class="eventRow">
-        <button class="addEventButton" v-if="showBottomEventButton" onclick="window.location.href='/planner/add'"> [[ addEventString ]] </button>
+        <button class="addEventButton" v-if="showBottomEventButton" onclick="window.location.href='/planner/plan'"> [[ addEventString ]] </button>
     </div>
 
     {% if event_list %}
         <div class="eventRow">
-            <event-item 
-            class="eventStyle"
-            v-for="(item, index) in eventList" 
-            v-bind:event="item"
-            v-bind:key="item.id" 
-            v-on:remove="eventList.splice(index, 1)"
-            ></event-item>
-
+            <event-item v-for="(item, index) in eventList" class="eventStyle" v-bind:event="item" v-bind:key="item.id" v-on:remove="eventList.splice(index, 1)"></event-item>
         </div>
 
     {% else %}
@@ -25,7 +18,7 @@
     {% endif %}
     <!-- Bottom add event button -->
     <div class="eventRow">
-        <button class="addEventButton" onclick="window.location.href='/planner/add'"> [[ addEventString ]] </button>
+        <button class="addEventButton" onclick="window.location.href='/planner/plan'"> [[ addEventString ]] </button>
     </div>
 </div>
 
