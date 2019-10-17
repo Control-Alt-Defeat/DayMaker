@@ -1,31 +1,23 @@
 language: python
-
-env:
-  -DJANGO=2.2.5
-  -MOZ_HEADLESS=1
-  -DISPLAY=:99.0
+env: "-DJANGO=2.2.5 -MOZ_HEADLESS=1 -DISPLAY=:99.0"
 services:
-  - xvfb
-
-
+- xvfb
 addons:
   firefox: latest
-
 before_install:
-  - openssl aes-256-cbc -K $encrypted_0a6446eb3ae3_key -iv $encrypted_0a6446eb3ae3_iv -in config.py.enc -out config.txt -d
-
+- openssl aes-256-cbc -K $encrypted_f37e0ed298fa_key -iv $encrypted_f37e0ed298fa_iv
+  -in config.py.enc -out config.py -d
 install:
-  - pip install -r project/requirements.txt
-
+- pip install -r project/requirements.txt
 before_script:
-  - wget https://github.com/mozilla/geckodriver/releases/download/v0.25.0/geckodriver-v0.25.0-linux64.tar.gz
-  - mkdir geckodriver
-  - tar -xzf geckodriver-v0.25.0-linux64.tar.gz -C geckodriver
-  - export PATH=$PATH:$PWD/geckodriver
-  - export MOZ_HEADLESS=1
-  - python project/manage.py makemigrations
-  - python project/manage.py migrate
-  - python project/manage.py runserver &
-  - sleep 3
+- wget https://github.com/mozilla/geckodriver/releases/download/v0.25.0/geckodriver-v0.25.0-linux64.tar.gz
+- mkdir geckodriver
+- tar -xzf geckodriver-v0.25.0-linux64.tar.gz -C geckodriver
+- export PATH=$PATH:$PWD/geckodriver
+- export MOZ_HEADLESS=1
+- python project/manage.py makemigrations
+- python project/manage.py migrate
+- python project/manage.py runserver &
+- sleep 3
 script:
-  - python project/manage.py test tests
+- python project/manage.py test tests
