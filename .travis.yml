@@ -1,10 +1,5 @@
 language: python
 
-<<<<<<< HEAD
-install: pip install -r site/requirements.txt
-
-script: pytest 
-=======
 env:
   -DJANGO=2.2.5
   -MOZ_HEADLESS=1
@@ -31,4 +26,3 @@ before_script:
   - sleep 3
 script:
   - python project/manage.py test tests
->>>>>>> dev
