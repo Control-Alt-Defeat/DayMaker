@@ -72,7 +72,6 @@ def find_event(request):
             else:
                 query_filter = ""
 
-            import pdb; pdb.set_trace()
             results = natLangQuery(loc_type, query_filter, num_results)
 
             start_time = form.cleaned_data['start_time']
@@ -92,6 +91,8 @@ def display_results(request, search_results=None, start_time=None, end_time=None
     
     if request.method == 'POST':
         # get key of selected event from the request
+        if 'choice' not in request.POST:
+            return redirect('planner:plan')
         search_key = int(request.POST['choice'])
         selected = Event.objects.get(pk=search_key)
         # set the selected event to show on the plan

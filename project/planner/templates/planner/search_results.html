@@ -28,13 +28,12 @@
               </div>
           </div>
         </div>
-            <!-- <input type="radio" name="choice" id="{{ result.id }}" value="{{ result.id }}"> -->
-            <!-- <label for="{{ result.id }}">{{ result.location }} | {{ result.type }} | Rating: {{ result.rating }}/5 | {{ result.price }} | {{ result.address }}</label><br> -->
         {% endfor %}
+        <input class=".btn-success" type="submit" value="Add Event">
     {% else %}
         <p>No search results are available. Try different search criteria! </p>
+        <input class=".btn-success" type="submit" value="Back to Search">
     {% endif %}
-    <input class=".btn-success" type="submit" value="Add Event">
 </form>
 </div>
 {% endblock %}
