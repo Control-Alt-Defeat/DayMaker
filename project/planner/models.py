@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.core.validators import MaxValueValidator, MinValueValidator 
 
 # Create your models here.
@@ -44,6 +45,9 @@ class Event(models.Model):
     
     def delete_hidden():
         Event.objects.filter(show=False).delete()
+    
+    def get_absolute_url(self):
+        return reverse('planner:index')#, kwargs={'pk': self.pk})
 
 
 class EventFinder(models.Model):

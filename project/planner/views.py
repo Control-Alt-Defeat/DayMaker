@@ -1,6 +1,8 @@
 import json
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponse
+from django.views.generic.edit import DeleteView, UpdateView
+from django.urls import reverse_lazy
 from .models import Event, EventFinder
 from .forms import EventForm, EventFinderForm
 from .DayMaker import natLangQuery
@@ -18,7 +20,7 @@ def index(request):
     return render(request, template_name, context)
 
 def add_event(request):
-    template_name = 'add_event.html'
+    template_name = 'planner/add_event.html'
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
@@ -34,9 +36,6 @@ def add_event(request):
         form = EventForm()
 
     return render(request, template_name, {'form': form})
-
-def edit_event(request, question_id):
-    return HttpResponse("You're looking at question %s." % question_id)
 
 def find_event(request):
     template_name = 'eventFinderForm.html'
@@ -96,3 +95,26 @@ def display_results(request, search_results=None, start_time=None, end_time=None
             'search_results' : search_results_json
         }
         return render(request, template_name, context)
+
+
+class EventDelete(DeleteView):
+    model = Event
+    template_name = 'planner/confirm_delete.html'
+    success_url = reverse_lazy('planner:index')
+
+    def get_object(self):
+        event_id = self.kwargs.get('event_id')
+        return get_object_or_404(Event, id=event_id)
+
+
+class EventUpdateView(UpdateView):
+    template_name = 'planner/add_event.html'
+    form_class = EventForm
+
+    def get_object(self):
+        event_id = self.kwargs.get("event_id")
+        return get_object_or_404(Event, id=event_id)
+
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        return super().form_valid(form)
