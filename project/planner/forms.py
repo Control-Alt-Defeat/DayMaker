@@ -49,3 +49,6 @@ class EventFinderForm(ModelForm):
         self.fields['price'].widget.attrs.update({'class' : 'form-control form-control-lg'})
         self.fields['min_rating'].widget.attrs.update({'class' : 'form-control form-control-lg'})
         self.fields['transportation'].widget.attrs.update({'class' : 'form-control form-control-lg'})
+        self.fields['start_time'].widget.attrs.update({'class' : 'form-control form-control-lg'})
+        self.fields['end_time'].widget.attrs.update({'class' : 'form-control form-control-lg'})
+        self.fields['result_count'].widget.attrs.update({'class' : 'form-control form-control-lg'})

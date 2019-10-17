@@ -47,7 +47,7 @@ class Event(models.Model):
         Event.objects.filter(show=False).delete()
     
     def get_absolute_url(self):
-        return reverse('planner:index')#, kwargs={'pk': self.pk})
+        return reverse('planner:index')
 
 
 class EventFinder(models.Model):
@@ -79,11 +79,11 @@ class EventFinder(models.Model):
     
     loc_type = models.CharField('Location Type', max_length=1, choices=TYPE, null=True, blank=True)   
     price = models.CharField(max_length=1, choices=PRICES, null=True, blank=True)
-    min_rating = models.CharField('Group Size', max_length=1, choices=MIN_RATINGS, null=True, blank=True)
+    min_rating = models.CharField('Minimum Rating (out of 5)', max_length=1, choices=MIN_RATINGS, null=True, blank=True)
     transportation = models.CharField('Mode of Transportation', max_length=1, choices=TRANSPORTATION, null=True, blank=True)
-    result_count = models.PositiveIntegerField(default=3, validators=[MinValueValidator(1), MaxValueValidator(50)])
-    start_time = models.TimeField('start time of event', default='12:00', null=True, blank=True)
-    end_time = models.TimeField('end time of event', default='12:30', null=True, blank=True)
+    result_count = models.PositiveIntegerField('Number of Search Results', default=3, validators=[MinValueValidator(1), MaxValueValidator(50)])
+    start_time = models.TimeField('Start Time of Event', default='12:00', null=True, blank=True)
+    end_time = models.TimeField('End Time of Event', default='12:30', null=True, blank=True)
 
     def __str__(self):
         return f'Query {self.id}: {self.start_time} - {self.start_time}'

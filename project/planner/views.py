@@ -5,7 +5,7 @@ from django.views.generic.edit import DeleteView, UpdateView
 from django.urls import reverse_lazy
 from .models import Event, EventFinder
 from .forms import EventForm, EventFinderForm
-from .DayMaker import natLangQuery
+from .DayMaker import natLangQuery, buildRule, andRule, groupRule
 
 
 def index(request):
@@ -46,12 +46,38 @@ def find_event(request):
         form = EventFinderForm(request.POST)
         # check whether it's valid:
         if form.is_valid():
-            price = form.cleaned_data['price']
             loc_type = form.cleaned_data['loc_type']
+            price = form.cleaned_data['price']
+
+            if (price == '1'):
+                price = '$'
+            elif (price == '2'):
+                price = '$$'
+            elif (price == '3'):
+                price = '$$$' 
+
+            min_rating = form.cleaned_data['min_rating']
             num_results = form.cleaned_data['result_count']
-            results = natLangQuery(loc_type, num_results)
+            
+            price_rule, rate_rule, query_filter = None, None, None
+
+            if price:
+                price_rule = groupRule(buildRule('price', price, '::'))
+            if min_rating:
+                rate_rule = groupRule(buildRule('rating', int(min_rating), '>='))
+            if price_rule and rate_rule:
+                query_filter = andRule(price_rule, rate_rule)
+            elif price_rule or rate_rule:
+                query_filter = price_rule if price_rule else rate_rule
+            else:
+                query_filter = ""
+
+            import pdb; pdb.set_trace()
+            results = natLangQuery(loc_type, query_filter, num_results)
+
             start_time = form.cleaned_data['start_time']
             end_time = form.cleaned_data['end_time']
+
             request.method = 'GET'
             return display_results(request, results['results'], start_time, end_time)
 
