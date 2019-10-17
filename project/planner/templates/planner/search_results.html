@@ -1,16 +1,40 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 
 {% block content %}
+<div id="app">
 <form action="{% url 'planner:search_results' %}" method="post">
     {% csrf_token %}
     {% if search_results %}
+      <div class = "eventRow">
+        <div class = "timeWindow">
+          <p>Choosing event for time window: {{search_results.0.start}} - {{search_results.0.end}}</p>
+        </div>
+      </div>
         {% for result in search_results %}
-            <input type="radio" name="choice" id="{{ result.id }}" value="{{ result.id }}">
-            <label for="{{ result.id }}">{{ result.location }} | {{ result.type }} | Rating: {{ result.rating }}/5 | {{ result.price }} | {{ result.address }}</label><br>
+        <div class="eventRow">
+          <div class="eventStyle">
+              <div class="buttonColumn eventDetails">
+                  <input class="eventRadioButton" type="radio" name="choice" id="{{ result.id }}" value="{{ result.id }}"/>
+              </div>
+              <div class="eventColumnMiddle">
+                <p class="eventTitle"> {{ result.location }}
+                </p>
+                <p class="eventDetails"> {{ result.type }} </p>
+                <p class="eventDetails"> {{result.rating}}/5 </p>
+              </div>
+              <div class="eventColumnRight">
+                <p> {{ result.address }} </p>
+                <p> {{ result.price }} </p>
+              </div>
+          </div>
+        </div>
+            <!-- <input type="radio" name="choice" id="{{ result.id }}" value="{{ result.id }}"> -->
+            <!-- <label for="{{ result.id }}">{{ result.location }} | {{ result.type }} | Rating: {{ result.rating }}/5 | {{ result.price }} | {{ result.address }}</label><br> -->
         {% endfor %}
     {% else %}
         <p>No search results are available. Try different search criteria! </p>
     {% endif %}
     <input class=".btn-success" type="submit" value="Add Event">
 </form>
+</div>
 {% endblock %}
