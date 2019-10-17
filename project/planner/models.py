@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MaxValueValidator, MinValueValidator 
 
 # Create your models here.
 
@@ -23,12 +24,14 @@ class Event(models.Model):
     rating = models.IntegerField(blank=True, null=True)
     start_time = models.TimeField('start time of event')
     end_time = models.TimeField('end time of event')
+    show = models.BooleanField(default=True)
 
     def __str__(self):
         return self.loc_name
     
     def json(self):
         return {
+            'id'           : self.id,
             'location'     : str(self.loc_name),
             'type'         : str(self.loc_type),
             'address'      : str(self.address),
@@ -38,6 +41,9 @@ class Event(models.Model):
             'start'        : str(self.start_time),
             'end'          : str(self.end_time),
         }
+    
+    def delete_hidden():
+        Event.objects.filter(show=False).delete()
 
 
 class EventFinder(models.Model):
@@ -45,37 +51,35 @@ class EventFinder(models.Model):
     PRICES = (
         ('1', '$'),
         ('2', '$$'),
-        ('3', '$$$')
+        ('3', '$$$'),
     )
     TYPE = (
-        #('1','Food'),('2','Bar'),('3','Movie'))
-        ('1','Mexican Food'), ('2','Ice Cream'), ('3','Coffee Shop'), ('4','Seafood'), ('5','Other Restaurants')
+        ('1','Mexican'),
+        ('2','Ice Cream'),
+        ('3','Coffee Shop'),
+        ('4','Seafood'),
+        ('5','Other Restaurants'),
     )
-    SIZE = (
-        ('1','1'),('2','2-3'),('3','4+')
+    MIN_RATINGS = (
+        ('1','1'),
+        ('2','2'),
+        ('3','3'),
+        ('4','4'),
+        ('5','5'),
     )
     TRANSPORTATION = (
-        ('1','Walk'), ('2','Car'), ('3','Both')
+        ('1','Walk'),
+        ('2','Car'),
+        ('3','Both'),
     )
     
-    loc_type = models.CharField('Location Type', max_length=1, choices=TYPE)   
-    price = models.CharField(max_length=1, choices=PRICES)
-    size = models.CharField('Group Size', max_length=1, choices=SIZE)
-    transportation = models.CharField('Mode of Transportation', max_length=1, choices =TRANSPORTATION)
+    loc_type = models.CharField('Location Type', max_length=1, choices=TYPE, null=True, blank=True)   
+    price = models.CharField(max_length=1, choices=PRICES, null=True, blank=True)
+    min_rating = models.CharField('Group Size', max_length=1, choices=MIN_RATINGS, null=True, blank=True)
+    transportation = models.CharField('Mode of Transportation', max_length=1, choices=TRANSPORTATION, null=True, blank=True)
+    result_count = models.PositiveIntegerField(default=3, validators=[MinValueValidator(1), MaxValueValidator(50)])
+    start_time = models.TimeField('start time of event', default='12:00', null=True, blank=True)
+    end_time = models.TimeField('end time of event', default='12:30', null=True, blank=True)
 
-
-# class EventForm(ModelForm):
-#     class Meta:
-#         model = Event
-#         fields = [
-#             'loc_name', 
-#             'loc_type', 
-#             'address', 
-#             'phone_number', 
-#             'start_time',
-#             'end_time',
-#             ]
-#         widgets = {
-#             'start_time': TimeInput,
-#             'end_time': TimeInput,
-#         }
+    def __str__(self):
+        return f'Query {self.id}: {self.start_time} - {self.start_time}'

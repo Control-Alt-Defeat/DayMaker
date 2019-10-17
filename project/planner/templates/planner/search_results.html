@@ -1,12 +1,12 @@
 {% extends 'base.html' %} 
 
 {% block content %}
-<form action="{% url 'planner:index' %}" method="post">
+<form action="{% url 'planner:search_results' %}" method="post">
     {% csrf_token %}
     {% if search_results %}
         {% for result in search_results %}
-            <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ result.alias }}">
-            <label for="choice{{ forloop.counter }}">{{ result.name }} | {{ result.categories.0.title }} | Rating: {{ result.rating }}/5 | {{ result.price }} | {{ result.location.address1 }}</label><br>
+            <input type="radio" name="choice" id="{{ result.id }}" value="{{ result.id }}">
+            <label for="{{ result.id }}">{{ result.location }} | {{ result.type }} | Rating: {{ result.rating }}/5 | {{ result.price }} | {{ result.address }}</label><br>
         {% endfor %}
     {% else %}
         <p>No search results are available. Try different search criteria! </p>

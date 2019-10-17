@@ -1,4 +1,4 @@
-from django.forms import ModelForm, TimeInput
+from django.forms import Form, ModelForm, TimeInput, ModelChoiceField, RadioSelect
 from .models import Event, EventFinder
 
 
@@ -29,17 +29,23 @@ class EventForm(ModelForm):
         self.fields['price'].widget.attrs.update({'class' : 'form-control form-control-lg'})
         self.fields['rating'].widget.attrs.update({'class' : 'form-control form-control-lg'})
 
-    
-
 
 class EventFinderForm(ModelForm):
     class Meta:
         model = EventFinder
-        fields = ['loc_type','price','size','transportation']
+        fields = [
+            'loc_type',
+            'price',
+            'min_rating',
+            'transportation',
+            'start_time',
+            'end_time',
+            'result_count'
+            ]
         
     def __init__(self, *args, **kwargs):
         super(EventFinderForm, self).__init__(*args, **kwargs)
-        self.fields['price'].widget.attrs.update({'class' : 'form-control form-control-lg'})
         self.fields['loc_type'].widget.attrs.update({'class' : 'form-control form-control-lg'})
-        self.fields['size'].widget.attrs.update({'class' : 'form-control form-control-lg'})
+        self.fields['price'].widget.attrs.update({'class' : 'form-control form-control-lg'})
+        self.fields['min_rating'].widget.attrs.update({'class' : 'form-control form-control-lg'})
         self.fields['transportation'].widget.attrs.update({'class' : 'form-control form-control-lg'})
