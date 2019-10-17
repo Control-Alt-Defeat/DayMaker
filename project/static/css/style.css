@@ -80,7 +80,7 @@ input[type=submit] {
 	margin-bottom: 10px;
 	width: 98.5%;
 }
-	
+
 #app .addEventButton:hover {
 	background-color: #c5fa61;
 	color: black;
@@ -88,8 +88,9 @@ input[type=submit] {
 
 #app .eventRow {
 	width: 100%;
-	display: grid; 
+	display: grid;
 }
+
 
 #app .eventRow:after {
 	content: "";
@@ -103,6 +104,23 @@ input[type=submit] {
 	display: block;
 }
 
+#app .buttonColumn + .eventColumnMiddle,.buttonColumn +.eventColumnRight{
+  width: 45%;
+
+}
+
+#app .buttonColumn{
+  float:left;
+  width: 5%;
+  height:100%;
+  display:grid;
+  justify-content: center;
+
+}
+#app .buttonColumn .eventRadioButton{
+  display: inline-block;
+}
+
 #app .eventStyle {
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 	border: 5px;
@@ -114,6 +132,21 @@ input[type=submit] {
 	cursor: pointer;
 	text-align: center;
 	margin: 10px;
+}
+
+#app .timeWindow{
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+	border: 5px;
+	border-radius: 10px;
+  background-color: #cfccce;
+	color: black;
+	padding: 16px;
+	font-size: 16px;
+	text-align: center;
+	margin: 10px;
+}
+#app .timeWindow p{
+  font-size: 20px;
 }
 
 #app .eventStyle:hover {

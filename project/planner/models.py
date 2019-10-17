@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.core.validators import MaxValueValidator, MinValueValidator 
+from .DayMaker import getTags
 
 # Create your models here.
 
@@ -57,13 +58,7 @@ class EventFinder(models.Model):
         ('2', '$$'),
         ('3', '$$$'),
     )
-    TYPE = (
-        ('1','Mexican'),
-        ('2','Ice Cream'),
-        ('3','Coffee Shop'),
-        ('4','Seafood'),
-        ('5','Other Restaurants'),
-    )
+    TYPE = getTags()
     MIN_RATINGS = (
         ('1','1'),
         ('2','2'),
@@ -77,7 +72,7 @@ class EventFinder(models.Model):
         ('3','Both'),
     )
     
-    loc_type = models.CharField('Location Type', max_length=1, choices=TYPE, null=True, blank=True)   
+    loc_type = models.CharField('Location Type', max_length=100, choices=TYPE, null=True, blank=True)   
     price = models.CharField(max_length=1, choices=PRICES, null=True, blank=True)
     min_rating = models.CharField('Minimum Rating (out of 5)', max_length=1, choices=MIN_RATINGS, null=True, blank=True)
     transportation = models.CharField('Mode of Transportation', max_length=1, choices=TRANSPORTATION, null=True, blank=True)
