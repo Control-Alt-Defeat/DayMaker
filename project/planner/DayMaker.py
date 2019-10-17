@@ -131,8 +131,9 @@ def getTags():
     tags = []
     for num, item in enumerate(tag_json['results'], start=1):
         for tag in item['categories']:
-            if tag['title'] not in tags:
-                tags.append(tag['title'])
+            if (tag['title'],tag['title']) not in tags:
+                tags.append((tag['title'],tag['title']))
+    tags.sort()
     return tags
 
 def printSchedule(dayList):
