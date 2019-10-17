@@ -1,0 +1,16 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+<form action="{% url 'planner:search_results' %}" method="post">
+    {% csrf_token %}
+    {% if search_results %}
+        {% for result in search_results %}
+            <input type="radio" name="choice" id="{{ result.id }}" value="{{ result.id }}">
+            <label for="{{ result.id }}">{{ result.location }} | {{ result.type }} | Rating: {{ result.rating }}/5 | {{ result.price }} | {{ result.address }}</label><br>
+        {% endfor %}
+    {% else %}
+        <p>No search results are available. Try different search criteria! </p>
+    {% endif %}
+    <input class=".btn-success" type="submit" value="Add Event">
+</form>
+{% endblock %}

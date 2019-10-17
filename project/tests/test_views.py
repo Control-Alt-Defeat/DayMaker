@@ -1,6 +1,7 @@
 from selenium import webdriver
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.common.by import By
 
 homepage = "http://localhost:8000/"
 class PageTestCase(StaticLiveServerTestCase):

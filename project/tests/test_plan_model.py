@@ -1,5 +1,4 @@
 from django.test import TestCase
-from planner.models import Plan
 
 class EventTestCase(TestCase):
 

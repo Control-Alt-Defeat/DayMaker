@@ -4,17 +4,8 @@ from planner.models import Event
 class EventTestCase(TestCase):
 
     def setUp(self):
-        self.event = Event("ExEvent", 1234)
-
-    #Test functionality of constructor
-    def testCreateEvent(self):
-        self.assertEqual(self.event.title, "ExEvent", "Event name creation failed.")
-        self.assertEqual(self.event.id, 1234, "Event id creation failed.")
-
-    # Test addAddress function
-    def testEventAddAddress(self):
-        self.event.addAddress("123 North High Street")
-        self.assertEqual(self.event.location, "123 North High Street", "Event.addAddress failed.")
+        self.event = Event()
+        self.event.id = 1234
 
     # Test set loc_name
     def testSetEventLocName(self):
