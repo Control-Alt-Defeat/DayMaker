@@ -4,20 +4,7 @@ services:
 - xvfb
 notifications:
   slack:
-    rooms:
-      - secure: iH9hP8+uFD01rsghI7SPY8Z9PCB4exnTjLmxcbjt7huYlNILqygjLxfsd3zxbu2tehGupQ7v3xE8w7lSp9U5oaeuI6ICuL+QWCm+VkLubyLOgXNkJJThfOrIfvnicF/aCREXJjiJLWK58u8QlmMYqNhJZiw6IgcLBG/+NOm0mrMD9WREvC7r3D5hTmMem0lp4uMvSCB2Jm8ztWZMpEzor6MH9wxExm4Km0Z/K/mhgvtQMkBGcor2GO75X6bYyshr63s9CZ0UUHSPBrKGcmctby/Py8hKjdrciYlBNI31ROSAUyrRKSWnT9uwMT7SzeOcQy/bKz9FEAPxpahiuISb9ECKPIzL/sLSlXstA3oIcrjzqGO/TmTXjP/jnZVJ/J/n8AzOwyeD2wDE/FA/3fpV99+wHJDvciEGFxSmEQDC5WQeNJMVG3XaYEHBz3Ds+oZQFkMGxQ9p4Ktossf7j/Q8KdPxSS++/zRWpsF9OJV0Tt6Fz/tsXWga1Eu1Tyrs7Sx8DCFuiAtkT47WvI2etOZuuRCbG/HKi8KOs/E3Damv5J3sXeMqyShhExn7F4PwK3GpSKY+ThN7KoKQ2CN6doIYYmdryoiEc5ZG6fvCsQnxo9SdgHakjchfhzQvFwmgjQVCrflwQiiQ02DJuRhNBTsjp+GuYv3Lg1SWB2RYsW0IhYM=
-      on_success: never
-      on_failure: always
-      template:
-        - "@channel FAILED build on %{branch} by %{author}"
-        - "%{repository_slug} (%{commit}) : %{message}"
-        - "Build details: %{build_url}"
-    rooms:
-      - secure: iH9hP8+uFD01rsghI7SPY8Z9PCB4exnTjLmxcbjt7huYlNILqygjLxfsd3zxbu2tehGupQ7v3xE8w7lSp9U5oaeuI6ICuL+QWCm+VkLubyLOgXNkJJThfOrIfvnicF/aCREXJjiJLWK58u8QlmMYqNhJZiw6IgcLBG/+NOm0mrMD9WREvC7r3D5hTmMem0lp4uMvSCB2Jm8ztWZMpEzor6MH9wxExm4Km0Z/K/mhgvtQMkBGcor2GO75X6bYyshr63s9CZ0UUHSPBrKGcmctby/Py8hKjdrciYlBNI31ROSAUyrRKSWnT9uwMT7SzeOcQy/bKz9FEAPxpahiuISb9ECKPIzL/sLSlXstA3oIcrjzqGO/TmTXjP/jnZVJ/J/n8AzOwyeD2wDE/FA/3fpV99+wHJDvciEGFxSmEQDC5WQeNJMVG3XaYEHBz3Ds+oZQFkMGxQ9p4Ktossf7j/Q8KdPxSS++/zRWpsF9OJV0Tt6Fz/tsXWga1Eu1Tyrs7Sx8DCFuiAtkT47WvI2etOZuuRCbG/HKi8KOs/E3Damv5J3sXeMqyShhExn7F4PwK3GpSKY+ThN7KoKQ2CN6doIYYmdryoiEc5ZG6fvCsQnxo9SdgHakjchfhzQvFwmgjQVCrflwQiiQ02DJuRhNBTsjp+GuYv3Lg1SWB2RYsW0IhYM=
-      on_success: always
-      on_failure: never
-      template:
-      - "Build <%{build_url}|#%{build_number}> (<%{compare_url}|%{commit}>) of %{repository_slug}@%{branch} by %{author} %{result} in %{duration}"
+    secure: iH9hP8+uFD01rsghI7SPY8Z9PCB4exnTjLmxcbjt7huYlNILqygjLxfsd3zxbu2tehGupQ7v3xE8w7lSp9U5oaeuI6ICuL+QWCm+VkLubyLOgXNkJJThfOrIfvnicF/aCREXJjiJLWK58u8QlmMYqNhJZiw6IgcLBG/+NOm0mrMD9WREvC7r3D5hTmMem0lp4uMvSCB2Jm8ztWZMpEzor6MH9wxExm4Km0Z/K/mhgvtQMkBGcor2GO75X6bYyshr63s9CZ0UUHSPBrKGcmctby/Py8hKjdrciYlBNI31ROSAUyrRKSWnT9uwMT7SzeOcQy/bKz9FEAPxpahiuISb9ECKPIzL/sLSlXstA3oIcrjzqGO/TmTXjP/jnZVJ/J/n8AzOwyeD2wDE/FA/3fpV99+wHJDvciEGFxSmEQDC5WQeNJMVG3XaYEHBz3Ds+oZQFkMGxQ9p4Ktossf7j/Q8KdPxSS++/zRWpsF9OJV0Tt6Fz/tsXWga1Eu1Tyrs7Sx8DCFuiAtkT47WvI2etOZuuRCbG/HKi8KOs/E3Damv5J3sXeMqyShhExn7F4PwK3GpSKY+ThN7KoKQ2CN6doIYYmdryoiEc5ZG6fvCsQnxo9SdgHakjchfhzQvFwmgjQVCrflwQiiQ02DJuRhNBTsjp+GuYv3Lg1SWB2RYsW0IhYM=
 addons:
   firefox: latest
 before_install:
