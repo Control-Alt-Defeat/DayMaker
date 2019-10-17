@@ -1,20 +1,14 @@
 from django.test import TestCase
-from planner.models import Plan
 
 class EventTestCase(TestCase):
 
+    # TODO: add tests for plan model here when Plan model is further along
+
     #Test functionality of constructor
     def testCreatePlan(self):
-        #TODO: Fill out when constructor is built
+        # TODO: when a constructor is made for plan
         pass
 
-    def testAddEvents(self):
-        pass
+    # TODO: add test for adding an event to a plan when plans hold events
 
-    def testReadEvents(self):
-        #TODO: Use setUp method to create event, and assert that the model can be updated
-        pass
-
-    def testRemoveEvent(self):
-        #TODO: write test to feed sample yelp input to create an event
-        pass
+    # TODO: add test for removing an event from a plan when plans hold events
