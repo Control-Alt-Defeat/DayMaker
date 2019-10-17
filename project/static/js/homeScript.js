@@ -16,16 +16,24 @@ window.onload = function () {
             </div>\
             <div class="eventColumnRight">\
                 <p>\
-                    <button class="removeEventButton eventDetails" v-on:click="$emit(\'remove\')">\
+                    <div :id=event.id class="removeEventButton eventDetails">\
+                        <a :href="\'/planner/edit/\' + parseInt(event.id, 10) + \'/\'" > \
+                        <i class="fa fa-pencil-square-o"></i>\
+                        Edit\
+                        </a>\
+                    </div>\
+                    <div :id=event.id class="removeEventButton eventDetails">\
+                        <a :href="\'/planner/delete/\' + parseInt(event.id, 10) + \'/\'" > \
                         <i class="fa fa-trash"></i>\
                         Remove\
-                    </button>\
+                        </a>\
+                    </div>\
                 </p>\
             </div>\
         </div>\
         '
     })
-      
+
     var app = new Vue({
 	  delimiters: ['[[', ']]'],
 	  el: '#app',
@@ -41,7 +49,7 @@ window.onload = function () {
             return this.eventList.length > 0
         }
       },
-    //   methods: {
+    //   methods: {  
     //     getEvents: function() {
     //         console.log('getEvents() ran')
     //         this.loading = true;

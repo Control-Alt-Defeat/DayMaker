@@ -1,9 +1,0 @@
-{% extends 'base.html' %}
-
-{% block content %}
-<form action="{% url 'planner:add' %}" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input class=".btn-success" type="submit" value="Add Event">
-</form>
-{% endblock %}
