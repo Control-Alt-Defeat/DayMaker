@@ -5,7 +5,6 @@ from selenium.webdriver.firefox.options import Options
 homepage = "http://localhost:8000/"
 class PageTestCase(StaticLiveServerTestCase):
 
-
     # TODO: Fix all these tests when webpage is working again
 
     #def setUp(self):
@@ -14,7 +13,6 @@ class PageTestCase(StaticLiveServerTestCase):
         #self.driver = webdriver.Firefox(firefox_options=options)
         #self.driver.implicitly_wait(5)
         #self.driver.maximize_window()
-
 
     def testNavigateToPage(self):
         # TODO: Fix this test when webpage is working again
