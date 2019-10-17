@@ -72,7 +72,7 @@ class EventFinder(models.Model):
         ('3','Both'),
     )
     
-    loc_type = models.CharField('Location Type', max_length=1, choices=TYPE, null=True, blank=True)   
+    loc_type = models.CharField('Location Type', max_length=100, choices=TYPE, null=True, blank=True)   
     price = models.CharField(max_length=1, choices=PRICES, null=True, blank=True)
     min_rating = models.CharField('Group Size', max_length=1, choices=MIN_RATINGS, null=True, blank=True)
     transportation = models.CharField('Mode of Transportation', max_length=1, choices=TRANSPORTATION, null=True, blank=True)
