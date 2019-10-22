@@ -2,13 +2,14 @@ from django.urls import path
 
 from . import views
 
+app_name = 'planner'
 urlpatterns = [
-    # ex: /polls/
+    # ex: /planner/
     path('', views.index, name='index'),
-    # ex: /polls/5/
-    path('<int:question_id>/', views.detail, name='detail'),
-    # ex: /polls/5/results/
-    path('<int:question_id>/results/', views.results, name='results'),
-    # ex: /polls/5/vote/
-    path('<int:question_id>/vote/', views.vote, name='vote'),
+    # ex: /event/5/
+    path('add/', views.add_event, name='add'),
+    path('plan/', views.find_event, name='plan'),
+    path('results/', views.display_results, name='search_results'),
+    path('delete/<int:event_id>/', views.EventDelete.as_view(), name='delete_event'),
+    path('edit/<int:event_id>/', views.EventUpdateView.as_view(), name='edit_event'),
 ]

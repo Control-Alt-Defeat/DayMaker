@@ -1,0 +1,4 @@
+To run all tests from terminal:
+    Be in same directory as manage.py
+    Then do ->
+        "python manage.py test tests"
