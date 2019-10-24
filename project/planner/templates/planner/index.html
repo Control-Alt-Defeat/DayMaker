@@ -3,6 +3,9 @@
 
 {% block content %}
 <div id="app">
+    <div class="eventDateRow">
+                [[ dateOfPlan ]]
+    </div>
     <!-- Top add event button -->
     <div class="eventRow">
         <button class="addEventButton" v-if="showBottomEventButton" onclick="window.location.href='/planner/plan'"> [[ addEventString ]] </button>
@@ -14,7 +17,9 @@
         </div>
 
     {% else %}
-        <p>No events are available. Click below to add one now! </p>
+        <div class="noEventsBox">
+            No events are available. Click below to add one now!
+        </div>
     {% endif %}
     <!-- Bottom add event button -->
     <div class="eventRow">

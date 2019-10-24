@@ -40,6 +40,7 @@ window.onload = function () {
 	  data: {
         eventList: event_list,
         addEventString: '+ Add Event',
+        dateOfPlan: '',
       },
     //   mounted: function() {
     //     this.getEvents();
@@ -67,5 +68,14 @@ window.onload = function () {
     //             })
     //     },
     //   }
+    methods : {
+        getPlanData: function() {
+            fetch("/get-date-of-plan/").then(response => response.json()).then((json) => {
+                this.dateOfPlan = json['dateOfPlan']
+            })
+        }
+    }
     });
+
+    app.getPlanData();
 }
