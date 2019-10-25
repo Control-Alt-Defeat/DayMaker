@@ -12,7 +12,7 @@ window.onload = function () {
                 <p class="eventTitle"> {{ event.location }}  \
                 </p>\
                 <p class="eventDetails"> {{ event.type }} </p>\
-                <p class="eventDetails"> {{ event.start }} - {{ event.end }} </p>\
+                <p class="eventDetails"> {{ event.start_formatted }} - {{ event.end_formatted }} </p>\
             </div>\
             <div class="eventColumnRight">\
                 <p>\
@@ -42,9 +42,6 @@ window.onload = function () {
         addEventString: '+ Add Event',
         dateOfPlan: '',
       },
-    //   mounted: function() {
-    //     this.getEvents();
-    //   },
       computed: {
         showBottomEventButton: function () {
             return this.eventList.length > 0
@@ -73,6 +70,9 @@ window.onload = function () {
             fetch("/get-date-of-plan/").then(response => response.json()).then((json) => {
                 this.dateOfPlan = json['dateOfPlan']
             })
+        },
+        convertEventTimes: function() {
+
         }
     }
     });
