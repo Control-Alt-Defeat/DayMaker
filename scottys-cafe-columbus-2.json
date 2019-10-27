@@ -1,0 +1,90 @@
+{
+    "id": "E1EAjUxgLrLI6SzFwtCxnA",
+    "alias": "scottys-cafe-columbus-2",
+    "name": "Scotty's Cafe",
+    "image_url": "https://s3-media3.fl.yelpcdn.com/bphoto/VkB_s62mQOT-3BgMeZWzqQ/o.jpg",
+    "is_claimed": true,
+    "is_closed": false,
+    "url": "https://www.yelp.com/biz/scottys-cafe-columbus-2?adjust_creative=ur16BbJSSiHsMLJdBfNP2g&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_lookup&utm_source=ur16BbJSSiHsMLJdBfNP2g",
+    "phone": "+16142371949",
+    "display_phone": "(614) 237-1949",
+    "review_count": 299,
+    "categories": [
+        {
+            "alias": "delis",
+            "title": "Delis"
+        },
+        {
+            "alias": "breakfast_brunch",
+            "title": "Breakfast & Brunch"
+        },
+        {
+            "alias": "cafes",
+            "title": "Cafes"
+        }
+    ],
+    "rating": 5.0,
+    "location": {
+        "address1": "2980 E Broad St",
+        "address2": "",
+        "address3": "",
+        "city": "Columbus",
+        "zip_code": "43209",
+        "country": "US",
+        "state": "OH",
+        "display_address": [
+            "2980 E Broad St",
+            "Columbus, OH 43209"
+        ],
+        "cross_streets": ""
+    },
+    "coordinates": {
+        "latitude": 39.9714992218486,
+        "longitude": -82.9214528717193
+    },
+    "photos": [
+        "https://s3-media3.fl.yelpcdn.com/bphoto/VkB_s62mQOT-3BgMeZWzqQ/o.jpg",
+        "https://s3-media3.fl.yelpcdn.com/bphoto/jeLQN9GggraSg3rjvV2GUg/o.jpg",
+        "https://s3-media1.fl.yelpcdn.com/bphoto/gSCPKUTed5I7nS_KaDdRqw/o.jpg"
+    ],
+    "price": "$",
+    "hours": [
+        {
+            "open": [
+                {
+                    "is_overnight": false,
+                    "start": 730,
+                    "end": 1400,
+                    "day": 0
+                },
+                {
+                    "is_overnight": false,
+                    "start": 730,
+                    "end": 1400,
+                    "day": 1
+                },
+                {
+                    "is_overnight": false,
+                    "start": 730,
+                    "end": 1400,
+                    "day": 2
+                },
+                {
+                    "is_overnight": false,
+                    "start": 730,
+                    "end": 1400,
+                    "day": 3
+                },
+                {
+                    "is_overnight": false,
+                    "start": 730,
+                    "end": 1400,
+                    "day": 4
+                }
+            ],
+            "hours_type": "REGULAR",
+            "is_open_now": false
+        }
+    ],
+    "transactions": []
+}
