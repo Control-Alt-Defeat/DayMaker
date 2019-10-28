@@ -13,11 +13,17 @@ import json
 import os
 import pushToDiscovery
 
+# PARSE FOR USER INPUT AND VALID IT
+argparser = argparse.ArgumentParser(description='Adds a certain type of buisness to IBM\'s Discovery database')
+argparser.add_argument('buisness_type', type=str, choices = ['resturants', 'bars', 'nightlife', 'arts & entertainment'], help='Valid buisness type (resturants, bars, nightlife, or arts & entertainment)')
+args = argparser.parse_args()
+
+# SET UP THE YELP API CONNECTION
 yelp_api = YelpAPI("fsx7o9fQIvPzeLZzzYNTWEBZEhV8TuiSONR4AzZ-Q_DsbhbDkZbP5OaL-eszfkS2nYaS_rb5iQYi2sjNWX_54bDzo-1XgZMV1S9V-kq69xPHKVntPlTSB7q_cbl6XXYx")
 
 
 # SEARCH BY LOCATION TEXT AND TERM
-response = yelp_api.search_query(location='columbus, oh', sort_by='rating', limit=1) 
+response = yelp_api.search_query(term=args.buisness_type, location='columbus, oh', limit=1) 
 
 # WRITE THE RESULTS OF THE API CALL TO A NEW FILE WHERE EACH BUISNESS WILL HAVE THEIR OWN FILE
 for biz in response["businesses"]:
@@ -38,6 +44,7 @@ for biz in response["businesses"]:
     f.close()
 
     # PUSH THE FILE TO DISCOVERY
-    pushToDiscovery.upload_to_discovery(filename)
+    pushToDiscovery.upload_to_discovery(filename, args.buisness_type)
+
     # DELETE THE RETRIEVED JSON FILE 
     os.remove(filename)
