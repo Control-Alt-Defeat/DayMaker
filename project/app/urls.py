@@ -22,6 +22,8 @@ from planner.routers import router
 from django.conf.urls.static import static
 from django.conf import settings
 
+from . import views
+app_name = 'app'
 urlpatterns = [
     path('admin/', admin.site.urls),
     #path('', home),
@@ -29,7 +31,7 @@ urlpatterns = [
     path('planner/', include('planner.urls')),
     path('chat/', chat),
     path('get-response/', get_response),
-    path('api/', include(router.urls))
+    path('api/', include(router.urls)),
 ]
 
 if settings.DEBUG == True:

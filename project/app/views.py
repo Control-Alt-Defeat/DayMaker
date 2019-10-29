@@ -2,6 +2,7 @@ from django.shortcuts import render, render_to_response
 from django.http import HttpResponse
 import json
 from django.views.decorators.csrf import csrf_exempt
+import datetime
 
 
 @csrf_exempt
@@ -33,3 +34,8 @@ def home(request, template_name="home.html"):
 def chat(request, template_name="chat.html"):
 	context = {'title': 'DayMaker Chat Version 1.0'}
 	return render_to_response(template_name, context)
+
+def get_date_of_plan(request):
+	response = {'dateOfPlan': None}
+	response['dateOfPlan'] = datetime.datetime.now().strftime("%B %d, %Y")
+	return HttpResponse(json.dumps(response), content_type="application/json")

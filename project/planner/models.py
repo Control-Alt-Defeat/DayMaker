@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 from django.urls import reverse
 from django.core.validators import MaxValueValidator, MinValueValidator 
@@ -33,15 +34,17 @@ class Event(models.Model):
     
     def json(self):
         return {
-            'id'           : self.id,
-            'location'     : str(self.loc_name),
-            'type'         : str(self.loc_type),
-            'address'      : str(self.address),
-            'phone_number' : str(self.phone_number),
-            'price'        : self.get_price_display(),
-            'rating'       : self.rating,
-            'start'        : str(self.start_time),
-            'end'          : str(self.end_time),
+            'id'                : self.id,
+            'location'          : str(self.loc_name),
+            'type'              : str(self.loc_type),
+            'address'           : str(self.address),
+            'phone_number'      : str(self.phone_number),
+            'price'             : self.get_price_display(),
+            'rating'            : self.rating,
+            'start'             : str(self.start_time),
+            'end'               : str(self.end_time),
+            'start_formatted'   : str(self.convertTime(self.start_time)),
+            'end_formatted'     : str(self.convertTime(self.end_time)),
         }
     
     def delete_hidden():
@@ -50,6 +53,13 @@ class Event(models.Model):
     def get_absolute_url(self):
         return reverse('planner:index')
 
+    def convertTime(self, time):
+        hour = time.strftime("%I")
+        time = time.strftime("%I:%M %p") 
+        if int(hour) < 10: 
+            time = time[1:]
+        return time  
+        
 
 class EventFinder(models.Model):
 
