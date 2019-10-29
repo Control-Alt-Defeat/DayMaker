@@ -1,5 +1,6 @@
-from django.forms import Form, ModelForm, TimeInput, ModelChoiceField, RadioSelect
+from django.forms import Form, ModelForm, TimeInput, ModelChoiceField, RadioSelect, TimeField
 from .models import Event, EventFinder
+from .widgets import SelectTimeWidget
 
 
 class EventForm(ModelForm):
@@ -14,10 +15,6 @@ class EventForm(ModelForm):
             'price',
             'rating'
         ]
-        widgets = {
-            'start_time': TimeInput,
-            'end_time': TimeInput,
-        }
 
     def __init__(self, *args, **kwargs):
         super(EventForm, self).__init__(*args, **kwargs)
@@ -29,6 +26,8 @@ class EventForm(ModelForm):
         self.fields['price'].widget.attrs.update({'class' : 'form-control form-control-lg'})
         self.fields['rating'].widget.attrs.update({'class' : 'form-control form-control-lg'})
 
+    start_time = TimeField(widget=SelectTimeWidget(twelve_hr=True, minute_step=15, use_seconds=False, required=False), required=False, label=u'Start Time')
+    end_time = TimeField(widget=SelectTimeWidget(twelve_hr=True, minute_step=15, use_seconds=False, required=False), required=False, label=u'End Time')
 
 class EventFinderForm(ModelForm):
     class Meta:
@@ -52,3 +51,6 @@ class EventFinderForm(ModelForm):
         self.fields['start_time'].widget.attrs.update({'class' : 'form-control form-control-lg'})
         self.fields['end_time'].widget.attrs.update({'class' : 'form-control form-control-lg'})
         self.fields['result_count'].widget.attrs.update({'class' : 'form-control form-control-lg'})
+    
+    start_time = TimeField(widget=SelectTimeWidget(twelve_hr=True, minute_step=15, use_seconds=False, required=False), required=False, label=u'Start Time')
+    end_time = TimeField(widget=SelectTimeWidget(twelve_hr=True, minute_step=15, use_seconds=False, required=False), required=False, label=u'End Time')

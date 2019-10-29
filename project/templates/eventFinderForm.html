@@ -3,7 +3,7 @@
 {% block content %}
 <form action="{% url 'planner:plan' %}" method="post">
     {% csrf_token %} 
-    {{ form }}
+    {{ form.as_p }}
     <input class=".btn-success" type="submit" value="Find Event" />
 
 </form>
