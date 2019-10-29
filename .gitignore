@@ -79,5 +79,11 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-# api key obfuscation
+# API keys
 config.py
+
+discovery_search_result_example.txt
+.vscode/
+
+# settings
+settings.json

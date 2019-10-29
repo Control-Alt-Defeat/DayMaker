@@ -17,4 +17,4 @@ In broad view, we endeavor to develop an application that utilizes the conversat
 
 Requirements saved in `req.txt`
 
-> pip install -r req.txt
+> pip install -r requirements.txt
