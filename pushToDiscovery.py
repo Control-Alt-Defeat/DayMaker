@@ -6,13 +6,13 @@ from ibm_watson import DiscoveryV1
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
 # DEFINING THE API KEY ASSOCIATED WITH THE BUISNESS TYPE
-API_KEYS = {'resturants': 'Cynd0vfRJT66ssKW7DkGvnA9MxOfuHu6nY2Yr4GoJDjy', 'bars': 'XXX', 'nightlife': 'XXX', 'arts & entertainment': 'XXX'}
+API_KEYS = {'restaurants': 'Cynd0vfRJT66ssKW7DkGvnA9MxOfuHu6nY2Yr4GoJDjy', 'bars': 'XXX', 'nightlife': 'XXX', 'arts & entertainment': 'XXX'}
 
 # DEFINING THE ENVIRONMENT ID ASSOCIATED WITH THE BUISNESS TYPE
-ENVIRONMENT_IDS = {'resturants': '3da6447e-0128-40af-8dd0-3d7b738efe18', 'bars': 'XXX', 'nightlife': 'XXX', 'arts & entertainment': 'XXX'}
+ENVIRONMENT_IDS = {'restaurants': '3da6447e-0128-40af-8dd0-3d7b738efe18', 'bars': 'XXX', 'nightlife': 'XXX', 'arts & entertainment': 'XXX'}
 
 # DEFINING THE COLLECTION ID ASSOCIATED WITH THE BUISNESS TYPE
-COLLECTION_IDS = {'resturants': '1dc4d665-7b8d-48df-945b-fb51c2708210', 'bars': 'XXX', 'nightlife': 'XXX', 'arts & entertainment': 'XXX'}
+COLLECTION_IDS = {'restaurants': '1dc4d665-7b8d-48df-945b-fb51c2708210', 'bars': 'XXX', 'nightlife': 'XXX', 'arts & entertainment': 'XXX'}
 
 def upload_to_discovery(filename, alias, buisness_type):  
     # LOAD MASTERDOCINFO TO BE READ

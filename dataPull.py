@@ -15,7 +15,7 @@ import pushToDiscovery
 
 # PARSE FOR USER INPUT AND VALID IT
 argparser = argparse.ArgumentParser(description='Adds a certain type of buisness to IBM\'s Discovery database')
-argparser.add_argument('buisness_type', type=str, choices = ['resturants', 'bars', 'nightlife', 'arts & entertainment'], help='Valid buisness type (resturants, bars, nightlife, or arts & entertainment)')
+argparser.add_argument('buisness_type', type=str, choices = ['restaurants', 'bars', 'nightlife', 'arts & entertainment'], help='Valid buisness type (restaurants, bars, nightlife, or arts & entertainment)')
 args = argparser.parse_args()
 
 # SET UP THE YELP API CONNECTION
