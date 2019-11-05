@@ -10,5 +10,5 @@ discovery = DiscoveryV1(
 
 discovery.set_service_url('https://gateway.watsonplatform.net/discovery/api')
 
-delete_doc = discovery.delete_document('3da6447e-0128-40af-8dd0-3d7b738efe18', '1dc4d665-7b8d-48df-945b-fb51c2708210', 'dd9c4b5d-84f9-46da-83cb-82dceba57151').get_result()
+delete_doc = discovery.delete_document('3da6447e-0128-40af-8dd0-3d7b738efe18', '1dc4d665-7b8d-48df-945b-fb51c2708210', 'a4c2eafc-d5c5-4173-a098-8062038d5d90').get_result()
 print(json.dumps(delete_doc, indent=2))

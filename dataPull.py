@@ -21,9 +21,8 @@ args = argparser.parse_args()
 # SET UP THE YELP API CONNECTION
 yelp_api = YelpAPI("fsx7o9fQIvPzeLZzzYNTWEBZEhV8TuiSONR4AzZ-Q_DsbhbDkZbP5OaL-eszfkS2nYaS_rb5iQYi2sjNWX_54bDzo-1XgZMV1S9V-kq69xPHKVntPlTSB7q_cbl6XXYx")
 
-
 # SEARCH BY LOCATION TEXT AND TERM
-response = yelp_api.search_query(term=args.buisness_type, location='columbus, oh', limit=1) 
+response = yelp_api.search_query(term=args.buisness_type, location='columbus, oh', limit=10) 
 
 # WRITE THE RESULTS OF THE API CALL TO A NEW FILE WHERE EACH BUISNESS WILL HAVE THEIR OWN FILE
 for biz in response["businesses"]:
@@ -44,7 +43,7 @@ for biz in response["businesses"]:
     f.close()
 
     # PUSH THE FILE TO DISCOVERY
-    pushToDiscovery.upload_to_discovery(filename, args.buisness_type)
+    pushToDiscovery.upload_to_discovery(filename, str(biz["alias"]), args.buisness_type)
 
     # DELETE THE RETRIEVED JSON FILE 
     os.remove(filename)
