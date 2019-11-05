@@ -12,7 +12,7 @@ API_KEYS = {'restaurants': 'Cynd0vfRJT66ssKW7DkGvnA9MxOfuHu6nY2Yr4GoJDjy', 'bars
 ENVIRONMENT_IDS = {'restaurants': '3da6447e-0128-40af-8dd0-3d7b738efe18', 'bars': 'XXX', 'nightlife': 'XXX', 'arts & entertainment': 'XXX'}
 
 # DEFINING THE COLLECTION ID ASSOCIATED WITH THE BUISNESS TYPE
-COLLECTION_IDS = {'restaurants': '1dc4d665-7b8d-48df-945b-fb51c2708210', 'bars': 'XXX', 'nightlife': 'XXX', 'arts & entertainment': 'XXX'}
+COLLECTION_IDS = {'restaurants': '19e88269-e9a7-4d24-adcb-e9ea32638b55', 'bars': 'XXX', 'nightlife': 'XXX', 'arts & entertainment': 'XXX'}
 
 def upload_to_discovery(filename, alias, buisness_type):  
     # LOAD MASTERDOCINFO TO BE READ

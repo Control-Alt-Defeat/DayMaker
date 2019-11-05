@@ -22,7 +22,7 @@ args = argparser.parse_args()
 yelp_api = YelpAPI("fsx7o9fQIvPzeLZzzYNTWEBZEhV8TuiSONR4AzZ-Q_DsbhbDkZbP5OaL-eszfkS2nYaS_rb5iQYi2sjNWX_54bDzo-1XgZMV1S9V-kq69xPHKVntPlTSB7q_cbl6XXYx")
 
 # SEARCH BY LOCATION TEXT AND TERM
-response = yelp_api.search_query(term=args.buisness_type, location='columbus, oh', limit=10) 
+response = yelp_api.search_query(term=args.buisness_type, location='columbus, oh') 
 
 # WRITE THE RESULTS OF THE API CALL TO A NEW FILE WHERE EACH BUISNESS WILL HAVE THEIR OWN FILE
 for biz in response["businesses"]:
