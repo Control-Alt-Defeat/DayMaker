@@ -11,7 +11,7 @@
         </div>
       </div>
         {% for result in search_results %}
-        <div class="eventRow">
+        <div id="result_{{ forloop.counter }}" class="eventRow">
           <div class="eventStyle">
               <div class="buttonColumn eventDetails">
                   <input class="eventRadioButton" type="radio" name="choice" id="{{ result.id }}" value="{{ result.id }}"/>
@@ -29,10 +29,10 @@
           </div>
         </div>
         {% endfor %}
-        <input class=".btn-success" type="submit" value="Add Event">
+        <input id="id_save_event" class=".btn-success" type="submit" value="Add Event">
     {% else %}
         <p>No search results are available. Try different search criteria! </p>
-        <input class=".btn-success" type="submit" value="Back to Search">
+        <input id="id_back_to_search" class=".btn-success" type="submit" value="Back to Search">
     {% endif %}
 </form>
 </div>

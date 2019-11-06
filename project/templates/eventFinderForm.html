@@ -4,10 +4,10 @@
 <form action="{% url 'planner:plan' %}" method="post">
     {% csrf_token %} 
     {{ form }}
-    <input class=".btn-success" type="submit" value="Find Event" />
+    <input id="id_find_event" class=".btn-success" type="submit" value="Find Event" />
 
 </form>
 <div>
-    <a href='/planner/add' class="btn btn-warning btn-block" role="button">Add Existing Event Manually?</a>
+    <a id="id_add_manual" href='/planner/add' class="btn btn-warning btn-block" role="button">Add Existing Event Manually?</a>
 </div>
 {% endblock %}

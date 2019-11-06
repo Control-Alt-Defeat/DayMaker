@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.shortcuts import redirect
 
 from .views import chat, home, get_response
 from planner.routers import router
@@ -25,7 +26,7 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     #path('', home),
-    path('', include('planner.urls')),
+    path('', lambda request: redirect('planner/', permanent=False)),
     path('planner/', include('planner.urls')),
     path('chat/', chat),
     path('get-response/', get_response),
