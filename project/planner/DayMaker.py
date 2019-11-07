@@ -6,10 +6,7 @@ import config
 import os
 import json
 import mvp_event
-import dist_func
-import tests_DayMaker
-
-CBUS_COORD = {"latitude": 39.95901, "longitude": -82.99869}
+import rules
 
 ## Function definitions
 
@@ -37,7 +34,6 @@ def indexConvert(i):
 def timeConvert(time):
     t = time.split(':')
     return int(int(t[0])*4 + int(t[1])/15)
-
 
 # called before scheduleEvent so that changes to time are reflected
 def clearEvent(event_obj, dayList):
@@ -72,12 +68,12 @@ def createEvent(item, start, end):
     return my_event
 
 # Queries discovery data base using natural language query
-def natLangQuery(queryStr = '', query_filter = '', num_results=100, distance=100, aCoord=CBUS_COORD):
+def natLangQuery(queryStr = '', query_filter = '', num_results=100, distance=100, aCoord=rules.CBUS_COORD):
 
     if (query_filter == ''):
-        query_filter = coordRule(distance, CBUS_COORD)
+        query_filter = rules.coordRule(distance, aCoord)
     else:
-        query_filter = andRule(query_filter, coordRule(distance, CBUS_COORD))
+        query_filter = rules.andRule(query_filter, rules.coordRule(distance, aCoord))
 
     my_query = config.discovery.query(config.environment_id,
                             config.collection_id,
@@ -85,45 +81,6 @@ def natLangQuery(queryStr = '', query_filter = '', num_results=100, distance=100
                             filter=query_filter,
                             natural_language_query=queryStr)
     return json.loads(json.dumps(my_query.result, indent=2))
-
-# Rule building functions
-def buildRule(field, value, operator='::'):
-    my_rule = field+operator+str(value)
-    return my_rule
-
-def defineRule(my_filter=''):
-    return my_filter
-
-def andRule(rule1, rule2):
-    new_rule = rule1 + ',' + rule2
-    return new_rule
-
-def orRule(rule1, rule2):
-    new_rule = rule1 + '|' + rule2
-    return new_rule
-
-def groupRule(rule):
-    new_rule = '(' + rule + ')'
-    return new_rule
-
-def coordRule(distance, aCoord=CBUS_COORD):
-    # Miles -> diff in lat/long
-    lat_diff = dist_func.convertToLat(distance)
-    long_diff = dist_func.convertToLong(distance)
-
-    # print('Diff\nLatitude: ' + str(lat_diff))
-    # print('Longitude: ' + str(long_diff))
-    
-    # Builds rules for distance restrictions
-    lat1 = buildRule('coordinates.latitude', aCoord['latitude']-lat_diff, '>=')
-    lat2 = buildRule('coordinates.latitude', aCoord['latitude']+lat_diff, '<=')
-    long1 = buildRule('coordinates.longitude', aCoord['longitude']-long_diff, '>=')
-    long2 = buildRule('coordinates.longitude', aCoord['longitude']+long_diff, '<=')
-
-    # compiles 4 rules for distance restrictions
-    coordRule = groupRule(andRule(andRule(lat1, lat2), andRule(long1, long2)))
-    
-    return coordRule
 
 # retrieve property of json results from a query
 def specifyItem(data_dict, index=0):

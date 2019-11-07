@@ -34,11 +34,11 @@ def runTests(dayList):
     # results_num = input()
 
     # creates filter for query ('::' - 'is' operator by default)
-    rule1 = DayMaker.buildRule('review_count', '\"189\"', '::')
-    rule2 = DayMaker.buildRule('price', '\"$\"', '::')
-    rule3 = DayMaker.buildRule('rating', 4.5, '::')
-    group_rule = DayMaker.groupRule(DayMaker.andRule(rule2, rule3))
-    my_filter = DayMaker.orRule(rule1, group_rule)
+    rule1 = DayMaker.rules.buildRule('review_count', '\"189\"', '::')
+    rule2 = DayMaker.rules.buildRule('price', '\"$\"', '::')
+    rule3 = DayMaker.rules.buildRule('rating', 4.5, '::')
+    group_rule = DayMaker.rules.groupRule(DayMaker.rules.andRule(rule2, rule3))
+    my_filter = DayMaker.rules.orRule(rule1, group_rule)
 
     ################### ADD LINE COMMENT BELOW TO APPLY FILTER ##########################
     my_filter = ''
