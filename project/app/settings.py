@@ -139,3 +139,6 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ]
 }
+
+LOGIN_REDIRECT_URL = 'planner:home'
+LOGOUT_REDIRECT_URL = 'planner:home'

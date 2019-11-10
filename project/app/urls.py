@@ -26,6 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     #path('', home),
     path('', include('planner.urls')),
+    path('users/', include('django.contrib.auth.urls')),
     path('planner/', include('planner.urls')),
     path('chat/', chat),
     path('get-response/', get_response),

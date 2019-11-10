@@ -2,11 +2,16 @@ import json
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponse
 from django.views.generic.edit import DeleteView, UpdateView
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from .models import Event, EventFinder
 from .forms import EventForm, EventFinderForm
 from .DayMaker import natLangQuery, buildRule, andRule, groupRule
 
+
+def home(request):
+    return render(request,'home.html')
 
 def index(request):
     Event.delete_hidden()
@@ -54,11 +59,11 @@ def find_event(request):
             elif (price == '2'):
                 price = '$$'
             elif (price == '3'):
-                price = '$$$' 
+                price = '$$$'
 
             min_rating = form.cleaned_data['min_rating']
             num_results = form.cleaned_data['result_count']
-            
+
             price_rule, rate_rule, query_filter = None, None, None
 
             if price:
@@ -88,7 +93,7 @@ def find_event(request):
 
 def display_results(request, search_results=None, start_time=None, end_time=None):
     template_name = 'planner/search_results.html'
-    
+
     if request.method == 'POST':
         # get key of selected event from the request
         if 'choice' not in request.POST:
