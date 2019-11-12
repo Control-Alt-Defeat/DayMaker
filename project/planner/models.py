@@ -30,7 +30,7 @@ class Event(models.Model):
 
     def __str__(self):
         return self.loc_name
-    
+
     def json(self):
         return {
             'id'           : self.id,
@@ -43,10 +43,10 @@ class Event(models.Model):
             'start'        : str(self.start_time),
             'end'          : str(self.end_time),
         }
-    
+
     def delete_hidden():
         Event.objects.filter(show=False).delete()
-    
+
     def get_absolute_url(self):
         return reverse('planner:index')
 
@@ -71,8 +71,8 @@ class EventFinder(models.Model):
         ('2','Car'),
         ('3','Both'),
     )
-    
-    loc_type = models.CharField('Location Type', max_length=100, choices=TYPE, null=True, blank=True)   
+
+    loc_type = models.CharField('Location Type', max_length=100, choices=TYPE, null=True, blank=True)
     price = models.CharField(max_length=1, choices=PRICES, null=True, blank=True)
     min_rating = models.CharField('Minimum Rating (out of 5)', max_length=1, choices=MIN_RATINGS, null=True, blank=True)
     transportation = models.CharField('Mode of Transportation', max_length=1, choices=TRANSPORTATION, null=True, blank=True)

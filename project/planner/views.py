@@ -14,6 +14,7 @@ def home(request):
     return render(request,'home.html')
 
 def index(request):
+    
     Event.delete_hidden()
     event_list = Event.objects.filter(show=True).order_by('start_time')
     event_list_json = [event.json() for event in event_list]
