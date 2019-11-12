@@ -1,2 +1,26 @@
 language: python
-
+env: "-DJANGO=2.2.5 -MOZ_HEADLESS=1 -DISPLAY=:99.0"
+services:
+- xvfb
+notifications:
+  slack:
+    secure: iH9hP8+uFD01rsghI7SPY8Z9PCB4exnTjLmxcbjt7huYlNILqygjLxfsd3zxbu2tehGupQ7v3xE8w7lSp9U5oaeuI6ICuL+QWCm+VkLubyLOgXNkJJThfOrIfvnicF/aCREXJjiJLWK58u8QlmMYqNhJZiw6IgcLBG/+NOm0mrMD9WREvC7r3D5hTmMem0lp4uMvSCB2Jm8ztWZMpEzor6MH9wxExm4Km0Z/K/mhgvtQMkBGcor2GO75X6bYyshr63s9CZ0UUHSPBrKGcmctby/Py8hKjdrciYlBNI31ROSAUyrRKSWnT9uwMT7SzeOcQy/bKz9FEAPxpahiuISb9ECKPIzL/sLSlXstA3oIcrjzqGO/TmTXjP/jnZVJ/J/n8AzOwyeD2wDE/FA/3fpV99+wHJDvciEGFxSmEQDC5WQeNJMVG3XaYEHBz3Ds+oZQFkMGxQ9p4Ktossf7j/Q8KdPxSS++/zRWpsF9OJV0Tt6Fz/tsXWga1Eu1Tyrs7Sx8DCFuiAtkT47WvI2etOZuuRCbG/HKi8KOs/E3Damv5J3sXeMqyShhExn7F4PwK3GpSKY+ThN7KoKQ2CN6doIYYmdryoiEc5ZG6fvCsQnxo9SdgHakjchfhzQvFwmgjQVCrflwQiiQ02DJuRhNBTsjp+GuYv3Lg1SWB2RYsW0IhYM=
+addons:
+  firefox: latest
+before_install:
+- openssl aes-256-cbc -K $encrypted_f37e0ed298fa_key -iv $encrypted_f37e0ed298fa_iv
+  -in project/planner/config.py.enc -out project/planner/config.py -d
+install:
+- pip install -r project/requirements.txt
+before_script:
+- wget https://github.com/mozilla/geckodriver/releases/download/v0.25.0/geckodriver-v0.25.0-linux64.tar.gz
+- mkdir geckodriver
+- tar -xzf geckodriver-v0.25.0-linux64.tar.gz -C geckodriver
+- export PATH=$PATH:$PWD/geckodriver
+- export MOZ_HEADLESS=1
+- python project/manage.py makemigrations
+- python project/manage.py migrate
+- python project/manage.py runserver &
+- sleep 3
+script:
+- python project/manage.py test tests
