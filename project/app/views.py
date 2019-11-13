@@ -1,8 +1,22 @@
 from django.shortcuts import render, render_to_response
-from django.http import HttpResponse
-import json
+from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from geopy.geocoders import Nominatim
+import json
 
+
+@csrf_exempt
+def check_address(request):
+	address = request.GET.get('address', None)
+	locator = Nominatim(user_agent="myGeocoder")
+	location = locator.geocode(address)
+	data = {
+		'lat': location.latitude if location else None,
+		'long': location.longitude if location else None,
+		'msg': f'Valid Location! Latitude: {location.latitude}°, Longitude: {location.longitude}°' if location else 'Invalid Location, please try a different address'
+	}
+
+	return JsonResponse(data)
 
 @csrf_exempt
 def get_response(request):

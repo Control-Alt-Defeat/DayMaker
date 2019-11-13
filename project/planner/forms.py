@@ -6,13 +6,13 @@ class EventForm(ModelForm):
     class Meta:
         model = Event
         fields = [
-            'loc_name', 
-            'loc_type', 
-            'address',  
+            'loc_name',
+            'loc_type',
             'start_time',
             'end_time',
-            'price',
-            'rating'
+            'address',
+            'lat_coord',
+            'long_coord',
         ]
         widgets = {
             'start_time': TimeInput,
@@ -26,8 +26,10 @@ class EventForm(ModelForm):
         self.fields['address'].widget.attrs.update({'class' : 'form-control form-control-lg'})
         self.fields['start_time'].widget.attrs.update({'class' : 'form-control form-control-lg'})
         self.fields['end_time'].widget.attrs.update({'class' : 'form-control form-control-lg'})
-        self.fields['price'].widget.attrs.update({'class' : 'form-control form-control-lg'})
-        self.fields['rating'].widget.attrs.update({'class' : 'form-control form-control-lg'})
+        self.fields['lat_coord'].widget.attrs.update({'class' : 'hidden'})
+        self.fields['long_coord'].widget.attrs.update({'class' : 'hidden'})
+        self.fields['long_coord'].label = ''
+        self.fields['lat_coord'].label = ''
 
 
 class EventFinderForm(ModelForm):
@@ -37,13 +39,12 @@ class EventFinderForm(ModelForm):
             'loc_type',
             'price',
             'min_rating',
-            'transportation',
             'search_radius',
             'start_time',
             'end_time',
             'result_count',
             'lat_coord',
-            'long_coord'
+            'long_coord',
             ]
         
     def __init__(self, *args, **kwargs):
@@ -51,12 +52,11 @@ class EventFinderForm(ModelForm):
         self.fields['loc_type'].widget.attrs.update({'class' : 'form-control form-control-lg'})
         self.fields['price'].widget.attrs.update({'class' : 'form-control form-control-lg'})
         self.fields['min_rating'].widget.attrs.update({'class' : 'form-control form-control-lg'})
-        self.fields['transportation'].widget.attrs.update({'class' : 'form-control form-control-lg'})
         self.fields['start_time'].widget.attrs.update({'class' : 'form-control form-control-lg'})
         self.fields['end_time'].widget.attrs.update({'class' : 'form-control form-control-lg'})
         self.fields['result_count'].widget.attrs.update({'class' : 'form-control form-control-lg'})
         self.fields['search_radius'].widget.attrs.update({'class' : 'form-control form-control-lg'})
         self.fields['lat_coord'].widget.attrs.update({'class' : 'hidden'})
-        self.fields['long_coord'].widget.attrs.update({'class' : 'hidden'})        
-        self.fields['long_coord'].label = ''
+        self.fields['long_coord'].widget.attrs.update({'class' : 'hidden'})
         self.fields['lat_coord'].label = ''
+        self.fields['long_coord'].label = ''

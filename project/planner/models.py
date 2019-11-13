@@ -52,6 +52,13 @@ class Event(models.Model):
     def get_absolute_url(self):
         return reverse('planner:index')
 
+    def full_location(self):
+        return {
+            'latitude': self.lat_coord,
+            'longitude': self.long_coord,
+            'address': self.address,
+        }
+
 
 class EventFinder(models.Model):
 

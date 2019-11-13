@@ -16,20 +16,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from .views import chat, home, get_response
-from planner.routers import router
+from .views import check_address
 
 from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    #path('', home),
     path('', include('planner.urls')),
     path('planner/', include('planner.urls')),
-    path('chat/', chat),
-    path('get-response/', get_response),
-    path('api/', include(router.urls))
+    path('ajax/check_address/', check_address, name='check_address')
 ]
 
 if settings.DEBUG == True:

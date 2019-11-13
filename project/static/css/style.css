@@ -178,3 +178,8 @@ input[type=submit] {
 .hidden {
 	display: none;
 }
+
+input:disabled {
+	background: #dddddd;
+	color: #000000
+}

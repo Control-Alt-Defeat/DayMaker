@@ -1,10 +1,16 @@
 {% extends 'base.html' %}
 
+{% block javascript %}
+{% load static %}
+<script type="text/javascript" src="{% static '/js/location.js' %}" defer></script>
+{% endblock %}
+
 {% block content %}
-<!-- <form action="{% url 'planner:add' %}" method="post"> -->
 <form action="" method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <input class=".btn-success" type="submit" value="Save Event">
+    <p id="address_status"></p>
+    <button id = "checkAddressButton" type='button'>Check Address</button>
+    <input id="submit_button" name="Save Event" class=".btn-success" type="submit" value="Please Enter a Valid Location" disabled>
 </form>
 {% endblock %}
