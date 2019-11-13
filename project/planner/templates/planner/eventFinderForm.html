@@ -1,0 +1,24 @@
+{% extends 'base.html' %} 
+
+{% block javascript %}
+{% load static %}
+<script type="text/javascript" src="{% static '/js/location.js' %}" defer></script>
+{% endblock %}
+
+{% block content %}
+<form action="{% url 'planner:plan' %}" method="post">
+    {% csrf_token %} 
+    {{ form }}
+    <div>Where would you like to search?</div>
+    <input type="text" id="id_address" name="address" maxlength="30" class="form-control form-control-lg">
+    <p id="address_status"></p>
+    <button id = "checkAddressButton" type='button'>Check Address</button>
+    <button id = "currentLocationButton" type='button'>Use My Current Location</button>
+    <!-- <button id = "previousLocationButton" type='button'>Use a Previous Location</button> -->
+    <input id="submit_button" name="Find Event" class=".btn-success" type="submit" value="Please Enter a Valid Location" disabled />
+
+</form>
+<div>
+    <a href='/planner/add' class="btn btn-warning btn-block" role="button">Add Existing Event Manually?</a>
+</div>
+{% endblock %}

@@ -21,6 +21,8 @@ class Event(models.Model):
     loc_name = models.CharField('Name of Location', max_length=30)
     loc_type = models.CharField('Type of Location', max_length=30)
     address = models.CharField('Address of Location', max_length=30)
+    lat_coord = models.DecimalField(max_digits=9, decimal_places=6, default=40.002287)
+    long_coord = models.DecimalField(max_digits=9, decimal_places=6, default=-83.016017)
     phone_number = models.CharField('Business Phone Number', max_length=12, null=True)
     price = models.CharField(max_length=1, choices=PRICES, blank=True, null=True)
     rating = models.IntegerField(blank=True, null=True)
@@ -49,6 +51,13 @@ class Event(models.Model):
     
     def get_absolute_url(self):
         return reverse('planner:index')
+
+    def full_location(self):
+        return {
+            'latitude': self.lat_coord,
+            'longitude': self.long_coord,
+            'address': self.address,
+        }
 
 
 class EventFinder(models.Model):
@@ -79,6 +88,9 @@ class EventFinder(models.Model):
     result_count = models.PositiveIntegerField('Number of Search Results', default=3, validators=[MinValueValidator(1), MaxValueValidator(50)])
     start_time = models.TimeField('Start Time of Event', default='12:00', null=True, blank=True)
     end_time = models.TimeField('End Time of Event', default='12:30', null=True, blank=True)
+    search_radius = models.FloatField('Search Radius(in miles)', default=5)
+    lat_coord = models.DecimalField(max_digits=9, decimal_places=6, default=40.002287)
+    long_coord = models.DecimalField(max_digits=9, decimal_places=6, default=-83.016017)
 
     def __str__(self):
         return f'Query {self.id}: {self.start_time} - {self.start_time}'
