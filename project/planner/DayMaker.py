@@ -69,7 +69,7 @@ def createEvent(item, start, end):
     return my_event
 
 # Queries discovery data base using natural language query
-def natLangQuery(query_str = '', query_filter = '', num_results=100, distance=100, aCoord=rules.CBUS_COORD, timeframe={}):
+def natLangQuery(query_str = '', query_filter = '', num_results=100, distance=100, aCoord=rules.CBUS_COORD, timeframe={}, query_tgt='restaurants'):
 
     if (query_filter == ''):
         query_filter = rules.coordRule(distance, aCoord)
@@ -79,8 +79,9 @@ def natLangQuery(query_str = '', query_filter = '', num_results=100, distance=10
     if (len(timeframe) >= 3):
         query_filter = rules.andRule(query_filter, rules.openRule(timeframe['start_time'], timeframe['end_time'], timeframe['date'].weekday()))
 
-    my_query = config.discovery.query(config.environment_id,
-                            config.collection_id,
+    config.discovery.set_iam_apikey(config.info[query_tgt]['api_key'])
+    my_query = config.discovery.query(config.info[query_tgt]['env_id'],
+                            config.info[query_tgt]['col_id'],
                             count=num_results,
                             filter=query_filter,
                             natural_language_query=query_str)

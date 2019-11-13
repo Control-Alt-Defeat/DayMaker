@@ -46,7 +46,7 @@ def runTests(dayList):
     print('Filtering \"' + search_term + '\" options by ' + my_filter + '\nResults:\n')
 
     # natural language query and results
-    my_json = DayMaker.natLangQuery(search_term, my_filter, 100, 1, DayMaker.rules.CBUS_COORD, {'start_time':1000, 'end_time':1200, 'date':DayMaker.datetime.datetime.today()})
+    my_json = DayMaker.natLangQuery(search_term, my_filter, 100, 1, DayMaker.rules.CBUS_COORD, {'start_time':1000, 'end_time':1200, 'date':DayMaker.datetime.datetime.today()}, 'restaurants')
     # DayMaker.markOpen(my_json, 1000, 1200, DayMaker.datetime.datetime.today())
     DayMaker.viewResults(my_json)
 
