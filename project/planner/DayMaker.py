@@ -2,12 +2,13 @@
 # Group: Ctrl+Alt+Defeat
 # Application: DayMaker
 
-import config
 import os
 import json
-import mvp_event
-import rules
 import datetime
+
+from .config import discovery, environment_id, collection_id
+from .rules import *
+from .mvp_event import Mvp_event
 
 ## Function definitions
 
@@ -63,30 +64,52 @@ def scheduleEvent(event_obj, dayList):
         if dayList[i] == 0:
             dayList[i] = event_obj.getDetail('name') + ' Event id:' + str(event_obj.id)
 
+# Prints Day
+def printSchedule(dayList):
+    start_index = dayList.index(-2)
+    for x in range(start_index, len(dayList)):
+        if (not isinstance(dayList[x], int) or dayList[x] > -1):
+            print(indexConvert(x) + ' - ' + str(dayList[x]))
+        elif (dayList[x] == -2):
+            print(indexConvert(x) + ' - The start of your day!')
+        elif (dayList[x] == -3):
+            print(indexConvert(x) + ' - The end of your day!')
+
+    for j in range(start_index):
+        if (not isinstance(dayList[j], int) or dayList[j] > -1):
+            print(indexConvert(j) + ' - ' + str(dayList[j]))
+        elif (dayList[j] == -3):
+            print(indexConvert(j) + ' - The end of your day!')
+
 # creates and returns an Mvp_event object
 def createEvent(item, start, end):
-    my_event = mvp_event.Mvp_event(item, start, end)
+    my_event = Mvp_event(item, start, end)
     return my_event
 
+
+# 
+# Discovery Search Functionality
+# 
+
 # Queries discovery data base using natural language query
-def natLangQuery(query_str = '', query_filter = '', num_results=100, distance=100, aCoord=rules.CBUS_COORD, timeframe={}):
+def natLangQuery(query_str = '', query_filter = '', num_results=10, distance=10, aCoord=CBUS_COORD, timeframe={}):
 
     if (query_filter == ''):
-        query_filter = rules.coordRule(distance, aCoord)
+        query_filter = coordRule(distance, aCoord)
     else:
-        query_filter = rules.andRule(query_filter, rules.coordRule(distance, aCoord))
+        query_filter = andRule(query_filter, coordRule(distance, aCoord))
 
-    if (len(timeframe) >= 3):
-        query_filter = rules.andRule(query_filter, rules.openRule(timeframe['start_time'], timeframe['end_time'], timeframe['date'].weekday()))
+    # if (len(timeframe) >= 3):
+    #     query_filter = andRule(query_filter, openRule(timeframe['start_time'], timeframe['end_time'], timeframe['date'].weekday()))
 
-    my_query = config.discovery.query(config.environment_id,
-                            config.collection_id,
+    my_query = discovery.query(environment_id,
+                            collection_id,
                             count=num_results,
                             filter=query_filter,
                             natural_language_query=query_str)
 
-    if (len(timeframe) >= 3):
-        markOpen(my_query.result, timeframe['start_time'], timeframe['end_time'], timeframe['date'])
+    # if (len(timeframe) >= 3):
+    #     markOpen(my_query.result, timeframe['start_time'], timeframe['end_time'], timeframe['date'])
 
     return my_query.result
 
@@ -122,19 +145,3 @@ def getTags():
     tags.sort()
     return tags
 
-# Prints Day
-def printSchedule(dayList):
-    start_index = dayList.index(-2)
-    for x in range(start_index, len(dayList)):
-        if (not isinstance(dayList[x], int) or dayList[x] > -1):
-            print(indexConvert(x) + ' - ' + str(dayList[x]))
-        elif (dayList[x] == -2):
-            print(indexConvert(x) + ' - The start of your day!')
-        elif (dayList[x] == -3):
-            print(indexConvert(x) + ' - The end of your day!')
-
-    for j in range(start_index):
-        if (not isinstance(dayList[j], int) or dayList[j] > -1):
-            print(indexConvert(j) + ' - ' + str(dayList[j]))
-        elif (dayList[j] == -3):
-            print(indexConvert(j) + ' - The end of your day!')

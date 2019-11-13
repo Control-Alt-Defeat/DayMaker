@@ -6,28 +6,9 @@ from django.urls import reverse_lazy
 
 from .models import Event, EventFinder
 from .forms import EventForm, EventFinderForm
-from .DayMaker import natLangQuery, buildRule, andRule, groupRule
+from .DayMaker import natLangQuery
+from .rules import build_query_filter
 
-def build_query_filter(price_val, min_rating):
-    if (price_val == '1'):
-        price = '$'
-    elif (price_val == '2'):
-        price = '$$'
-    elif (price_val == '3'):
-        price = '$$$' 
-
-    price_rule, rate_rule, query_filter = None, None, None
-
-    if price_val:
-        price_rule = groupRule(buildRule('price', price, '::'))
-    if min_rating:
-        rate_rule = groupRule(buildRule('rating', int(min_rating), '>='))
-    if price_rule and rate_rule:
-        query_filter = andRule(price_rule, rate_rule)
-    elif price_rule or rate_rule:
-        query_filter = price_rule if price_rule else rate_rule
-    else:
-        query_filter = ""
 
 def index(request):
     Event.delete_hidden()
@@ -89,7 +70,14 @@ def find_event(request):
             }
 
             #import pdb; pdb.set_trace()
-            results = natLangQuery(loc_type, query_filter, num_results)
+            results = natLangQuery(
+                loc_type,
+                query_filter,
+                num_results,
+                max_distance,
+                coords,
+                timeframe
+            )
 
             request.method = 'GET'
             return display_results(request, results['results'], start_time, end_time)

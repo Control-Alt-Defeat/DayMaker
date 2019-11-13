@@ -1,4 +1,4 @@
-import DayMaker
+from .DayMaker import *
 
 def main():
 

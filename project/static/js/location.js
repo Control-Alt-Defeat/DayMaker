@@ -52,8 +52,8 @@ function checkAddress(){
       success: function (data) {
         if (data.lat) {
           // alert(`Latitude: ${data.lat}°, Longitude: ${data.long}°`);
-          $('#id_lat_coord').val(data.lat);
-          $('#id_long_coord').val(data.long);
+          $('#id_lat_coord').val(roundToSix(data.lat));
+          $('#id_long_coord').val(roundToSix(data.long));
           $('#submit_button').prop("disabled", false);
           const button_name = $('#submit_button').attr("name");
           $('#submit_button').val(button_name);

@@ -39,10 +39,10 @@ class EventFinderForm(ModelForm):
             'loc_type',
             'price',
             'min_rating',
-            'search_radius',
             'start_time',
             'end_time',
             'result_count',
+            'search_radius',
             'lat_coord',
             'long_coord',
             ]
