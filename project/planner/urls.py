@@ -7,6 +7,8 @@ urlpatterns = [
     # ex: /planner/
     path('', views.home, name='home'),
     path('index', views.index, name='index'),
+    path('accountDetails',users_views.account_details,name='account_details'),
+    path('accountEdit',users_views.account_edit,name='account_edit'),
     path('signup/', users_views.signup, name='signup'),
     # ex: /event/5/
     path('add/', views.add_event, name='add'),
