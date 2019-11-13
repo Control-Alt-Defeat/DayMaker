@@ -7,6 +7,7 @@ import os
 import json
 import mvp_event
 import rules
+import datetime
 
 ## Function definitions
 
@@ -68,19 +69,36 @@ def createEvent(item, start, end):
     return my_event
 
 # Queries discovery data base using natural language query
-def natLangQuery(queryStr = '', query_filter = '', num_results=100, distance=100, aCoord=rules.CBUS_COORD):
+def natLangQuery(query_str = '', query_filter = '', num_results=100, distance=100, aCoord=rules.CBUS_COORD, timeframe={}):
 
     if (query_filter == ''):
         query_filter = rules.coordRule(distance, aCoord)
     else:
         query_filter = rules.andRule(query_filter, rules.coordRule(distance, aCoord))
 
+    if (len(timeframe) >= 3):
+        query_filter = rules.andRule(query_filter, rules.openRule(timeframe['start_time'], timeframe['end_time'], timeframe['date'].weekday()))
+
     my_query = config.discovery.query(config.environment_id,
                             config.collection_id,
                             count=num_results,
                             filter=query_filter,
-                            natural_language_query=queryStr)
-    return json.loads(json.dumps(my_query.result, indent=2))
+                            natural_language_query=query_str)
+
+    if (len(timeframe) >= 3):
+        markOpen(my_query.result, timeframe['start_time'], timeframe['end_time'], timeframe['date'])
+
+    return my_query.result
+
+def markOpen(data_dict, start_time, end_time, date):
+    day_num = date.weekday()
+    for num, item in enumerate(data_dict['results'], start=0):
+        if 'hours' in item:
+            item['available'] = False
+            for day in item['hours'][0]['open']:
+                if (day['day'] == day_num and day['start'] <= start_time and (day['end'] >= end_time or (day['is_overnight'] == True and not day['start'] == day['end']))):
+                    item['available'] = True
+
 
 # retrieve property of json results from a query
 def specifyItem(data_dict, index=0):
@@ -90,7 +108,8 @@ def specifyItem(data_dict, index=0):
 def viewResults(data_dict, key='name'):
     aliases = []
     for num, item in enumerate(data_dict['results'], start=1):
-        print("Option {}: {}".format(num, item[key]))
+        if item['available']:
+            print("Option {}: {}".format(num, item[key]))
 
 # return an array of ALL tags
 def getTags():

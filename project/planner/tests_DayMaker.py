@@ -24,7 +24,7 @@ def runTests(dayList):
     end_time = '23:30'
 
     # prints the array of all tags
-    print('ALL TAGS: {}\n'.format(DayMaker.getTags()))
+    # print('ALL TAGS: {}\n'.format(DayMaker.getTags()))
 
     print('What kind of event would you like to schedule?')
     search_term = input()
@@ -41,12 +41,14 @@ def runTests(dayList):
     my_filter = DayMaker.rules.orRule(rule1, group_rule)
 
     ################### ADD LINE COMMENT BELOW TO APPLY FILTER ##########################
-    my_filter = ''
+    my_filter = DayMaker.rules.openRule(1000, 1200, 2)
+    print(my_filter)
 
     print('Filtering \"' + search_term + '\" options by ' + my_filter + '\nResults:\n')
 
     # natural language query and results
-    my_json = DayMaker.natLangQuery(search_term, my_filter, 100, 10.2)
+    my_json = DayMaker.natLangQuery(search_term, my_filter, 100, 1, DayMaker.rules.CBUS_COORD, {'start_time':1000, 'end_time':1200, 'date':DayMaker.datetime.datetime.today()})
+    # DayMaker.markOpen(my_json, 1000, 1200, DayMaker.datetime.datetime.today())
     DayMaker.viewResults(my_json)
 
     # user choice
