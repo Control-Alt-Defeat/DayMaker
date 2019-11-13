@@ -6,10 +6,16 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta:
         model = CustomUser
-        fields = ('username', )
+        fields = ('username', 'first_name','last_name','email')
 
 class CustomUserChangeForm(UserChangeForm):
-
+    def __init__(self,*args,**kwargs):
+        super(CustomUserChangeForm,self).__init__(*args,**kwargs)
+        del self.fields['password']
+            
     class Meta:
         model = CustomUser
-        fields = ('username',)
+        fields = ('username', 'first_name','last_name','email')
+        
+
+        
