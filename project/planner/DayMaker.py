@@ -90,6 +90,7 @@ def natLangQuery(query_str = '', query_filter = '', num_results=100, distance=10
 
     return my_query.result
 
+# Adds field and results open during a timeframe
 def markOpen(data_dict, start_time, end_time, date):
     day_num = date.weekday()
     for num, item in enumerate(data_dict['results'], start=0):
@@ -106,7 +107,6 @@ def specifyItem(data_dict, index=0):
 
 # display (property) of each result to console
 def viewResults(data_dict, key='name'):
-    aliases = []
     for num, item in enumerate(data_dict['results'], start=1):
         if item['available']:
             print("Option {}: {}".format(num, item[key]))
@@ -122,6 +122,7 @@ def getTags():
     tags.sort()
     return tags
 
+# Prints Day
 def printSchedule(dayList):
     start_index = dayList.index(-2)
     for x in range(start_index, len(dayList)):

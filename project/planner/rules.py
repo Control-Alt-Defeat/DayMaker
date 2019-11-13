@@ -39,12 +39,13 @@ def coordRule(distance, aCoord=CBUS_COORD):
 
 def openRule(start_time, end_time, day_num):
 
+    # Builds rules for intial hours restrictions
     opening = buildRule('hours.open.start', start_time, '<=')
     closing = buildRule('hours.open.end', end_time, '>=')
     overnight = buildRule('hours.open.is_overnight', "true", '::')
     weekday = buildRule('hours.open.day', day_num, ':')
 
-
+    # compiles 4 rules for hours restrictions
     open_rule = groupRule(andRule(andRule(weekday, opening), groupRule(orRule(closing, overnight))))
 
     return open_rule

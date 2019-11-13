@@ -42,7 +42,6 @@ def runTests(dayList):
 
     ################### ADD LINE COMMENT BELOW TO APPLY FILTER ##########################
     my_filter = DayMaker.rules.openRule(1000, 1200, 2)
-    print(my_filter)
 
     print('Filtering \"' + search_term + '\" options by ' + my_filter + '\nResults:\n')
 
