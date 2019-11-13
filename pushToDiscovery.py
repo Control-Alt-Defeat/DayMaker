@@ -7,16 +7,16 @@ from ibm_watson import DiscoveryV1
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
 # DEFINING THE API KEY ASSOCIATED WITH THE BUISNESS TYPE
-API_KEYS = {'restaurants': 'Cynd0vfRJT66ssKW7DkGvnA9MxOfuHu6nY2Yr4GoJDjy', 'bars': '2YpsPbSxOZs4XODvqwtn-LhDRZFtzVjFapFR93BjrDHy', 'nightlife': '62azicZWTto2cm1WxLMCTJ2vhnfn1LpyhEBn1c-cJ1Kw', 'arts & entertainment': 'tbjy8l9-78zto0HHD3PgeZflH4wGdbzXM-1HgHbGkWii'}
+API_KEYS = {'restaurants': 'Cynd0vfRJT66ssKW7DkGvnA9MxOfuHu6nY2Yr4GoJDjy', 'bars': '2YpsPbSxOZs4XODvqwtn-LhDRZFtzVjFapFR93BjrDHy', 'arts & entertainment': 'tbjy8l9-78zto0HHD3PgeZflH4wGdbzXM-1HgHbGkWii'}
 
 # DEFINING THE ENVIRONMENT ID ASSOCIATED WITH THE BUISNESS TYPE
-ENVIRONMENT_IDS = {'restaurants': '3da6447e-0128-40af-8dd0-3d7b738efe18', 'bars': '139f7aba-2a1f-4476-b9c8-38de592a1e00', 'nightlife': '2d79bd90-acbf-4b56-b850-1d73d5eaf660', 'arts & entertainment': 'e5856d24-400e-4691-a898-e0e07b6bccbf'}
+ENVIRONMENT_IDS = {'restaurants': '3da6447e-0128-40af-8dd0-3d7b738efe18', 'bars': '139f7aba-2a1f-4476-b9c8-38de592a1e00', 'arts & entertainment': 'e5856d24-400e-4691-a898-e0e07b6bccbf'}
 
 # DEFINING THE COLLECTION ID ASSOCIATED WITH THE BUISNESS TYPE
-COLLECTION_IDS = {'restaurants': '19e88269-e9a7-4d24-adcb-e9ea32638b55', 'bars': '2a87b3fa-94ae-4680-ac88-40ec1e80ca82', 'nightlife': 'd013f61c-5c22-40ac-8e02-20c77f3e9d11', 'arts & entertainment': '6a2d3bef-8b4e-482e-866b-1091ad110d5d'}
+COLLECTION_IDS = {'restaurants': '19e88269-e9a7-4d24-adcb-e9ea32638b55', 'bars': '2a87b3fa-94ae-4680-ac88-40ec1e80ca82', 'arts & entertainment': '6a2d3bef-8b4e-482e-866b-1091ad110d5d'}
 
 # DEFINING THE URL ASSOCIATED WITH THE BUISNESS TYPE
-DIS_URL = {'restaurants': 'https://gateway.watsonplatform.net/discovery/api', 'bars': 'https://gateway-wdc.watsonplatform.net/discovery/api', 'nightlife': 'https://gateway.watsonplatform.net/discovery/api', 'arts & entertainment': 'https://gateway.watsonplatform.net/discovery/api'}
+DIS_URL = {'restaurants': 'https://gateway.watsonplatform.net/discovery/api', 'bars': 'https://gateway-wdc.watsonplatform.net/discovery/api', 'arts & entertainment': 'https://gateway.watsonplatform.net/discovery/api'}
 
 def upload_to_discovery(filename, alias, buisness_type):  
     # LOAD MASTERDOCINFO TO BE READ
