@@ -1,0 +1,21 @@
+{% extends 'base.html' %} 
+
+{% block js %}
+{% load static %}
+<script type="text/javascript" src="{% static '/js/currentLocation.js' %}" defer></script>
+{% endblock %}
+
+{% block content %}
+<form action="{% url 'planner:plan' %}" method="post">
+    {% csrf_token %} 
+    {{ form }}
+    <div>Where would you like to search?</div>
+    <button id = "currentLocationButton" type='button'>Use my current location</button>
+    <button id = "previousLocationButton" type='button'>Use a previous location</button>
+    <input class=".btn-success" type="submit" value="Find Event" />
+
+</form>
+<div>
+    <a href='/planner/add' class="btn btn-warning btn-block" role="button">Add Existing Event Manually?</a>
+</div>
+{% endblock %}

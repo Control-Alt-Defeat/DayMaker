@@ -3,6 +3,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponse
 from django.views.generic.edit import DeleteView, UpdateView
 from django.urls import reverse_lazy
+from geopy.geocoders import Nominatim
+
 from .models import Event, EventFinder
 from .forms import EventForm, EventFinderForm
 from .DayMaker import natLangQuery, buildRule, andRule, groupRule
@@ -38,7 +40,8 @@ def add_event(request):
     return render(request, template_name, {'form': form})
 
 def find_event(request):
-    template_name = 'eventFinderForm.html'
+    template_name = 'planner/eventFinderForm.html'
+    locator = Nominatim(user_agent="myGeocoder")
 
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
@@ -76,6 +79,10 @@ def find_event(request):
 
             start_time = form.cleaned_data['start_time']
             end_time = form.cleaned_data['end_time']
+            
+            lat_coord = form.cleaned_data['lat_coord']
+            long_coord = form.cleaned_data['long_coord']
+            #import pdb; pdb.set_trace()
 
             request.method = 'GET'
             return display_results(request, results['results'], start_time, end_time)

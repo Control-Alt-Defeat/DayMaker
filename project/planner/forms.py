@@ -38,9 +38,12 @@ class EventFinderForm(ModelForm):
             'price',
             'min_rating',
             'transportation',
+            'search_radius',
             'start_time',
             'end_time',
-            'result_count'
+            'result_count',
+            'lat_coord',
+            'long_coord'
             ]
         
     def __init__(self, *args, **kwargs):
@@ -52,3 +55,8 @@ class EventFinderForm(ModelForm):
         self.fields['start_time'].widget.attrs.update({'class' : 'form-control form-control-lg'})
         self.fields['end_time'].widget.attrs.update({'class' : 'form-control form-control-lg'})
         self.fields['result_count'].widget.attrs.update({'class' : 'form-control form-control-lg'})
+        self.fields['search_radius'].widget.attrs.update({'class' : 'form-control form-control-lg'})
+        self.fields['lat_coord'].widget.attrs.update({'class' : 'hidden'})
+        self.fields['long_coord'].widget.attrs.update({'class' : 'hidden'})        
+        self.fields['long_coord'].label = ''
+        self.fields['lat_coord'].label = ''
