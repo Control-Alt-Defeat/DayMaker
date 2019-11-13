@@ -5,7 +5,6 @@ import datetime
 import csv
 import time
 from ibm_watson import DiscoveryV1
-<<<<<<< HEAD
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
 # DEFINING THE API KEY ASSOCIATED WITH THE BUISNESS TYPE
