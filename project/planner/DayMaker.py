@@ -80,6 +80,7 @@ def natLangQuery(query_str = '', query_filter = '', num_results=100, distance=10
         query_filter = rules.andRule(query_filter, rules.openRule(timeframe['start_time'], timeframe['end_time'], timeframe['date'].weekday()))
 
     config.discovery.set_iam_apikey(config.info[query_tgt]['api_key'])
+    config.discovery.set_url(config.info[query_tgt]['url'])
     my_query = config.discovery.query(config.info[query_tgt]['env_id'],
                             config.info[query_tgt]['col_id'],
                             count=num_results,
