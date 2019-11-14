@@ -3,11 +3,15 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponse
 from django.views.generic.edit import DeleteView, UpdateView
 from django.urls import reverse_lazy
+from decimal import Decimal
 
 from .models import Event, EventFinder
 from .forms import EventForm, EventFinderForm
 from .DayMaker import natLangQuery
 from .rules import build_query_filter
+from .distance import distance
+
+
 
 
 def index(request):
@@ -80,7 +84,7 @@ def find_event(request):
             )
 
             request.method = 'GET'
-            return display_results(request, results['results'], start_time, end_time)
+            return display_results(request,lat_coord,long_coord,results['results'], start_time, end_time)
 
     # if a GET (or any other method) we'll create a blank form
     else:
@@ -89,8 +93,9 @@ def find_event(request):
     context['form'] = form
     return render(request, template_name, context)
 
-def display_results(request, search_results=None, start_time=None, end_time=None):
+def display_results(request,user_lat_coord=None,user_long_coord=None, search_results=None, start_time=None, end_time=None,):
     template_name = 'planner/search_results.html'
+    
     
     if request.method == 'POST':
         # get key of selected event from the request
@@ -120,12 +125,17 @@ def display_results(request, search_results=None, start_time=None, end_time=None
                 start_time = start_time,
                 end_time = end_time,
                 show=False
+                
             )
             loc.save()
-            search_results_json.append(loc.json())
+            location = loc.json()
+            location['distance'] = distance(float(result['coordinates']['latitude']),float(result['coordinates']['longitude']),float(user_lat_coord),float(user_long_coord))
+            search_results_json.append(location)
+        search_results_json.sort(key = lambda x: x['distance'])
         context = {
             'search_results' : search_results_json
         }
+        
         return render(request, template_name, context)
 
 
