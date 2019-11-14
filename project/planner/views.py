@@ -46,7 +46,7 @@ def find_event(request):
         # create a form instance and populate it with data from the request:
         form = EventFinderForm(request.POST)
         # check whether it's valid:
-        if True:
+        if form.is_valid():
             loc_type = form.cleaned_data['loc_type']
             price = form.cleaned_data['price']
 
@@ -78,14 +78,35 @@ def find_event(request):
             start_time = form.cleaned_data['start_time']
             end_time = form.cleaned_data['end_time']
 
-            request.method = 'GET'
-            return display_results(request, results['results'], start_time, end_time)
-
+            if checkFormValues(start_time, end_time):
+                request.method = 'GET'
+                return display_results(request, results['results'], start_time, end_time)
+            else:
+                return render(request, template_name, {'form': form})
     # if a GET (or any other method) we'll create a blank form
     else:
         form = EventFinderForm()
 
     return render(request, template_name, {'form': form})
+
+def checkFormValues(start_time, end_time):
+    startHour = start_time.strftime("%I")
+    endHour = end_time.strftime("%I")
+    startMin = start_time.strftime("%M")
+    endMin = end_time.strftime("%M")
+    startM = start_time.strftime("%p")
+    endM = end_time.strftime("%p")
+    if startM == endM:              # both am / pm times
+        if startHour > endHour:
+            return False
+        if startHour == endHour:
+            if int(endMin) - int(startMin) < 30:
+                return False
+    elif startM == "AM" and endM == "PM":
+        return True
+    else:
+        return False
+    return True
 
 def display_results(request, search_results=None, start_time=None, end_time=None):
     template_name = 'planner/search_results.html'

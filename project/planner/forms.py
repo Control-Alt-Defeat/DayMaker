@@ -55,24 +55,3 @@ class EventFinderForm(ModelForm):
     
     start_time = TimeField(widget=SelectTimeWidget(twelve_hr=True, minute_step=15, use_seconds=False, required=False), required=False, label=u'Start Time')
     end_time = TimeField(widget=SelectTimeWidget(twelve_hr=True, minute_step=15, use_seconds=False, required=False), required=False, label=u'End Time')
-    
-    def is_valid(self, start_time, end_time):
-        start = start_time.strmptime("%I:%M %p")
-        end = end_time.strmptime("%I:%M %p")
-        startHour = start.strftime("%I")
-        endHour = end.strftime("%I")
-        startMin = start.strftime("%M")
-        endMin = end.strftime("%M")
-        startM = start.strftime("%p")
-        endM = end.strftime("%p")
-        if startM == endM:
-            if startHour > endHour:
-                return False
-            if startHour == endHour:
-                if endMin - startM < 30:
-                    return False
-        elif startM == "AM":
-            return False
-        else:
-            return False
-        return True
