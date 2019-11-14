@@ -6,7 +6,7 @@ import os
 import json
 import datetime
 
-from .config import discovery, environment_id, collection_id
+from .config import discovery, INSTANCES
 from .rules import *
 from .mvp_event import Mvp_event
 
@@ -92,7 +92,7 @@ def createEvent(item, start, end):
 # 
 
 # Queries discovery data base using natural language query
-def natLangQuery(query_str = '', query_filter = '', num_results=10, distance=10, aCoord=rules.CBUS_COORD, timeframe={}, query_tgt='restaurants'):
+def natLangQuery(query_str = '', query_filter = '', num_results=10, distance=10, aCoord=CBUS_COORD, timeframe={}, query_tgt='restaurants'):
 
     if (query_filter == ''):
         query_filter = coordRule(distance, aCoord)
@@ -102,10 +102,10 @@ def natLangQuery(query_str = '', query_filter = '', num_results=10, distance=10,
     # if (len(timeframe) >= 3):
     #     query_filter = andRule(query_filter, openRule(timeframe['start_time'], timeframe['end_time'], timeframe['date'].weekday()))
 
-    config.discovery.set_iam_apikey(config.info[query_tgt]['api_key'])
-    config.discovery.set_url(config.info[query_tgt]['url'])
-    my_query = config.discovery.query(config.info[query_tgt]['env_id'],
-                            config.info[query_tgt]['col_id'],
+    discovery.set_iam_apikey(INSTANCES[query_tgt]['api_key'])
+    discovery.set_url(INSTANCES[query_tgt]['url'])
+    my_query = discovery.query(INSTANCES[query_tgt]['env_id'],
+                            INSTANCES[query_tgt]['col_id'],
                             count=num_results,
                             filter=query_filter,
                             natural_language_query=query_str)
