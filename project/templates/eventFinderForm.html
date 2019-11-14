@@ -6,10 +6,18 @@
     {% csrf_token %} 
     {{ form.as_p }}
 
-    {% if error %}
+    {% if timeError %}
     <div class = "eventRow">
             <div class = "timeWindow">
                 <p>Invalid Time Range! Please enter a valid time range to search.</p>
+            </div>
+    </div>
+    {% endif %}
+
+    {% if eventOverlap %}
+    <div class = "eventRow">
+            <div class = "timeWindow">
+                <p>You already have an event scheduled for this time! Please pick a new time to seach.</p>
             </div>
     </div>
     {% endif %}

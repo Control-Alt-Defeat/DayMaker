@@ -78,20 +78,45 @@ def find_event(request):
             start_time = form.cleaned_data['start_time']
             end_time = form.cleaned_data['end_time']
 
-            if checkFormValues(start_time, end_time):
+            context = {
+                    'form': form,
+                }
+            valid = True
+            # check for valid time range
+            if not checkFormValues(start_time, end_time):
+                valid = False
+                context['timeError'] = 'Time Error!'
+            # check for overlapping event
+            if not checkEventOverlap(start_time, end_time):
+               valid = False
+               context['eventOverlap'] = 'Event Overlap!'
+            # if valid redirect to results
+            if valid:
                 request.method = 'GET'
                 return display_results(request, results['results'], start_time, end_time)
+            # if not valid, reload form
             else:
-                context = {
-                    'form': form,
-                    'error': 'Invalid time range!'
-                }
                 return render(request, template_name, context)
     # if a GET (or any other method) we'll create a blank form
     else:
         form = EventFinderForm()
 
     return render(request, template_name, {'form': form})
+
+# return true if NO overlap. return False if overlap.
+def checkEventOverlap(start_time, end_time):
+    event_list = Event.objects.filter(show=True).order_by('start_time')
+    times = [(event.start_time, event.end_time) for event in event_list]
+    for timeSet in times:
+        if timeSet[1] > start_time and timeSet[1] <= end_time:         # end time of existing event inside of time range
+            return False
+        if timeSet[1] > start_time and timeSet[1] > end_time and timeSet[0] <= start_time:  # time range inside of existing event
+            return False
+        if timeSet[0] > start_time and timeSet[0] < end_time:       # start time of existing event inside of time range
+            return False
+        if timeSet[0] >= start_time and timeSet[1] < end_time:      # existing event insde of time range 
+            return False
+    return True
 
 def checkFormValues(start_time, end_time):
     startHour = start_time.strftime("%I")
