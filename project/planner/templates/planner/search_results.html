@@ -1,39 +1,35 @@
-{% extends 'base.html' %}
-
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 <div id="app">
-<form action="{% url 'planner:search_results' %}" method="post">
-    {% csrf_token %}
-    {% if search_results %}
-      <div class = "eventRow">
-        <div class = "timeWindow">
-          <p>Choosing event for time window: {{search_results.0.start}} - {{search_results.0.end}}</p>
+    <form action="{% url 'planner:search_results' %}" method="post">
+        {% csrf_token %} {% if search_results %}
+        <div class="eventRow">
+            <div class="timeWindow">
+                <p>Choosing event for time window: {{search_results.0.start}} - {{search_results.0.end}}</p>
+            </div>
         </div>
-      </div>
         {% for result in search_results %}
         <div class="eventRow">
-          <div class="eventStyle">
-              <div class="buttonColumn eventDetails">
-                  <input class="eventRadioButton" type="radio" name="choice" id="{{ result.id }}" value="{{ result.id }}"/>
-              </div>
-              <div class="eventColumnMiddle">
-                <p class="eventTitle"> {{ result.location }}
-                </p>
-                <p class="eventDetails"> {{ result.type }} </p>
-                <p class="eventDetails"> {{result.rating}}/5 </p>
-              </div>
-              <div class="eventColumnRight">
-                <p> {{ result.address }} </p>
-                <p> {{ result.price }} </p>
-              </div>
-          </div>
+            <div class="eventStyle">
+                <div class="buttonColumn eventDetails">
+                    <input class="eventRadioButton" type="radio" name="choice" id="{{ result.id }}" value="{{ result.id }}" />
+                </div>
+                <div class="eventColumnMiddle">
+                    <p class="eventTitle"> {{ result.location }}
+                    </p>
+                    <p class="eventDetails"> {{ result.type }} </p>
+                    <p class="eventDetails"> {{result.rating}}/5 </p>
+                </div>
+                <div class="eventColumnRight">
+                    <p> {{ result.address }} </p>
+                    <p> {{ result.price }} </p>
+                    <p> {{ result.distance|floatformat }} Miles</p>
+                </div>
+            </div>
         </div>
         {% endfor %}
-        <input class=".btn-success" type="submit" value="Add Event">
-    {% else %}
+        <input class=".btn-success" type="submit" value="Add Event"> {% else %}
         <p>No search results are available. Try different search criteria! </p>
-        <input class=".btn-success" type="submit" value="Back to Search">
-    {% endif %}
-</form>
+        <input class=".btn-success" type="submit" value="Back to Search"> {% endif %}
+    </form>
 </div>
 {% endblock %}
