@@ -1,11 +1,11 @@
 {% extends 'base.html' %} {% block content %}
 <div id="app">
-    <form action="{% url 'planner:search_results' %}" method="post">
-        {% csrf_token %} {% if search_results %}
-        <div class="eventRow">
-            <div class="timeWindow">
-                <p>Choosing event for time window: {{search_results.0.start}} - {{search_results.0.end}}</p>
-            </div>
+<form action="{% url 'planner:search_results' %}" method="post">
+    {% csrf_token %}
+    {% if search_results %}
+      <div class = "eventRow">
+        <div class = "timeWindow">
+          <p>Choosing event for time window: {{ search_results.0.start_formatted }} - {{ search_results.0.end_formatted }}</p>
         </div>
         {% for result in search_results %}
         <div class="eventRow">

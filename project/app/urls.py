@@ -21,6 +21,8 @@ from .views import check_address
 from django.conf.urls.static import static
 from django.conf import settings
 
+from . import views
+app_name = 'app'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('planner.urls')),

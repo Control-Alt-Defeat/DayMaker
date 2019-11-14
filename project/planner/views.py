@@ -1,4 +1,5 @@
 import json
+import datetime
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponse
 from django.views.generic.edit import DeleteView, UpdateView
@@ -138,6 +139,10 @@ def display_results(request,user_lat_coord=None,user_long_coord=None, search_res
         
         return render(request, template_name, context)
 
+def get_date_of_plan(request):
+ 	response = {'dateOfPlan': None}
+ 	response['dateOfPlan'] = datetime.datetime.now().strftime("%B %d, %Y")
+ 	return HttpResponse(json.dumps(response), content_type="application/json")
 
 class EventDelete(DeleteView):
     model = Event

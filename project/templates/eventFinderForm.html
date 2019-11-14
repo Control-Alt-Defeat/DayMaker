@@ -1,0 +1,13 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+<form action="{% url 'planner:plan' %}" method="post">
+    {% csrf_token %} 
+    {{ form.as_p }}
+    <input class=".btn-success" type="submit" value="Find Event" />
+
+</form>
+<div>
+    <a href='/planner/add' class="btn btn-warning btn-block" role="button">Add Existing Event Manually?</a>
+</div>
+{% endblock %}
