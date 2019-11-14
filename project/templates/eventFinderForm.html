@@ -1,13 +1,13 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 
 {% block content %}
-<form action="{% url 'planner:plan' %}" method="post">
-    {% csrf_token %} 
+<form action="{% url 'planner:plan' plan_id %}" method="post">
+    {% csrf_token %}
     {{ form }}
     <input class=".btn-success" type="submit" value="Find Event" />
 
 </form>
 <div>
-    <a href='/planner/add' class="btn btn-warning btn-block" role="button">Add Existing Event Manually?</a>
+    <a href="{% url 'planner:add' plan_id %}" class="btn btn-warning btn-block" role="button">Add Existing Event Manually?</a>
 </div>
 {% endblock %}

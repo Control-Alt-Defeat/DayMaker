@@ -15,7 +15,7 @@ urlpatterns = [
     path('<int:plan_id>/add/', views.add_event, name='add'),
     path('planIndex/', views.plan_index, name="plan_index"),
     path('<int:plan_id>/plan/', views.find_event, name='plan'),
-    path('results/', views.display_results, name='search_results'),
-    path('delete/<int:event_id>/', views.EventDelete.as_view(), name='delete_event'),
-    path('edit/<int:event_id>/', views.EventUpdateView.as_view(), name='edit_event'),
+    path('<int:plan_id>/results/', views.display_results, name='search_results'),
+    path('<int:plan_id>/delete/<int:event_id>/', views.EventDelete.as_view(), name='delete_event'),
+    path('<int:plan_id>/edit/<int:event_id>/', views.EventUpdateView.as_view(), name='edit_event'),
 ]

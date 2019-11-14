@@ -48,7 +48,7 @@ def index(request, plan_id):
     }
     return render(request, template_name, context)
 
-def add_event(request, plan_id):
+def add_event(request,plan_id):
     template_name = 'planner/add_event.html'
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
@@ -57,14 +57,21 @@ def add_event(request, plan_id):
         # check whether it's valid:
         if form.is_valid():
             # process the data in form.cleaned_data as required
-            form.save()
+
+            event = form.save()
+            event.plan = Plan.objects.get(id = plan_id)
+            event.save()
             # redirect to a new URL:
-            return redirect('planner:index')
+            return redirect('planner:index', plan_id=plan_id)
     # if a GET (or any other method) we'll create a blank form
     else:
         form = EventForm()
+        context = {
+            'form': form,
+            'plan_id':plan_id
+        }
 
-    return render(request, template_name, {'form': form})
+    return render(request, template_name, context)
 
 def find_event(request,plan_id):
     template_name = 'eventFinderForm.html'
@@ -107,15 +114,19 @@ def find_event(request,plan_id):
             end_time = form.cleaned_data['end_time']
 
             request.method = 'GET'
-            return display_results(request, results['results'], start_time, end_time)
+            return display_results(request, plan_id, results['results'], start_time, end_time)
 
     # if a GET (or any other method) we'll create a blank form
     else:
         form = EventFinderForm()
+        context = {
+        'form': form,
+        'plan_id': plan_id
+        }
 
-    return render(request, template_name, {'form': form})
+    return render(request, template_name, context)
 
-def display_results(request, search_results=None, start_time=None, end_time=None):
+def display_results(request,plan_id, search_results=None, start_time=None, end_time=None):
     template_name = 'planner/search_results.html'
 
     if request.method == 'POST':
@@ -126,11 +137,12 @@ def display_results(request, search_results=None, start_time=None, end_time=None
         selected = Event.objects.get(pk=search_key)
         # set the selected event to show on the plan
         selected.show = True
+        selected.plan = Plan.objects.get(id=plan_id)
         selected.save()
         # remove unnecesary hidden search results
         Event.delete_hidden()
         # redirect to the index url (home page)
-        return redirect('planner:index')
+        return redirect('planner:index', plan_id=plan_id)
     else:
         search_results_json = []
         for result in search_results:
@@ -148,7 +160,8 @@ def display_results(request, search_results=None, start_time=None, end_time=None
             loc.save()
             search_results_json.append(loc.json())
         context = {
-            'search_results' : search_results_json
+            'search_results' : search_results_json,
+            'plan_id': plan_id
         }
         return render(request, template_name, context)
 
@@ -156,7 +169,10 @@ def display_results(request, search_results=None, start_time=None, end_time=None
 class EventDelete(DeleteView):
     model = Event
     template_name = 'planner/confirm_delete.html'
-    success_url = reverse_lazy('planner:index')
+    success_url = None
+
+    def __init__(self):
+        self.success_url = self.get_object().plan.id;
 
     def get_object(self):
         event_id = self.kwargs.get('event_id')

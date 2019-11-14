@@ -20,7 +20,7 @@ class Event(models.Model):
         ('2', '$$'),
         ('3', '$$$')
     )
-    plan_id = models.ForeignKey(Plan, on_delete=models.CASCADE, default = 1)
+    plan = models.ForeignKey(Plan, on_delete=models.CASCADE, default = 1)
     loc_name = models.CharField('Name of Location', max_length=30)
     loc_type = models.CharField('Type of Location', max_length=30)
     address = models.CharField('Address of Location', max_length=30)
@@ -36,6 +36,7 @@ class Event(models.Model):
 
     def json(self):
         return {
+            'plan_id'      : self.plan.id,
             'id'           : self.id,
             'location'     : str(self.loc_name),
             'type'         : str(self.loc_type),

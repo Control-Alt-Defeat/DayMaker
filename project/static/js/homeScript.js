@@ -17,13 +17,13 @@ window.onload = function () {
             <div class="eventColumnRight">\
                 <p>\
                     <div :id=event.id class="removeEventButton eventDetails">\
-                        <a :href="\'/planner/edit/\' + parseInt(event.id, 10) + \'/\'" > \
+                        <a :href="\'/planner/\' + parseInt(event.plan_id,10) + \'/edit/\' + parseInt(event.id, 10) + \'/\'" > \
                         <i class="fa fa-pencil-square-o"></i>\
                         Edit\
                         </a>\
                     </div>\
                     <div :id=event.id class="removeEventButton eventDetails">\
-                        <a :href="\'/planner/delete/\' + parseInt(event.id, 10) + \'/\'" > \
+                        <a :href="\'/planner/\' + parseInt(event.plan_id,10) + \'/delete/\' + parseInt(event.id, 10) + \'/\'" > \
                         <i class="fa fa-trash"></i>\
                         Remove\
                         </a>\
@@ -49,7 +49,7 @@ window.onload = function () {
             return this.eventList.length > 0
         }
       },
-    //   methods: {  
+    //   methods: {
     //     getEvents: function() {
     //         console.log('getEvents() ran')
     //         this.loading = true;
