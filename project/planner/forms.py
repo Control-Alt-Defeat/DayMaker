@@ -1,3 +1,4 @@
+import datetime
 from django.forms import Form, ModelForm, TimeInput, ModelChoiceField, RadioSelect, TimeField
 from .models import Event, EventFinder
 from .widgets import SelectTimeWidget

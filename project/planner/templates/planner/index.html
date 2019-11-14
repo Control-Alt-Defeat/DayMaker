@@ -20,11 +20,10 @@
         <div class="noEventsBox">
             No events are available. Click below to add one now!
         </div>
+        <div>
+            <button class="addEventButton" onclick="window.location.href='/planner/plan'"> [[ addEventString ]] </button>
+        </div>
     {% endif %}
-    <!-- Bottom add event button -->
-    <div class="eventRow">
-        <button class="addEventButton" onclick="window.location.href='/planner/plan'"> [[ addEventString ]] </button>
-    </div>
 </div>
 
 {% endblock %}

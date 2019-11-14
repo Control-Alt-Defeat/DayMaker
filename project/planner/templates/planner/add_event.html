@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block content %}
-<form action="" method="post">
+<form name="addEventForm" action="" onsubmit="return validateForm()" method="post" required>
     {% csrf_token %}
     {{ form.as_p }}
     <p id="address_status"></p>
