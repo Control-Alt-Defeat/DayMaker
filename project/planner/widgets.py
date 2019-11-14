@@ -67,7 +67,10 @@ class SelectTimeWidget(Widget):
             self.seconds = range(0,60)
 
     def render(self, name, value, attrs=None, renderer=None):
-        hour_val = minute_val = second_val = meridiem_val = ''
+        hour_val = 12
+        minute_val = 0
+        second_val = ''
+        meridiem_val = 'p.m.'
 
         try: # try to get time values from a datetime.time object (value)
             hour_val, minute_val, second_val = value.hour, value.minute, value.second

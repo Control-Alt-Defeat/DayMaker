@@ -48,10 +48,6 @@ input[type=submit] {
 	font-size: 25px;
 }
 
-#app {
-	margin-left: 0px;
-}
-
 #app .card {
 	margin-bottom: 5px;
 }
@@ -204,3 +200,20 @@ input:disabled {
 	margin: 10px;
 	text-align: center;
 }
+
+.form-margin {
+	width: 80% !important;
+	margin: auto;
+}
+
+.back {
+	width: 100%;
+	background-color: red;
+	color: white;
+	padding: 14px 20px;
+	margin: 8px 0;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	text-align: center
+ }

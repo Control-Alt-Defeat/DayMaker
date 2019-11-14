@@ -16,18 +16,22 @@ window.onload = function () {
             </div>\
             <div class="eventColumnRight">\
                 <p>\
+                    <a :href="\'/planner/edit/\' + parseInt(event.id, 10) + \'/\'" > \
                     <div :id=event.id class="removeEventButton eventDetails">\
                         <a :href="\'/planner/edit/\' + parseInt(event.id, 10) + \'/\'" > \
                         <i class="fa fa-pencil-square-o"></i>\
                         Edit\
                         </a>\
                     </div>\
+                    </a>\
+                    <a :href="\'/planner/delete/\' + parseInt(event.id, 10) + \'/\'" > \
                     <div :id=event.id class="removeEventButton eventDetails">\
                         <a :href="\'/planner/delete/\' + parseInt(event.id, 10) + \'/\'" > \
                         <i class="fa fa-trash"></i>\
                         Remove\
                         </a>\
                     </div>\
+                    </a>\
                 </p>\
             </div>\
         </div>\

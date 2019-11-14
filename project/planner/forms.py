@@ -31,7 +31,8 @@ class EventForm(ModelForm):
 
     start_time = TimeField(widget=SelectTimeWidget(twelve_hr=True, minute_step=15, use_seconds=False, required=False), required=False, label=u'Start Time')
     end_time = TimeField(widget=SelectTimeWidget(twelve_hr=True, minute_step=15, use_seconds=False, required=False), required=False, label=u'End Time')
-
+    
+    
 class EventFinderForm(ModelForm):
     class Meta:
         model = EventFinder

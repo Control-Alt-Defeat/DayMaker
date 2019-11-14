@@ -33,7 +33,9 @@ def add_event(request):
         # check whether it's valid:
         if form.is_valid():
             # process the data in form.cleaned_data as required
-
+            start_time = form.cleaned_data['start_time']
+            end_time = form.cleaned_data['end_time']
+            
             context = {
                 'form': form,
             }
@@ -117,7 +119,7 @@ def find_event(request):
             # if valid redirect to results
             if valid:
                 request.method = 'GET'
-                return display_results(request, results['results'], start_time, end_time)
+                return display_results(request, lat_coord, long_coord, results['results'], start_time, end_time)
             # if not valid, reload form
             else:
                 return render(request, template_name, context)
