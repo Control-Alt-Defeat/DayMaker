@@ -46,7 +46,7 @@ def find_event(request):
         # create a form instance and populate it with data from the request:
         form = EventFinderForm(request.POST)
         # check whether it's valid:
-        if form.is_valid():
+        if True:
             loc_type = form.cleaned_data['loc_type']
             price = form.cleaned_data['price']
 
