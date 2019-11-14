@@ -6,11 +6,11 @@
 {% endblock %}
 
 {% block content %}
-<form action="{% url 'planner:plan' %}" method="post">
+<form action="{% url 'planner:plan' %}" method="post" style="margin:20px 50px 0px 50px">
     {% csrf_token %} 
     {{ form }}
     <div>Where would you like to search?</div>
-    <input type="text" id="id_address" name="address" maxlength="30" class="form-control form-control-lg">
+    <input type="text" id="id_address" name="address" maxlength="30" class="form-control">
     <p id="address_status"></p>
     <button id = "checkAddressButton" type='button'>Check Address</button>
     <button id = "currentLocationButton" type='button'>Use My Current Location</button>
@@ -18,7 +18,7 @@
     <input id="submit_button" name="Find Event" class=".btn-success" type="submit" value="Please Enter a Valid Location" disabled />
 
 </form>
-<div>
+<div style="margin:0px 50px 0px 50px" >
     <a href='/planner/add' class="btn btn-warning btn-block" role="button">Add Existing Event Manually?</a>
 </div>
 {% endblock %}
