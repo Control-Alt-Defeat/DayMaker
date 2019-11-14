@@ -82,7 +82,11 @@ def find_event(request):
                 request.method = 'GET'
                 return display_results(request, results['results'], start_time, end_time)
             else:
-                return render(request, template_name, {'form': form})
+                context = {
+                    'form': form,
+                    'error': 'Invalid time range!'
+                }
+                return render(request, template_name, context)
     # if a GET (or any other method) we'll create a blank form
     else:
         form = EventFinderForm()
@@ -96,15 +100,15 @@ def checkFormValues(start_time, end_time):
     endMin = end_time.strftime("%M")
     startM = start_time.strftime("%p")
     endM = end_time.strftime("%p")
-    if startM == endM:              # both am / pm times
+    if startM == endM:              # both am / pm times  2am - 3 am ; 2pm - 3pm
         if startHour > endHour:
             return False
         if startHour == endHour:
             if int(endMin) - int(startMin) < 30:
                 return False
-    elif startM == "AM" and endM == "PM":
+    elif startM == "AM" and endM == "PM":   # always valid  11 am - 1 pm
         return True
-    else:
+    else:                           # pm to am , only valid if overnight?   11pm - 2 am
         return False
     return True
 
