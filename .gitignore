@@ -87,3 +87,10 @@ discovery_search_result_example.txt
 
 # settings
 settings.json
+
+# DATA POPULATION FILES
+dataPull.py
+deleteFiles.py
+docAliases.txt
+masterDocInfo.csv
+pushToDiscovery.py
