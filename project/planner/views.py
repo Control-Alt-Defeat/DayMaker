@@ -1,31 +1,54 @@
 import json
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.http import HttpResponseRedirect, HttpResponse
 from django.views.generic.edit import DeleteView, UpdateView
 from django.urls import reverse_lazy, reverse
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
-from .models import Event, EventFinder
-from .forms import EventForm, EventFinderForm
+from .models import Event, EventFinder, Plan
+from .forms import EventForm, EventFinderForm, PlanForm
 from .DayMaker import natLangQuery, buildRule, andRule, groupRule
 
+
+
+def add_plan(request):
+    template_name = 'planner/add_plan.html'
+    if request.method == "POST":
+        form = PlanForm(request.POST)
+        if form.is_valid():
+
+            plan = form.save()
+            plan.user = request.user
+            plan.save()
+            return redirect("planner:plan_index")
+    else:
+        form = PlanForm()
+        return render(request, template_name, {'form': form})
+
+def plan_index(request):
+    plan_list = list(Plan.objects.filter(user = request.user))
+    template_name = 'planner/plan_index.html'
+    context = {
+        'plan_list': plan_list,
+    }
+    return render(request, template_name, context)
 
 def home(request):
     return render(request,'home.html')
 
-def index(request):
-    
+def index(request, plan_id):
     Event.delete_hidden()
-    event_list = Event.objects.filter(show=True).order_by('start_time')
+    event_list = list(Event.objects.filter(plan_id=plan_id, show=True).order_by('start_time'))
     event_list_json = [event.json() for event in event_list]
     template_name = 'planner/index.html'
     context = {
         'event_list': event_list,
-        'event_list_json': json.dumps(event_list_json)
+        'event_list_json': json.dumps(event_list_json),
+        'plan_id': plan_id
     }
     return render(request, template_name, context)
 
-def add_event(request):
+def add_event(request, plan_id):
     template_name = 'planner/add_event.html'
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
@@ -43,7 +66,7 @@ def add_event(request):
 
     return render(request, template_name, {'form': form})
 
-def find_event(request):
+def find_event(request,plan_id):
     template_name = 'eventFinderForm.html'
 
     # if this is a POST request we need to process the form data

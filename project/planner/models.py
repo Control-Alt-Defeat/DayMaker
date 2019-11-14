@@ -1,14 +1,17 @@
 from django.db import models
 from django.urls import reverse
-from django.core.validators import MaxValueValidator, MinValueValidator 
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.contrib.auth import get_user_model
+from django.conf import settings
 from .DayMaker import getTags
 
 # Create your models here.
 
 
 class Plan(models.Model):
-    user = models.CharField(max_length=30)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE, blank=True, null=True)
     date = models.DateTimeField('date planned')
+
 
 
 class Event(models.Model):
@@ -17,7 +20,7 @@ class Event(models.Model):
         ('2', '$$'),
         ('3', '$$$')
     )
-    #plan = models.ForeignKey(Plan, on_delete=models.CASCADE)
+    plan_id = models.ForeignKey(Plan, on_delete=models.CASCADE, default = 1)
     loc_name = models.CharField('Name of Location', max_length=30)
     loc_type = models.CharField('Type of Location', max_length=30)
     address = models.CharField('Address of Location', max_length=30)

@@ -1,14 +1,21 @@
 from django.forms import Form, ModelForm, TimeInput, ModelChoiceField, RadioSelect
-from .models import Event, EventFinder
+from .models import Event, EventFinder, Plan
+
+class PlanForm(ModelForm):
+    class Meta:
+        model = Plan
+        fields = [
+            'date',
+        ]
 
 
 class EventForm(ModelForm):
     class Meta:
         model = Event
         fields = [
-            'loc_name', 
-            'loc_type', 
-            'address',  
+            'loc_name',
+            'loc_type',
+            'address',
             'start_time',
             'end_time',
             'price',
@@ -42,7 +49,7 @@ class EventFinderForm(ModelForm):
             'end_time',
             'result_count'
             ]
-        
+
     def __init__(self, *args, **kwargs):
         super(EventFinderForm, self).__init__(*args, **kwargs)
         self.fields['loc_type'].widget.attrs.update({'class' : 'form-control form-control-lg'})
