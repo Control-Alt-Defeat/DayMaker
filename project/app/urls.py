@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.shortcuts import redirect
 
 from .views import check_address
 
@@ -25,7 +26,7 @@ from . import views
 app_name = 'app'
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('planner.urls')),
+    path('', lambda request: redirect('planner/', permanent=False)),
     path('planner/', include('planner.urls')),
     path('ajax/check_address/', check_address, name='check_address')
 ]
