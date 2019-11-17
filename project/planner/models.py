@@ -73,17 +73,19 @@ class Event(models.Model):
 class EventFinder(models.Model):
 
     PRICES = (
+        ('', 'Choose a price level'),
         ('1', '$'),
         ('2', '$$'),
         ('3', '$$$'),
     )
     TYPE = getTags()
     MIN_RATINGS = (
-        ('1','1'),
-        ('2','2'),
-        ('3','3'),
-        ('4','4'),
-        ('5','5'),
+        ('', 'Choose a minimum rating'),
+        ('1','★'),
+        ('2','★★'),
+        ('3','★★★'),
+        ('4','★★★★'),
+        ('5','★★★★★'),
     )
     TRANSPORTATION = (
         ('1','Walk'),
@@ -92,8 +94,8 @@ class EventFinder(models.Model):
     )
     
     loc_type = models.CharField('Location Type', max_length=100, choices=TYPE, null=True, blank=True)   
-    price = models.CharField(max_length=1, choices=PRICES, null=True, blank=True)
-    min_rating = models.CharField('Minimum Rating (out of 5)', max_length=1, choices=MIN_RATINGS, null=True, blank=True)
+    price = models.CharField(max_length=1, choices=PRICES, null=True, blank=True, default='')
+    min_rating = models.CharField('Minimum Rating', max_length=1, choices=MIN_RATINGS, null=True, blank=True)
     transportation = models.CharField('Mode of Transportation', max_length=1, choices=TRANSPORTATION, null=True, blank=True)
     result_count = models.PositiveIntegerField('Number of Search Results', default=3, validators=[MinValueValidator(1), MaxValueValidator(50)])
     start_time = models.TimeField('Start Time of Event', default='12:00', null=True, blank=True)
