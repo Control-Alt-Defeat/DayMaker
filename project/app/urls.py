@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.shortcuts import redirect
 
-from .views import check_address
+from .views import check_address, get_date_of_plan
 
 from django.conf.urls.static import static
 from django.conf import settings
@@ -28,7 +28,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', lambda request: redirect('planner/', permanent=False)),
     path('planner/', include('planner.urls')),
-    path('ajax/check_address/', check_address, name='check_address')
+    path('ajax/check_address/', check_address, name='check_address'),
+    path('ajax/get-date-of-plan/', get_date_of_plan, name='get_date_of_plan'),
 ]
 
 if settings.DEBUG == True:

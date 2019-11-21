@@ -1,5 +1,4 @@
 import json
-import datetime
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponse
 from django.views.generic.edit import DeleteView, UpdateView
@@ -122,6 +121,7 @@ def find_event(request):
                 return display_results(request, lat_coord, long_coord, results['results'], start_time, end_time)
             # if not valid, reload form
             else:
+                request.method = 'GET'
                 return render(request, template_name, context)
     # if a GET (or any other method) we'll create a blank form
     else:
@@ -151,19 +151,11 @@ def checkValidTimeRange(start_time, end_time):
     endHour = end_time.strftime("%I")
     startMin = start_time.strftime("%M")
     endMin = end_time.strftime("%M")
-    startM = start_time.strftime("%p")
-    endM = end_time.strftime("%p")
-    if startM == endM:              # both am / pm times  2am - 3 am ; 2pm - 3pm
-        if startHour > endHour:
-            return False
-        if startHour == endHour:
-            if int(endMin) - int(startMin) < 30:
-                return False
-    elif startM == "AM" and endM == "PM":   # always valid  11 am - 1 pm
+
+    if start_time < end_time:
         return True
-    else:                           # pm to am , only valid if overnight?   11pm - 2 am
+    else:
         return False
-    return True
 
 def display_results(request, user_lat_coord=None, user_long_coord=None, search_results=None, start_time=None, end_time=None,):
     template_name = 'planner/search_results.html'
@@ -209,10 +201,6 @@ def display_results(request, user_lat_coord=None, user_long_coord=None, search_r
         
         return render(request, template_name, context)
 
-def get_date_of_plan(request):
- 	response = {'dateOfPlan': None}
- 	response['dateOfPlan'] = datetime.datetime.now().strftime("%B %d, %Y")
- 	return HttpResponse(json.dumps(response), content_type="application/json")
 
 class EventDelete(DeleteView):
     model = Event

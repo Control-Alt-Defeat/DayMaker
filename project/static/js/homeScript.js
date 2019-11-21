@@ -71,7 +71,7 @@ window.onload = function () {
     //   }
     methods : {
         getPlanData: function() {
-            fetch("/get-date-of-plan/").then(response => response.json()).then((json) => {
+            fetch("/ajax/get-date-of-plan/").then(response => response.json()).then((json) => {
                 this.dateOfPlan = json['dateOfPlan']
             })
         },
