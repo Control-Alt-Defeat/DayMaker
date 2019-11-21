@@ -21,11 +21,12 @@ from planner.routers import router
 
 from django.conf.urls.static import static
 from django.conf import settings
+from django.shortcuts import redirect
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     #path('', home),
-    path('', include('planner.urls')),
+    path('', lambda request: redirect('planner/', permanent=False)),
     path('users/', include('django.contrib.auth.urls')),
     path('planner/', include('planner.urls')),
     path('chat/', chat),

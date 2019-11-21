@@ -52,7 +52,7 @@ class Event(models.Model):
         Event.objects.filter(show=False).delete()
 
     def get_absolute_url(self):
-        return reverse('planner:index')
+        return reverse('planner:index', kwargs={'plan_id':self.plan.id})
 
 
 class EventFinder(models.Model):
