@@ -44,6 +44,7 @@ class EventFinderForm(ModelForm):
             'end_time',
             'result_count',
             'search_radius',
+            'address',
             'lat_coord',
             'long_coord',
             ]
@@ -57,6 +58,7 @@ class EventFinderForm(ModelForm):
         self.fields['end_time'].widget.attrs.update({'class' : 'form-control'})
         self.fields['result_count'].widget.attrs.update({'class' : 'form-control'})
         self.fields['search_radius'].widget.attrs.update({'class' : 'form-control'})
+        self.fields['address'].widget.attrs.update({'class' : 'form-control'})
         self.fields['lat_coord'].widget.attrs.update({'class' : 'hidden'})
         self.fields['long_coord'].widget.attrs.update({'class' : 'hidden'})
         self.fields['lat_coord'].label = ''

@@ -9,6 +9,16 @@ function disableButton(){
   $('#address_status').text('');
 }
 
+function addTimeChangeListeners(id){
+  $("#id_" + id + "_time_hour").change(removeError)
+  $("#id_" + id + "_time_minute").change(removeError)
+  $("#id_" + id + "_time_meridiem").change(removeError)
+}
+
+function removeError(){
+  $('.timeError').hide()
+}
+
 function currentLocation() {
 
     address = $('#id_address');
@@ -42,27 +52,35 @@ function currentLocation() {
 }
 
 function checkAddress(){
-    address = $('#id_address');
-    $.ajax({
-      url: '/ajax/check_address/',
-      data: {
-        'address': address.val()
-      },
-      dataType: 'json',
-      success: function (data) {
-        if (data.lat) {
-          // alert(`Latitude: ${data.lat}°, Longitude: ${data.long}°`);
-          $('#id_lat_coord').val(roundToSix(data.lat));
-          $('#id_long_coord').val(roundToSix(data.long));
-          $('#submit_button').prop("disabled", false);
-          const button_name = $('#submit_button').attr("name");
-          $('#submit_button').val(button_name);
-          address.keyup(disableButton)
+    address_el = $('#id_address');
+    address = address_el.val();
+    if (address != ''){
+      $.ajax({
+        url: '/ajax/check_address/',
+        data: {
+          'address': address
+        },
+        dataType: 'json',
+        success: function (data) {
+          console.log('got ajax response')
+          if (data.lat) {
+            $('#id_lat_coord').val(roundToSix(data.lat));
+            $('#id_long_coord').val(roundToSix(data.long));
+            $('#submit_button').prop("disabled", false);
+            const button_name = $('#submit_button').attr("name");
+            $('#submit_button').val(button_name);
+            address_el.keyup(disableButton)
+          }
+          $("#address_status").text(data.msg);
         }
-        $("#address_status").text(data.msg);
-      }
-    });
+      });
+    }
 }
 
-$('#currentLocationButton').click(currentLocation)
-$('#checkAddressButton').click(checkAddress)
+$('#currentLocationButton').click(currentLocation);
+//$('#checkAddressButton').click(checkAddress);
+$('#id_address').change(checkAddress);
+if($('.timeError').length){
+  addTimeChangeListeners("start");
+  addTimeChangeListeners("end");
+}

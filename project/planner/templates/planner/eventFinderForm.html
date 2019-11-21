@@ -10,15 +10,12 @@
 <form action="{% url 'planner:plan' %}" method="post">
     {% csrf_token %} 
     {{ form.as_p }}
-    <div>Where would you like to search?</div>
-    <input type="text" id="id_address" name="address" maxlength="30" class="form-control">
     <p id="address_status"></p>
-    <button id = "checkAddressButton" type='button'>Check Address</button>
     <button id = "currentLocationButton" type='button'>Use My Current Location</button>
     <!-- <button id = "previousLocationButton" type='button'>Use a Previous Location</button> -->
     
     {% if timeError %}
-    <div class = "eventRow">
+    <div class = "eventRow timeError">
             <div class = "timeWindow">
                 <p>Invalid Time Range! Please enter a valid time range to search.</p>
             </div>
@@ -26,7 +23,7 @@
     {% endif %}
 
     {% if eventOverlap %}
-    <div class = "eventRow">
+    <div class = "eventRow timeError">
             <div class = "timeWindow">
                 <p>You already have an event scheduled for this time! Please pick a new time to search.</p>
             </div>
