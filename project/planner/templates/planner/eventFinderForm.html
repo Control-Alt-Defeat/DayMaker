@@ -7,7 +7,7 @@
 
 {% block content %}
 <div id="app" class="form-margin">
-<form action="{% url 'planner:plan' %}" method="post">
+<form id="search_form" action="{% url 'planner:plan' %}" method="post" data-categories-url="{% url 'planner:ajax_load_categories' %}">
     {% csrf_token %} 
     {{ form.as_p }}
     <p id="address_status"></p>

@@ -38,6 +38,7 @@ class EventFinderForm(ModelForm):
         model = EventFinder
         fields = [
             'loc_type',
+            'loc_category',
             'price',
             'min_rating',
             'start_time',
@@ -52,6 +53,7 @@ class EventFinderForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(EventFinderForm, self).__init__(*args, **kwargs)
         self.fields['loc_type'].widget.attrs.update({'class' : 'form-control'})
+        self.fields['loc_category'].widget.attrs.update({'class' : 'form-control'})
         self.fields['price'].widget.attrs.update({'class' : 'form-control'})
         self.fields['min_rating'].widget.attrs.update({'class' : 'form-control'})
         self.fields['start_time'].widget.attrs.update({'class' : 'form-control'})
@@ -61,6 +63,7 @@ class EventFinderForm(ModelForm):
         self.fields['address'].widget.attrs.update({'class' : 'form-control'})
         self.fields['lat_coord'].widget.attrs.update({'class' : 'hidden'})
         self.fields['long_coord'].widget.attrs.update({'class' : 'hidden'})
+        self.fields['loc_category'].disabled = True
         self.fields['lat_coord'].label = ''
         self.fields['long_coord'].label = ''
     

@@ -7,10 +7,46 @@ from decimal import Decimal
 
 from .models import Event, EventFinder
 from .forms import EventForm, EventFinderForm
-from .DayMaker import natLangQuery
+from .DayMaker import natLangQuery, getTags
 from .rules import build_query_filter
 from .distance import distance
 
+
+def load_categories(request):
+    template_name = 'planner/category_dropdown_list_options.html'
+    loc_type = request.GET.get('loc_type')
+    categories = getTags(loc_type)
+    return render(request, template_name, {'categories': categories})
+
+# return true if NO overlap. return False if overlap.
+def checkEventOverlap(start_time, end_time):
+    event_list = Event.objects.filter(show=True).order_by('start_time')
+    times = [(event.start_time, event.end_time) for event in event_list]
+    for timeSet in times:
+        if timeSet[1] > start_time and timeSet[1] <= end_time:         # end time of existing event inside of time range
+            return False
+        if timeSet[1] > start_time and timeSet[1] > end_time and timeSet[0] <= start_time:  # time range inside of existing event
+            return False
+        if timeSet[0] > start_time and timeSet[0] < end_time:       # start time of existing event inside of time range
+            return False
+        if timeSet[0] >= start_time and timeSet[1] < end_time:      # existing event insde of time range 
+            return False
+    return True
+
+def checkValidTimeRange(start_time, end_time):
+    startHour = start_time.strftime("%I")
+    endHour = end_time.strftime("%I")
+    startMin = start_time.strftime("%M")
+    endMin = end_time.strftime("%M")
+
+    if start_time < end_time:
+        return True
+    else:
+        return False
+
+#
+# View Methods
+#
 
 def index(request):
     Event.delete_hidden()
@@ -92,16 +128,6 @@ def find_event(request):
                 'date': '11-13-2019',
             }
 
-            #import pdb; pdb.set_trace()
-            results = natLangQuery(
-                loc_type,
-                query_filter,
-                num_results,
-                max_distance,
-                coords,
-                timeframe
-            )
-
             context = {
                 'form': form,
             }
@@ -117,6 +143,14 @@ def find_event(request):
                context['eventOverlap'] = 'Event Overlap!'
             # if valid redirect to results
             if valid:
+                results = natLangQuery(
+                    loc_type,
+                    query_filter,
+                    num_results,
+                    max_distance,
+                    coords,
+                    timeframe
+                )
                 request.method = 'GET'
                 return display_results(request, lat_coord, long_coord, results['results'], start_time, end_time)
             # if not valid, reload form
@@ -129,33 +163,6 @@ def find_event(request):
     
     context['form'] = form
     return render(request, template_name, context)
-
-
-# return true if NO overlap. return False if overlap.
-def checkEventOverlap(start_time, end_time):
-    event_list = Event.objects.filter(show=True).order_by('start_time')
-    times = [(event.start_time, event.end_time) for event in event_list]
-    for timeSet in times:
-        if timeSet[1] > start_time and timeSet[1] <= end_time:         # end time of existing event inside of time range
-            return False
-        if timeSet[1] > start_time and timeSet[1] > end_time and timeSet[0] <= start_time:  # time range inside of existing event
-            return False
-        if timeSet[0] > start_time and timeSet[0] < end_time:       # start time of existing event inside of time range
-            return False
-        if timeSet[0] >= start_time and timeSet[1] < end_time:      # existing event insde of time range 
-            return False
-    return True
-
-def checkValidTimeRange(start_time, end_time):
-    startHour = start_time.strftime("%I")
-    endHour = end_time.strftime("%I")
-    startMin = start_time.strftime("%M")
-    endMin = end_time.strftime("%M")
-
-    if start_time < end_time:
-        return True
-    else:
-        return False
 
 def display_results(request, user_lat_coord=None, user_long_coord=None, search_results=None, start_time=None, end_time=None,):
     template_name = 'planner/search_results.html'

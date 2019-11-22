@@ -12,4 +12,5 @@ urlpatterns = [
     path('results/', views.display_results, name='search_results'),
     path('delete/<int:event_id>/', views.EventDelete.as_view(), name='delete_event'),
     path('edit/<int:event_id>/', views.EventUpdateView.as_view(), name='edit_event'),
+    path('ajax/load-categories/', views.load_categories, name='ajax_load_categories')
 ]

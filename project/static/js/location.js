@@ -77,9 +77,30 @@ function checkAddress(){
     }
 }
 
+function updateCategories(){
+  var url = $("#search_form").attr("data-categories-url");  // get the url of the `load_categories` view
+  var loc_type = $(this).val(); // get the selected location type from the HTML input
+  console.log('load_categories url: '+ url)
+  console.log('location type: '+ loc_type)
+  $.ajax({                       // initialize an AJAX request
+    url: url,                    // set the url of the request
+    data: {
+      'loc_type': loc_type       // add the location type to the GET parameters
+    },
+    success: function (data) {   // `data` is the return of the `load_categories` view function
+      console.log('In Ajax success function')
+      console.log(data)
+      $("#id_loc_category").html(data);  // replace the contents of the category input with the data that came from discovery
+      $('#id_loc_category').prop("disabled", false);
+    }
+  });
+}
+
 $('#currentLocationButton').click(currentLocation);
-//$('#checkAddressButton').click(checkAddress);
 $('#id_address').change(checkAddress);
+if($('#id_loc_type').length){
+  $('#id_loc_type').change(updateCategories);
+}
 if($('.timeError').length){
   addTimeChangeListeners("start");
   addTimeChangeListeners("end");
