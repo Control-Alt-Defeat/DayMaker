@@ -12,22 +12,26 @@ window.onload = function () {
                 <p class="eventTitle"> {{ event.location }}  \
                 </p>\
                 <p class="eventDetails"> {{ event.type }} </p>\
-                <p class="eventDetails"> {{ event.start }} - {{ event.end }} </p>\
+                <p class="eventDetails"> {{ event.start_formatted }} - {{ event.end_formatted }} </p>\
             </div>\
             <div class="eventColumnRight">\
                 <p>\
+                    <a :href="\'/planner/edit/\' + parseInt(event.id, 10) + \'/\'" > \
                     <div :id=event.id class="removeEventButton eventDetails">\
                         <a :href="\'/planner/edit/\' + parseInt(event.id, 10) + \'/\'" > \
                         <i class="fa fa-pencil-square-o"></i>\
                         Edit\
                         </a>\
                     </div>\
+                    </a>\
+                    <a :href="\'/planner/delete/\' + parseInt(event.id, 10) + \'/\'" > \
                     <div :id=event.id class="removeEventButton eventDetails">\
                         <a :href="\'/planner/delete/\' + parseInt(event.id, 10) + \'/\'" > \
                         <i class="fa fa-trash"></i>\
                         Remove\
                         </a>\
                     </div>\
+                    </a>\
                 </p>\
             </div>\
         </div>\
@@ -40,10 +44,8 @@ window.onload = function () {
 	  data: {
         eventList: event_list,
         addEventString: '+ Add Event',
+        dateOfPlan: '',
       },
-    //   mounted: function() {
-    //     this.getEvents();
-    //   },
       computed: {
         showBottomEventButton: function () {
             return this.eventList.length > 0
@@ -67,5 +69,17 @@ window.onload = function () {
     //             })
     //     },
     //   }
+    methods : {
+        getPlanData: function() {
+            fetch("/get-date-of-plan/").then(response => response.json()).then((json) => {
+                this.dateOfPlan = json['dateOfPlan']
+            })
+        },
+        convertEventTimes: function() {
+
+        }
+    }
     });
+
+    app.getPlanData();
 }

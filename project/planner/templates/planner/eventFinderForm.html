@@ -6,19 +6,43 @@
 {% endblock %}
 
 {% block content %}
+<<<<<<< HEAD
 <form action="{% url 'planner:plan' %}" method="post" style="margin:20px 50px 0px 50px">
+=======
+<div id="app" class="form-margin">
+<form action="{% url 'planner:plan' %}" method="post">
+>>>>>>> 9762fcfe91e8161f8ea6a8e148d2199b38c799d2
     {% csrf_token %} 
-    {{ form }}
+    {{ form.as_p }}
     <div>Where would you like to search?</div>
     <input type="text" id="id_address" name="address" maxlength="30" class="form-control">
     <p id="address_status"></p>
     <button id = "checkAddressButton" type='button'>Check Address</button>
     <button id = "currentLocationButton" type='button'>Use My Current Location</button>
     <!-- <button id = "previousLocationButton" type='button'>Use a Previous Location</button> -->
+    
+    {% if timeError %}
+    <div class = "eventRow">
+            <div class = "timeWindow">
+                <p>Invalid Time Range! Please enter a valid time range to search.</p>
+            </div>
+    </div>
+    {% endif %}
+
+    {% if eventOverlap %}
+    <div class = "eventRow">
+            <div class = "timeWindow">
+                <p>You already have an event scheduled for this time! Please pick a new time to search.</p>
+            </div>
+    </div>
+    {% endif %}
+
     <input id="submit_button" name="Find Event" class=".btn-success" type="submit" value="Please Enter a Valid Location" disabled />
 
 </form>
 <div style="margin:0px 50px 0px 50px" >
     <a href='/planner/add' class="btn btn-warning btn-block" role="button">Add Existing Event Manually?</a>
+</div>
+<input class="back" value="Back" onclick="window.location='/planner/';" />
 </div>
 {% endblock %}
