@@ -128,9 +128,7 @@ def find_event(request):
                 'date': '11-13-2019',
             }
 
-            context = {
-                'form': form,
-            }
+            context['form'] = form
 
             valid = True
             # check for valid time range
