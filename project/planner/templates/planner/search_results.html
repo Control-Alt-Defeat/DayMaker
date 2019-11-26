@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% block content %}
 <div id="app" class="form-margin">
-<form action="{% url 'planner:search_results' %}" method="post">
+<form action="{% url 'planner:search_results' plan_id %}" method="post">
     {% csrf_token %}
     {% if search_results %}
       <div class = "eventRow">

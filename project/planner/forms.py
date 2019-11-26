@@ -1,7 +1,14 @@
 import datetime
 from django.forms import Form, ModelForm, TimeInput, ModelChoiceField, RadioSelect, TimeField
-from .models import Event, EventFinder
 from .widgets import SelectTimeWidget
+from .models import Event, EventFinder, Plan
+
+class PlanForm(ModelForm):
+    class Meta:
+        model = Plan
+        fields = [
+            'date',
+        ]
 
 
 class EventForm(ModelForm):
@@ -49,7 +56,7 @@ class EventFinderForm(ModelForm):
             'lat_coord',
             'long_coord',
             ]
-        
+
     def __init__(self, *args, **kwargs):
         super(EventFinderForm, self).__init__(*args, **kwargs)
         self.fields['loc_type'].widget.attrs.update({'class' : 'form-control'})

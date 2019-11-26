@@ -21,12 +21,14 @@ from .views import check_address, get_date_of_plan
 
 from django.conf.urls.static import static
 from django.conf import settings
+from django.shortcuts import redirect
 
 from . import views
 app_name = 'app'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', lambda request: redirect('planner/', permanent=False)),
+    path('users/', include('django.contrib.auth.urls')),
     path('planner/', include('planner.urls')),
     path('ajax/check_address/', check_address, name='check_address'),
     path('ajax/get-date-of-plan/', get_date_of_plan, name='get_date_of_plan'),

@@ -7,7 +7,7 @@
 
 {% block content %}
 <div id="app" class="form-margin">
-<form name="addEventForm" action="" onsubmit="return validateForm()" method="post" required>
+<form name="addEventForm" action="{% url 'planner:add' plan_id %}" method="post" required>
     {% csrf_token %}
     {{ form.as_p }}
     <p id="address_status"></p>
@@ -31,6 +31,6 @@
     
     <input id="submit_button" name="Save Event" class=".btn-success" type="submit" value="Please Enter a Valid Location" disabled>
 </form>
-<input class="back" value="Back to Home" onclick="window.location='/planner/';" />
+<input class="back" value="Back to Home" href="{% url 'planner:index' plan_id %}" />
 </div>
 {% endblock %}

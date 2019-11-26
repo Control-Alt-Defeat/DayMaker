@@ -1,12 +1,11 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 
 {% block content %}
-<form method="post">
+<form action = "" method="post">
     {% csrf_token %}
     <p>Are you sure you want to delete the event at "{{ object }}"?</p>
     <input type="submit" value="Confirm">
 </form>
 
-<input class="back" value="Back" onclick="window.location='/planner/';" />
-
+<input class="back" value="Back" href="{% url 'planner:index' plan_id %}" />
 {% endblock %}

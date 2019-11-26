@@ -1,14 +1,18 @@
 import datetime
 from django.db import models
 from django.urls import reverse
-from django.core.validators import MaxValueValidator, MinValueValidator 
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.contrib.auth import get_user_model
+from django.conf import settings
+from .DayMaker import getTags
 
 # Create your models here.
 
 
 class Plan(models.Model):
-    user = models.CharField(max_length=30)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE, blank=True, null=True)
     date = models.DateTimeField('date planned')
+
 
 
 class Event(models.Model):
@@ -17,7 +21,7 @@ class Event(models.Model):
         ('2', '$$'),
         ('3', '$$$')
     )
-    #plan = models.ForeignKey(Plan, on_delete=models.CASCADE)
+    plan = models.ForeignKey(Plan, on_delete=models.CASCADE, default = 1)
     loc_name = models.CharField('Name of Location', max_length=30)
     loc_type = models.CharField('Type of Location', max_length=30)
     address = models.CharField('Address of Location', max_length=30)
@@ -32,10 +36,11 @@ class Event(models.Model):
 
     def __str__(self):
         return self.loc_name
-    
+
     def json(self):
         return {
             'id'                : self.id,
+            'plan_id'           : self.plan.id,
             'location'          : str(self.loc_name),
             'type'              : str(self.loc_type),
             'address'           : str(self.address),
@@ -47,12 +52,12 @@ class Event(models.Model):
             'start_formatted'   : str(self.convertTime(self.start_time)),
             'end_formatted'     : str(self.convertTime(self.end_time)),
         }
-    
+
     def delete_hidden():
         Event.objects.filter(show=False).delete()
-    
+
     def get_absolute_url(self):
-        return reverse('planner:index')
+        return reverse('planner:index', kwargs={'plan_id':self.plan.id})
 
     def full_location(self):
         return {

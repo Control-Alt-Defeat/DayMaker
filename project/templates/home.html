@@ -7,21 +7,15 @@
 <script type="text/javascript" src="/static/js/modalScript.js"></script>
 {% endblock %} {% block css %}{% endblock %} {% block content %}
 <div id="app">
-    <div class="eventDateRow eventDetails">
-            [[ dateOfPlan ]]
-    </div>
-    <!-- Top add event button going to polls -->
-    <div class="eventRow">
-        <button class="addEventButton eventDetails" onclick="window.location.href='/planner/plan'"> [[ addEventString ]] </button>
-    </div>
-    <!-- Display every event in events -->
-    <div class="eventRow">
-        <event-item class="eventStyle" v-for="(item, index) in eventList" v-bind:event="item" v-bind:key="item.id" v-on:remove="eventList.splice(index, 1)"></event-item>
-    </div>
-    <!-- Bottom add event button going to polls -->
-    <div class="eventRow">
-        <button class="addEventButton eventDetails" v-if="showBottomEventButton" onclick="window.location.href='/planner/plan'"> [[ addEventString ]] </button>
-    </div>
+  {% if user.is_authenticated %}
+    Hi {{ user.username }}
+    <p><a href="{% url 'planner:add_plan' %}">Add Plan</a></p>
+    <p><a href="{% url 'logout' %}">logout</a></p>
+  {% else %}
+    <p>You are not logged in</p>
+    <a href="{% url 'login' %}">login</a>
+    <a href="{% url 'planner:signup' %}">signup</a>
 
+  {% endif %}
 </div>
 {% endblock %}
