@@ -1,0 +1,31 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+<div id="app">
+<form action="{% url 'planner:plan' %}" method="post">
+    {% csrf_token %} 
+    {{ form.as_p }}
+
+    {% if timeError %}
+    <div class = "eventRow">
+            <div class = "timeWindow">
+                <p>Invalid Time Range! Please enter a valid time range to search.</p>
+            </div>
+    </div>
+    {% endif %}
+
+    {% if eventOverlap %}
+    <div class = "eventRow">
+            <div class = "timeWindow">
+                <p>You already have an event scheduled for this time! Please pick a new time to seach.</p>
+            </div>
+    </div>
+    {% endif %}
+
+    <input class=".btn-success" type="submit" value="Find Event" />
+</form>
+<div>
+    <a href='/planner/add' class="btn btn-warning btn-block" role="button">Add Existing Event Manually?</a>
+</div>
+</div>
+{% endblock %}

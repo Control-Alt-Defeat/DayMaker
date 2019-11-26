@@ -78,3 +78,12 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# API keys
+config.py
+
+discovery_search_result_example.txt
+.vscode/
+
+# settings
+settings.json
