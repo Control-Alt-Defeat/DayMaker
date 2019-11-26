@@ -20,6 +20,11 @@ def check_address(request):
 	return JsonResponse(data)
 
 @csrf_exempt
+def get_date_of_plan(request):
+	response = {'dateOfPlan': datetime.datetime.now().strftime("%B %d, %Y")}
+	return JsonResponse(response)
+
+@csrf_exempt
 def get_response(request):
 	response = {'status': None}
 
@@ -39,17 +44,3 @@ def get_response(request):
 		json.dumps(response),
 			content_type="application/json"
 		)
-
-
-def home(request, template_name="home.html"):
-	context = {'title': 'DayMaker - Home'}
-	return render_to_response(template_name, context)
-
-def chat(request, template_name="chat.html"):
-	context = {'title': 'DayMaker Chat Version 1.0'}
-	return render_to_response(template_name, context)
-
-def get_date_of_plan(request):
-	response = {'dateOfPlan': None}
-	response['dateOfPlan'] = datetime.datetime.now().strftime("%B %d, %Y")
-	return HttpResponse(json.dumps(response), content_type="application/json")

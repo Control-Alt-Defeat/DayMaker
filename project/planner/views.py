@@ -1,5 +1,4 @@
 import json
-import datetime
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponse
 from django.views.generic.edit import DeleteView, UpdateView
@@ -8,10 +7,46 @@ from decimal import Decimal
 
 from .models import Event, EventFinder
 from .forms import EventForm, EventFinderForm
-from .DayMaker import natLangQuery
+from .DayMaker import natLangQuery, getTags
 from .rules import build_query_filter
 from .distance import distance
 
+
+def load_categories(request):
+    template_name = 'planner/category_dropdown_list_options.html'
+    loc_type = request.GET.get('loc_type')
+    categories = getTags(loc_type)
+    return render(request, template_name, {'categories': categories})
+
+# return true if NO overlap. return False if overlap.
+def checkEventOverlap(start_time, end_time):
+    event_list = Event.objects.filter(show=True).order_by('start_time')
+    times = [(event.start_time, event.end_time) for event in event_list]
+    for timeSet in times:
+        if timeSet[1] > start_time and timeSet[1] <= end_time:         # end time of existing event inside of time range
+            return False
+        if timeSet[1] > start_time and timeSet[1] > end_time and timeSet[0] <= start_time:  # time range inside of existing event
+            return False
+        if timeSet[0] > start_time and timeSet[0] < end_time:       # start time of existing event inside of time range
+            return False
+        if timeSet[0] >= start_time and timeSet[1] < end_time:      # existing event insde of time range 
+            return False
+    return True
+
+def checkValidTimeRange(start_time, end_time):
+    startHour = start_time.strftime("%I")
+    endHour = end_time.strftime("%I")
+    startMin = start_time.strftime("%M")
+    endMin = end_time.strftime("%M")
+
+    if start_time < end_time:
+        return True
+    else:
+        return False
+
+#
+# View Methods
+#
 
 def index(request):
     Event.delete_hidden()
@@ -93,19 +128,7 @@ def find_event(request):
                 'date': '11-13-2019',
             }
 
-            #import pdb; pdb.set_trace()
-            results = natLangQuery(
-                loc_type,
-                query_filter,
-                num_results,
-                max_distance,
-                coords,
-                timeframe
-            )
-
-            context = {
-                'form': form,
-            }
+            context['form'] = form
 
             valid = True
             # check for valid time range
@@ -118,10 +141,19 @@ def find_event(request):
                context['eventOverlap'] = 'Event Overlap!'
             # if valid redirect to results
             if valid:
+                results = natLangQuery(
+                    loc_type,
+                    query_filter,
+                    num_results,
+                    max_distance,
+                    coords,
+                    timeframe
+                )
                 request.method = 'GET'
                 return display_results(request, lat_coord, long_coord, results['results'], start_time, end_time)
             # if not valid, reload form
             else:
+                request.method = 'GET'
                 return render(request, template_name, context)
     # if a GET (or any other method) we'll create a blank form
     else:
@@ -129,41 +161,6 @@ def find_event(request):
     
     context['form'] = form
     return render(request, template_name, context)
-
-
-# return true if NO overlap. return False if overlap.
-def checkEventOverlap(start_time, end_time):
-    event_list = Event.objects.filter(show=True).order_by('start_time')
-    times = [(event.start_time, event.end_time) for event in event_list]
-    for timeSet in times:
-        if timeSet[1] > start_time and timeSet[1] <= end_time:         # end time of existing event inside of time range
-            return False
-        if timeSet[1] > start_time and timeSet[1] > end_time and timeSet[0] <= start_time:  # time range inside of existing event
-            return False
-        if timeSet[0] > start_time and timeSet[0] < end_time:       # start time of existing event inside of time range
-            return False
-        if timeSet[0] >= start_time and timeSet[1] < end_time:      # existing event insde of time range 
-            return False
-    return True
-
-def checkValidTimeRange(start_time, end_time):
-    startHour = start_time.strftime("%I")
-    endHour = end_time.strftime("%I")
-    startMin = start_time.strftime("%M")
-    endMin = end_time.strftime("%M")
-    startM = start_time.strftime("%p")
-    endM = end_time.strftime("%p")
-    if startM == endM:              # both am / pm times  2am - 3 am ; 2pm - 3pm
-        if startHour > endHour:
-            return False
-        if startHour == endHour:
-            if int(endMin) - int(startMin) < 30:
-                return False
-    elif startM == "AM" and endM == "PM":   # always valid  11 am - 1 pm
-        return True
-    else:                           # pm to am , only valid if overnight?   11pm - 2 am
-        return False
-    return True
 
 def display_results(request, user_lat_coord=None, user_long_coord=None, search_results=None, start_time=None, end_time=None,):
     template_name = 'planner/search_results.html'
@@ -209,10 +206,6 @@ def display_results(request, user_lat_coord=None, user_long_coord=None, search_r
         
         return render(request, template_name, context)
 
-def get_date_of_plan(request):
- 	response = {'dateOfPlan': None}
- 	response['dateOfPlan'] = datetime.datetime.now().strftime("%B %d, %Y")
- 	return HttpResponse(json.dumps(response), content_type="application/json")
 
 class EventDelete(DeleteView):
     model = Event
