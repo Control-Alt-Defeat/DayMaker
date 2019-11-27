@@ -7,12 +7,11 @@
 
 {% block content %}
 <div id="app" class="form-margin">
-<form id="search_form" action="{% url 'planner:plan' %}" method="post" data-categories-url="{% url 'planner:ajax_load_categories' %}">
+<form id="search_form" action="{% url 'planner:plan' plan_id %}" method="post" data-categories-url="{% url 'planner:ajax_load_categories' %}">
     {% csrf_token %} 
     {{ form.as_p }}
-    <p id="address_status"></p>
-    <button id = "currentLocationButton" type='button'>Use My Current Location</button>
-    <!-- <button id = "previousLocationButton" type='button'>Use a Previous Location</button> -->
+    <p id="address_status" class="form-text text-muted"></p>
+    <button id = "currentLocationButton" class="btn btn-secondary btn-sm" type='button'>Use My Current Location</button>
     
     {% if timeError %}
     <div class = "eventRow timeError">
@@ -30,12 +29,14 @@
     </div>
     {% endif %}
 
-    <input id="submit_button" name="Find Event" class=".btn-success" type="submit" value="Please Enter a Valid Location" disabled />
+    <input id="submit_button" name="Find Event" class="btn btn-success btn-block button-padding" role="button" type="submit" value="Please Enter a Valid Location" disabled />
 
 </form>
 <div>
-    <a href='/planner/add' class="btn btn-warning btn-block" role="button">Add Existing Event Manually?</a>
+    <a href="{% url 'planner:add' plan_id %}" class="btn btn-warning btn-block button-padding" role="button">Add Existing Event Manually?</a>
 </div>
-<input class="back" value="Back" onclick="window.location='/planner/';" />
+<div>
+    <a href="{% url 'planner:index' plan_id %}" class="btn btn-danger btn-block button-padding" role="button" >Back</a>
+</div>
 </div>
 {% endblock %}

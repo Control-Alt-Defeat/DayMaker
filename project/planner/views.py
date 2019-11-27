@@ -128,7 +128,7 @@ def add_event(request,plan_id):
         form = EventForm()
         context = {
             'form': form,
-            'plan_id':plan_id
+            'plan_id': plan_id
         }
 
     return render(request, template_name, context)
@@ -163,7 +163,7 @@ def find_event(request, plan_id):
                 'date': '11-13-2019',
             }
 
-            context['form'] = form
+            request.method = 'GET'
 
             valid = True
             # check for valid time range
@@ -184,21 +184,15 @@ def find_event(request, plan_id):
                     coords,
                     timeframe
                 )
-                request.method = 'GET'
                 return display_results(request, plan_id, lat_coord, long_coord, results['results'], start_time, end_time)
-            # if not valid, reload form
-            else:
-                request.method = 'GET'
-                return render(request, template_name, context)
+            # if not valid, reload form with base render
+            
     # if a GET (or any other method) we'll create a blank form
     else:
         form = EventFinderForm()
     
     context['form'] = form
     context['plan_id'] = plan_id
-            # context = {
-        # 'form': form,
-        # 'plan_id': plan_id
     return render(request, template_name, context)
 
 def display_results(request, plan_id, user_lat_coord=None, user_long_coord=None, search_results=None, start_time=None, end_time=None,):

@@ -85,6 +85,7 @@ function updateCategories(){
                       </div>\
                     </div>';
   $('#id_loc_category').prop("disabled", true);
+  $('#id_loc_category').hide()
   $("#id_loc_category").before(spin_loader);
 
   $.ajax({                       // initialize an AJAX request
@@ -95,6 +96,7 @@ function updateCategories(){
     success: function (data) {   // `data` is the return of the `load_categories` view function
       $("#id_loc_category").html(data);  // replace the contents of the category input with the data that came from discovery
       $("#id_loc_category").prop("disabled", false);
+      $("#id_loc_category").show();
       $("#spin_loader").remove();
     }
   });
@@ -102,6 +104,11 @@ function updateCategories(){
 
 $('#currentLocationButton').click(currentLocation);
 $('#id_address').change(checkAddress);
+$('#id_address').keyup(function(event){
+    if(event.keyCode === 13) {
+        checkAddress();
+    }
+});
 if($('#id_loc_type').length){
   $('#id_loc_type').change(updateCategories);
 }

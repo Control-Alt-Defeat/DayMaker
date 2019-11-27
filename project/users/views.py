@@ -13,7 +13,7 @@ def signup(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username,password=raw_password)
             login(request,user)
-            return redirect('planner:index')
+            return redirect('planner:plan_index')
 
     else:
         form = CustomUserCreationForm()
@@ -29,7 +29,7 @@ def account_edit(request):
             return redirect('../accountDetails')
         else:
             print(form.errors)
-            return render(request,"accountEdit.html",{'form': form})
+            return render(request, "accountEdit.html", {'form': form})
 
     else:
         user = request.user
