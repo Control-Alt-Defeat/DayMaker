@@ -21,10 +21,10 @@
 {% block content %}
 <div id="app" class="form-margin">
     <div class="eventDetails">Choose a name and date for your new plan.</div>
-    <form method="post" autocomplete="off" novalidate>
+    <form action="" method="post" autocomplete="off" novalidate>
         {% csrf_token %}
         {{ form|crispy }}
-        <button type="submit" class="btn btn-success">Create Plan</button>
+        <input class=".btn-success" type="submit" value="Create Plan">
     </form>
 </div>
 {% endblock %}

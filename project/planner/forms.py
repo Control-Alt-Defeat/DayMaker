@@ -2,12 +2,14 @@ import datetime
 from django import forms
 from django.forms import Form, ModelForm, TimeInput, ModelChoiceField, RadioSelect, TimeField
 from .widgets import SelectTimeWidget, DatePickerInput
-from .models import Event, EventFinder, Plan, NewPlan
+from .models import Event, EventFinder, Plan
 
 class PlanForm(ModelForm):
+    date = forms.DateField(input_formats=['%d/%m/%Y'], widget=DatePickerInput())
     class Meta:
         model = Plan
         fields = [
+            'name',
             'date',
         ]
 
@@ -77,11 +79,3 @@ class EventFinderForm(ModelForm):
     
     start_time = TimeField(widget=SelectTimeWidget(twelve_hr=True, minute_step=15, use_seconds=False, required=False), required=False, label=u'Start Time')
     end_time = TimeField(widget=SelectTimeWidget(twelve_hr=True, minute_step=15, use_seconds=False, required=False), required=False, label=u'End Time')
-
-
-class NewPlanForm(forms.ModelForm):
-    date = forms.DateField(input_formats=['%d/%m/%Y'], widget=DatePickerInput())
-
-    class Meta:
-        model = NewPlan
-        fields = ('name', 'date')

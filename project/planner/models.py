@@ -12,9 +12,11 @@ from .DayMaker import getTags
 
 class Plan(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE, blank=True, null=True)
-    date = models.DateTimeField('date planned')
-
-
+    date = models.DateTimeField('date planned', default=timezone.now)
+    name = models.CharField('name', max_length=30, default='New Plan')
+    
+    def get_absolute_url(self):
+        return reverse('planner:plan_index')
 
 class Event(models.Model):
     PRICES = (
@@ -122,11 +124,3 @@ class EventFinder(models.Model):
 
     def __str__(self):
         return f'Query {self.id}: {self.start_time} - {self.start_time}'
-
-class NewPlan(models.Model):
-    name = models.CharField(max_length=30)
-    date = models.DateTimeField(default=timezone.now)
-
-    def get_absolute_url(self):
-        # TODO: Route back to user's plan view page here! 
-        return reverse('planner')
