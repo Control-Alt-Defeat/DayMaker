@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'planner.apps.PlannerConfig',
 
     'crispy_forms',
+    'users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [
@@ -71,6 +72,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'app.wsgi.application'
+
+AUTH_USER_MODEL = 'users.CustomUser'
 
 
 # Database
@@ -108,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'EST'
 
 USE_I18N = True
 
@@ -137,4 +140,5 @@ REST_FRAMEWORK = {
     ]
 }
 
-
+LOGIN_REDIRECT_URL = 'planner:home'
+LOGOUT_REDIRECT_URL = 'planner:home'

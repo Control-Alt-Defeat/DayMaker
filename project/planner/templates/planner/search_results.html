@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% block content %}
 <div id="app" class="form-margin">
-<form action="{% url 'planner:search_results' %}" method="post">
+<form action="{% url 'planner:search_results' plan_id %}" method="post">
     {% csrf_token %}
     {% if search_results %}
       <div class = "eventRow">
@@ -28,11 +28,12 @@
         </div>
         {% endfor %}
         <input class=".btn-success" type="submit" value="Add Event">
-        <input class="back" value="Back to Search" onclick="window.location='/planner/plan';" />
     {% else %}
         <p>No search results are available. Try different search criteria! </p>
-        <input class=".btn-success" type="submit" value="Back to Search"> 
     {% endif %}
+    <div>
+        <a href="{% url 'planner:plan' plan_id %}" class="btn btn-danger btn-block button-padding" role="button" >Back</a>
+    </div>
     </form>
 </div>
 {% endblock %}
