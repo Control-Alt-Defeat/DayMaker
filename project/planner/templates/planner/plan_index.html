@@ -11,7 +11,7 @@
     {% if plan_list %}
       {% for plan in plan_list %}
         <div class="eventRow">
-            <a class="btn" href="{% url 'planner:index' plan.id %}">{{ plan.date }}</a>
+            <a class="btn" href="{% url 'planner:index' plan.id %}">{{ plan.name }}: {{ plan.date }}</a>
         </div>
       {% endfor %}
     {% else %}
