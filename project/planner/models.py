@@ -2,6 +2,7 @@ import datetime
 from django.db import models
 from django.urls import reverse
 from django.core.validators import MaxValueValidator, MinValueValidator 
+from django.utils import timezone
 
 # Create your models here.
 
@@ -116,3 +117,11 @@ class EventFinder(models.Model):
 
     def __str__(self):
         return f'Query {self.id}: {self.start_time} - {self.start_time}'
+
+class NewPlan(models.Model):
+    name = models.CharField(max_length=30)
+    date = models.DateTimeField(default=timezone.now)
+
+    def get_absolute_url(self):
+        # TODO: Route back to user's plan view page here! 
+        return reverse('planner')

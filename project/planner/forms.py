@@ -1,7 +1,8 @@
 import datetime
+from django import forms
 from django.forms import Form, ModelForm, TimeInput, ModelChoiceField, RadioSelect, TimeField
-from .models import Event, EventFinder
-from .widgets import SelectTimeWidget
+from .models import Event, EventFinder, NewPlan
+from .widgets import SelectTimeWidget, DatePickerInput
 
 
 class EventForm(ModelForm):
@@ -69,3 +70,11 @@ class EventFinderForm(ModelForm):
     
     start_time = TimeField(widget=SelectTimeWidget(twelve_hr=True, minute_step=15, use_seconds=False, required=False), required=False, label=u'Start Time')
     end_time = TimeField(widget=SelectTimeWidget(twelve_hr=True, minute_step=15, use_seconds=False, required=False), required=False, label=u'End Time')
+
+
+class NewPlanForm(forms.ModelForm):
+    date = forms.DateField(input_formats=['%d/%m/%Y'], widget=DatePickerInput())
+
+    class Meta:
+        model = NewPlan
+        fields = ('name', 'date')

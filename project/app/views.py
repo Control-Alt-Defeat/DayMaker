@@ -4,6 +4,9 @@ from django.views.decorators.csrf import csrf_exempt
 from geopy.geocoders import Nominatim
 import json
 import datetime
+from django.views.generic import TemplateView, CreateView, DetailView, FormView
+from planner.forms import NewPlanForm 
+from planner.models import NewPlan
 
 
 @csrf_exempt
@@ -44,3 +47,8 @@ def get_response(request):
 		json.dumps(response),
 			content_type="application/json"
 		)
+
+class NewPlanFormView(CreateView):
+	model = NewPlan
+	form_class = NewPlanForm
+	template_name = 'newPlanForm.html'
