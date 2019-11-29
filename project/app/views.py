@@ -61,4 +61,7 @@ class NewPlanFormView(CreateView):
 			plan.user = request.user
 			plan.save()
 			return redirect("planner:plan_index")
+		else:
+			context = { 'form': form }
+			return render(request, 'newPlanForm.html', context=context)
 
