@@ -1,0 +1,23 @@
+<!-- Main Home Page -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div id="app">
+    <!-- Top add event button -->
+    <div class="eventRow">
+        <a class="btn" href="{% url 'new_plan' %}">Add Plan</a>
+    </div>
+
+    {% if plan_list %}
+      {% for plan in plan_list %}
+        <div class="eventRow">
+            <a class="btn" href="{% url 'planner:index' plan.id %}">{{ plan.name }}: {{ plan.date }}</a>
+        </div>
+      {% endfor %}
+    {% else %}
+        <p>No plans are available. Add a Plan and view them here </p>
+    {% endif %}
+    <!-- Bottom add event button -->
+</div>
+
+{% endblock %}

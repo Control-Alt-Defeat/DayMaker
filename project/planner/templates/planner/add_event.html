@@ -7,11 +7,11 @@
 
 {% block content %}
 <div id="app" class="form-margin">
-<form name="addEventForm" action="" onsubmit="return validateForm()" method="post" required>
+<form name="addEventForm" action="{% url 'planner:add' plan_id %}" method="post" required>
     {% csrf_token %}
     {{ form.as_p }}
-    <p id="address_status"></p>
-    <button id = "checkAddressButton" type='button'>Check Address</button>
+    <p id="address_status" class="form-text text-muted"></p>
+    <button id = "currentLocationButton" class="btn btn-secondary btn-sm" type='button'>Use My Current Location</button>
     
     {% if timeError %}
     <div class = "eventRow">
@@ -29,8 +29,10 @@
     </div>
     {% endif %}
     
-    <input id="submit_button" name="Save Event" class=".btn-success" type="submit" value="Please Enter a Valid Location" disabled>
+    <input id="submit_button" name="Save Event" class="btn btn-success btn-block button-padding" type="submit" value="Please Enter a Valid Location" disabled>
 </form>
-<input class="back" value="Back to Home" onclick="window.location='/planner/';" />
+<div>
+    <a href="{% url 'planner:plan' plan_id %}" class="btn btn-danger btn-block button-padding" role="button" >Back</a>
+</div>
 </div>
 {% endblock %}

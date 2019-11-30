@@ -18,7 +18,7 @@ window.onload = function () {
                 <p>\
                     <a :href="\'/planner/edit/\' + parseInt(event.id, 10) + \'/\'" > \
                     <div :id=event.id class="removeEventButton eventDetails">\
-                        <a :href="\'/planner/edit/\' + parseInt(event.id, 10) + \'/\'" > \
+                        <a :href="\'/planner/\' + parseInt(event.plan_id,10) + \'/edit/\' + parseInt(event.id, 10) + \'/\'" > \
                         <i class="fa fa-pencil-square-o"></i>\
                         Edit\
                         </a>\
@@ -26,7 +26,7 @@ window.onload = function () {
                     </a>\
                     <a :href="\'/planner/delete/\' + parseInt(event.id, 10) + \'/\'" > \
                     <div :id=event.id class="removeEventButton eventDetails">\
-                        <a :href="\'/planner/delete/\' + parseInt(event.id, 10) + \'/\'" > \
+                        <a :href="\'/planner/\' + parseInt(event.plan_id,10) + \'/delete/\' + parseInt(event.id, 10) + \'/\'" > \
                         <i class="fa fa-trash"></i>\
                         Remove\
                         </a>\
@@ -51,7 +51,7 @@ window.onload = function () {
             return this.eventList.length > 0
         }
       },
-    //   methods: {  
+    //   methods: {
     //     getEvents: function() {
     //         console.log('getEvents() ran')
     //         this.loading = true;
@@ -71,7 +71,7 @@ window.onload = function () {
     //   }
     methods : {
         getPlanData: function() {
-            fetch("/get-date-of-plan/").then(response => response.json()).then((json) => {
+            fetch("/ajax/get-date-of-plan/").then(response => response.json()).then((json) => {
                 this.dateOfPlan = json['dateOfPlan']
             })
         },

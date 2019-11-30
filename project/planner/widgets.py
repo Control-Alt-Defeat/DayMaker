@@ -2,6 +2,7 @@ import re
 
 from django.forms.widgets import Widget, Select
 from django.utils.safestring import mark_safe
+from django.forms import DateInput
 
 __all__ = ('SelectTimeWidget',)
 
@@ -187,3 +188,6 @@ class SelectTimeWidget(Widget):
             h = 0
 
         return '%.2d:%.2d:%.2d' % (h, m, s)
+
+class DatePickerInput(DateInput):
+    template_name = 'widgets/datapicker.html'

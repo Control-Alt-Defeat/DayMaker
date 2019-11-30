@@ -5,8 +5,10 @@
 import os
 import json
 import datetime
+from ibm_watson import DiscoveryV1
 
-from .config import discovery, INSTANCES
+#from .config import discovery, INSTANCES
+from .config import INSTANCES
 from .rules import *
 from .mvp_event import Mvp_event
 
@@ -92,7 +94,7 @@ def createEvent(item, start, end):
 # 
 
 # Queries discovery data base using natural language query
-def natLangQuery(query_str = '', query_filter = '', num_results=10, distance=10, aCoord=CBUS_COORD, timeframe={}, query_tgt='restaurants'):
+def natLangQuery(query_str = '', query_filter = '', num_results=100, distance=1000, aCoord=CBUS_COORD, timeframe={}, query_tgt='restaurants'):
 
     if (query_filter == ''):
         query_filter = coordRule(distance, aCoord)
@@ -101,9 +103,12 @@ def natLangQuery(query_str = '', query_filter = '', num_results=10, distance=10,
 
     # if (len(timeframe) >= 3):
     #     query_filter = andRule(query_filter, openRule(timeframe['start_time'], timeframe['end_time'], timeframe['date'].weekday()))
-
-    discovery.set_iam_apikey(INSTANCES[query_tgt]['api_key'])
-    discovery.set_url(INSTANCES[query_tgt]['url'])
+    
+    discovery = DiscoveryV1(
+        version='2019-04-30',
+        iam_apikey=INSTANCES[query_tgt]['api_key'],
+        url=INSTANCES[query_tgt]['url']
+    )
     my_query = discovery.query(INSTANCES[query_tgt]['env_id'],
                             INSTANCES[query_tgt]['col_id'],
                             count=num_results,
@@ -137,13 +142,13 @@ def viewResults(data_dict, key='name'):
             print("Option {}: {}".format(num, item[key]))
 
 # return an array of ALL tags
-def getTags():
-    tag_json = natLangQuery('', '', 1000)
+def getTags(loc_category):
+    tag_json = natLangQuery(num_results=1000, query_tgt=loc_category)
     tags = []
     for num, item in enumerate(tag_json['results'], start=1):
         for tag in item['categories']:
-            if (tag['title'],tag['title']) not in tags:
-                tags.append((tag['title'],tag['title']))
+            if tag['title'] not in tags:
+                tags.append(tag['title'])
     tags.sort()
     return tags
 

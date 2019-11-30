@@ -4,6 +4,10 @@ from django.views.decorators.csrf import csrf_exempt
 from geopy.geocoders import Nominatim
 import json
 import datetime
+from django.views.generic import TemplateView, CreateView, DetailView, FormView
+from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
+from planner.forms import PlanForm 
+from planner.models import Plan
 
 
 @csrf_exempt
@@ -18,6 +22,11 @@ def check_address(request):
 	}
 
 	return JsonResponse(data)
+
+@csrf_exempt
+def get_date_of_plan(request):
+	response = {'dateOfPlan': datetime.datetime.now().strftime("%B %d, %Y")}
+	return JsonResponse(response)
 
 @csrf_exempt
 def get_response(request):
@@ -40,16 +49,19 @@ def get_response(request):
 			content_type="application/json"
 		)
 
+class NewPlanFormView(CreateView):
+	model = Plan
+	form_class = PlanForm
+	template_name = 'newPlanForm.html'
 
-def home(request, template_name="home.html"):
-	context = {'title': 'DayMaker - Home'}
-	return render_to_response(template_name, context)
+	def post(self, request):
+		form = PlanForm(request.POST)
+		if form.is_valid():
+			plan = form.save()
+			plan.user = request.user
+			plan.save()
+			return redirect("planner:plan_index")
+		else:
+			context = { 'form': form }
+			return render(request, 'newPlanForm.html', context=context)
 
-def chat(request, template_name="chat.html"):
-	context = {'title': 'DayMaker Chat Version 1.0'}
-	return render_to_response(template_name, context)
-
-def get_date_of_plan(request):
-	response = {'dateOfPlan': None}
-	response['dateOfPlan'] = datetime.datetime.now().strftime("%B %d, %Y")
-	return HttpResponse(json.dumps(response), content_type="application/json")

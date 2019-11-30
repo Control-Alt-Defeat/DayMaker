@@ -3,12 +3,9 @@
 
 {% block content %}
 <div id="app" class="form-margin">
-    <div class="eventDateRow">
-                [[ dateOfPlan ]]
-    </div>
     <!-- Top add event button -->
     <div class="eventRow">
-        <button class="addEventButton" v-if="showBottomEventButton" onclick="window.location.href='/planner/plan'"> [[ addEventString ]] </button>
+        <button class="addEventButton" v-if="showBottomEventButton" onclick="window.location.href='{% url 'planner:plan' plan_id %}'"> [[ addEventString ]] </button>
     </div>
 
     {% if event_list %}
@@ -21,7 +18,7 @@
             No events are available. Click below to add one now!
         </div>
         <div>
-            <button class="addEventButton" onclick="window.location.href='/planner/plan'"> [[ addEventString ]] </button>
+            <button class="addEventButton" onclick="window.location.href='{% url 'planner:plan' plan_id %}'"> [[ addEventString ]] </button>
         </div>
     {% endif %}
 </div>
@@ -35,4 +32,3 @@
   </script>
   <script type="text/javascript" src="/static/js/homeScript.js"></script>
 {% endblock %}
-

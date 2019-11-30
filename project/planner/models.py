@@ -2,15 +2,21 @@ import datetime
 from django.db import models
 from django.urls import reverse
 from django.core.validators import MaxValueValidator, MinValueValidator 
+from django.utils import timezone
+from django.contrib.auth import get_user_model
+from django.conf import settings
 from .DayMaker import getTags
 
 # Create your models here.
 
 
 class Plan(models.Model):
-    user = models.CharField(max_length=30)
-    date = models.DateTimeField('date planned')
-
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE, blank=True, null=True)
+    date = models.DateTimeField('date planned', default=timezone.now)
+    name = models.CharField('name', max_length=30, default='New Plan')
+    
+    def get_absolute_url(self):
+        return reverse('planner:plan_index')
 
 class Event(models.Model):
     PRICES = (
@@ -18,7 +24,7 @@ class Event(models.Model):
         ('2', '$$'),
         ('3', '$$$')
     )
-    #plan = models.ForeignKey(Plan, on_delete=models.CASCADE)
+    plan = models.ForeignKey(Plan, on_delete=models.CASCADE, default = 1)
     loc_name = models.CharField('Name of Location', max_length=30)
     loc_type = models.CharField('Type of Location', max_length=30)
     address = models.CharField('Address of Location', max_length=30)
@@ -33,10 +39,11 @@ class Event(models.Model):
 
     def __str__(self):
         return self.loc_name
-    
+
     def json(self):
         return {
             'id'                : self.id,
+            'plan_id'           : self.plan.id,
             'location'          : str(self.loc_name),
             'type'              : str(self.loc_type),
             'address'           : str(self.address),
@@ -48,12 +55,12 @@ class Event(models.Model):
             'start_formatted'   : str(self.convertTime(self.start_time)),
             'end_formatted'     : str(self.convertTime(self.end_time)),
         }
-    
+
     def delete_hidden():
         Event.objects.filter(show=False).delete()
-    
+
     def get_absolute_url(self):
-        return reverse('planner:index')
+        return reverse('planner:index', kwargs={'plan_id':self.plan.id})
 
     def full_location(self):
         return {
@@ -72,18 +79,29 @@ class Event(models.Model):
 
 class EventFinder(models.Model):
 
+    TYPES = (
+        ('restaurants', 'restaurants'),
+        ('bars', 'bars'),
+        ('arts & entertainment', 'arts & entertainment')
+    )
+    CATS = (
+        ('0', '--------'),
+        ('1', 'empty')
+    )
     PRICES = (
+        ('', 'Choose a price level'),
         ('1', '$'),
         ('2', '$$'),
         ('3', '$$$'),
     )
-    TYPE = getTags()
+    
     MIN_RATINGS = (
-        ('1','1'),
-        ('2','2'),
-        ('3','3'),
-        ('4','4'),
-        ('5','5'),
+        ('', 'Choose a minimum rating'),
+        ('1','★'),
+        ('2','★★'),
+        ('3','★★★'),
+        ('4','★★★★'),
+        ('5','★★★★★'),
     )
     TRANSPORTATION = (
         ('1','Walk'),
@@ -91,9 +109,11 @@ class EventFinder(models.Model):
         ('3','Both'),
     )
     
-    loc_type = models.CharField('Location Type', max_length=100, choices=TYPE, null=True, blank=True)   
-    price = models.CharField(max_length=1, choices=PRICES, null=True, blank=True)
-    min_rating = models.CharField('Minimum Rating (out of 5)', max_length=1, choices=MIN_RATINGS, null=True, blank=True)
+    address = models.CharField('Where would you like to search?', max_length=100, null=True, blank=True)
+    loc_type = models.CharField('Location Type', max_length=100, choices=TYPES, null=True, blank=True)   
+    loc_category = models.CharField('Location Category', max_length=100, choices=CATS, null=True, blank=True)   
+    price = models.CharField(max_length=1, choices=PRICES, null=True, blank=True, default='')
+    min_rating = models.CharField('Minimum Rating', max_length=1, choices=MIN_RATINGS, null=True, blank=True)
     transportation = models.CharField('Mode of Transportation', max_length=1, choices=TRANSPORTATION, null=True, blank=True)
     result_count = models.PositiveIntegerField('Number of Search Results', default=3, validators=[MinValueValidator(1), MaxValueValidator(50)])
     start_time = models.TimeField('Start Time of Event', default='12:00', null=True, blank=True)
