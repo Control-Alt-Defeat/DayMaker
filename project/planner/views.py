@@ -155,12 +155,13 @@ def find_event(request, plan_id):
                 'latitude': lat_coord,
                 'longitude': long_coord,
             }
-            timeframe = {
-                'start_time': start_time,
-                'end_time': end_time,
-                'date': '11-13-2019',
-            }
 
+            timeframe = {
+                'start_time': int('%02d' % start_time.hour + '%02d' % start_time.minute),
+                'end_time': int('%02d' % end_time.hour + '%02d' % end_time.minute),
+                'date': Plan.objects.get(id=plan_id).date,
+            }
+            
             request.method = 'GET'
 
             valid = True

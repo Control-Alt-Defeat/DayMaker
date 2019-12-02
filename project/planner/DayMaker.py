@@ -101,8 +101,8 @@ def natLangQuery(query_str = '', query_filter = '', num_results=100, distance=10
     else:
         query_filter = andRule(query_filter, coordRule(distance, aCoord))
 
-    # if (len(timeframe) >= 3):
-    #     query_filter = andRule(query_filter, openRule(timeframe['start_time'], timeframe['end_time'], timeframe['date'].weekday()))
+    if (len(timeframe) >= 3):
+         query_filter = andRule(query_filter, openRule(timeframe['start_time'], timeframe['end_time'], timeframe['date'].weekday()))
     
     discovery = DiscoveryV1(
         version='2019-04-30',
@@ -115,8 +115,8 @@ def natLangQuery(query_str = '', query_filter = '', num_results=100, distance=10
                             filter=query_filter,
                             natural_language_query=query_str)
 
-    # if (len(timeframe) >= 3):
-    #     markOpen(my_query.result, timeframe['start_time'], timeframe['end_time'], timeframe['date'])
+    if (len(timeframe) >= 3):
+         markOpen(my_query.result, timeframe['start_time'], timeframe['end_time'], timeframe['date'])
 
     return my_query.result
 
