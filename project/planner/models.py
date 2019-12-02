@@ -114,7 +114,7 @@ class EventFinder(models.Model):
     result_count = models.PositiveIntegerField('Number of Search Results', default=3, validators=[MinValueValidator(1), MaxValueValidator(50)])
     start_time = models.TimeField('Start Time of Event')
     end_time = models.TimeField('End Time of Event')
-    search_radius = models.FloatField('Max Distance Away (in miles)', default=20, null=True, blank=True)
+    search_radius = models.FloatField('Max Distance Away (in miles)', default=10, null=True, blank=True)
     lat_coord = models.DecimalField(max_digits=9, decimal_places=6, default=40.002287)
     long_coord = models.DecimalField(max_digits=9, decimal_places=6, default=-83.016017)
 
