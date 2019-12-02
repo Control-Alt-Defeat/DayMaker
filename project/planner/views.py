@@ -71,16 +71,20 @@ def home(request):
     return render(request,'home.html')
 
 def index(request, plan_id):
+    template_name = 'planner/event_index.html'
+
     Event.delete_hidden()
     EventFinder.delete_searches(request.user)
+
     event_list = list(Event.objects.filter(plan_id = Plan.objects.get(id = plan_id), show=True).order_by('start_time'))
     event_list_json = [event.json() for event in event_list]
-    template_name = 'planner/index.html'
+
     context = {
         'event_list': event_list,
         'event_list_json': json.dumps(event_list_json),
         'plan_id': plan_id
     }
+
     return render(request, template_name, context)
 
 def add_event(request, plan_id):
@@ -123,7 +127,7 @@ def add_event(request, plan_id):
     return render(request, template_name, context)
 
 def find_event(request, plan_id):
-    template_name = 'planner/eventFinderForm.html'
+    template_name = 'planner/event_finder.html'
     context = {}
     # if this is a POST request we need to process the form data
     if request.method == 'POST':

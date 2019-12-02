@@ -17,21 +17,20 @@ from django.contrib import admin
 from django.urls import path, include
 from django.shortcuts import redirect
 
-from .views import check_address, get_date_of_plan, NewPlanFormView
-
 from django.conf.urls.static import static
 from django.conf import settings
 from django.shortcuts import redirect
 
 from . import views
+
 app_name = 'app'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', lambda request: redirect('planner/', permanent=False), name='planner'),
     path('users/', include('django.contrib.auth.urls')),
     path('planner/', include('planner.urls')),
-    path('ajax/check_address/', check_address, name='check_address'),
-    path('ajax/get-date-of-plan/', get_date_of_plan, name='get_date_of_plan'),
+    path('ajax/check_address/', views.check_address, name='check_address'),
+    path('ajax/get-date-of-plan/', views.get_date_of_plan, name='get_date_of_plan'),
     path('new_plan', views.NewPlanFormView.as_view(), name='new_plan'),
 ]
 

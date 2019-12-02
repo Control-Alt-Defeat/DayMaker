@@ -52,7 +52,7 @@ def get_response(request):
 class NewPlanFormView(CreateView):
 	model = Plan
 	form_class = PlanForm
-	template_name = 'newPlanForm.html'
+	template_name = 'planner/add_plan.html'
 
 	def post(self, request):
 		form = PlanForm(request.POST)
