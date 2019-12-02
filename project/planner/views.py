@@ -181,7 +181,8 @@ def find_event(request, plan_id):
                 )
                 return display_results(request, plan_id, lat_coord, long_coord, results['results'], start_time, end_time)
             # if not valid, reload form with base render
-            
+            else:
+                context['category'] = loc_category
     # if a GET (or any other method) we'll create a blank form
     else:
         prev_search = None

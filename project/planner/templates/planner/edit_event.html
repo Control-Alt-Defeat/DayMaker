@@ -1,9 +1,38 @@
 {% extends 'base.html' %}
 
+{% block javascript %}
+{% load static %}
+<script type="text/javascript" src="{% static '/js/location.js' %}" defer></script>
+{% endblock %}
+
 {% block content %}
+<div id="app" class="form-margin">
 <form action="" method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <input class=".btn-success" type="submit" value="Save Event">
+    <p id="address_status" class="form-text text-muted"></p>
+    <button id = "currentLocationButton" class="btn btn-secondary btn-sm" type='button'>Use My Current Location</button>
+    
+    {% if timeError %}
+    <div class = "eventRow">
+            <div class = "timeWindow">
+                <p>Invalid Time Range! Please enter a valid time range to search.</p>
+            </div>
+    </div>
+    {% endif %}
+
+    {% if eventOverlap %}
+    <div class = "eventRow">
+            <div class = "timeWindow">
+                <p>You already have an event scheduled for this time! Please pick a new time to search.</p>
+            </div>
+    </div>
+    {% endif %}
+    
+    <input id="submit_button" name="Save Event" class="btn btn-success btn-block button-padding" type="submit" value="Please Enter a Valid Location" disabled>
 </form>
+<div>
+    <a href="{% url 'planner:index' plan_id %}" class="btn btn-danger btn-block button-padding" role="button" >Back</a>
+</div>
+</div>
 {% endblock %}
