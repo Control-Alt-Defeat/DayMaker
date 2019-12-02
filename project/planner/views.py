@@ -235,8 +235,7 @@ def display_results(request, plan_id, user_lat_coord=None, user_long_coord=None,
                 rating = result['rating'],
                 start_time = start_time,
                 end_time = end_time,
-                show=False
-                
+                show = False
             )
             loc.save()
             location = loc.json()

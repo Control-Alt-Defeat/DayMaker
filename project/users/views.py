@@ -5,6 +5,8 @@ from users.forms import CustomUserCreationForm, CustomUserChangeForm
 # Create your views here.
 
 def signup(request):
+    template_name = 'account/signup.html'
+
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
@@ -14,29 +16,26 @@ def signup(request):
             user = authenticate(username=username,password=raw_password)
             login(request,user)
             return redirect('planner:plan_index')
-
     else:
         form = CustomUserCreationForm()
-    return render(request, 'signup.html',{'form': form})
+
+    return render(request, template_name,{'form': form})
+
 def account_details(request):
-    return render(request,'accountDetails.html')
+    return render(request,'account/accountDetails.html')
 
 def account_edit(request):
+    template_name = 'account/accountEdit.html'
+
     if request.method == 'POST':
-        form = CustomUserChangeForm(request.POST,instance=request.user)
+        form = CustomUserChangeForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
-            return redirect('../accountDetails')
+            return redirect('planner:account_details')
         else:
             print(form.errors)
-            return render(request, "accountEdit.html", {'form': form})
-
     else:
         user = request.user
         form = CustomUserChangeForm(initial={'username': user.username,'first_name':user.first_name,'last_name': user.last_name,'email': user.email})
-        
-        return render(request, 'accountEdit.html',{'form': form})
-
-            
-            
     
+    return render(request, template_name, {'form': form})

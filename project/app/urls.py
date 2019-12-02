@@ -21,14 +21,18 @@ from django.conf.urls.static import static
 from django.conf import settings
 from django.shortcuts import redirect
 
+from users import views as users_views
 from . import views
 
 app_name = 'app'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', lambda request: redirect('planner/', permanent=False), name='planner'),
-    path('users/', include('django.contrib.auth.urls')),
     path('planner/', include('planner.urls')),
+    path('users/', include('django.contrib.auth.urls')),
+    path('accountDetails', users_views.account_details, name='account_details'),
+    path('accountEdit', users_views.account_edit, name='account_edit'),
+    path('signup/', users_views.signup, name='signup'),
     path('ajax/check_address/', views.check_address, name='check_address'),
     path('ajax/get-date-of-plan/', views.get_date_of_plan, name='get_date_of_plan'),
     path('new_plan', views.NewPlanFormView.as_view(), name='new_plan'),
