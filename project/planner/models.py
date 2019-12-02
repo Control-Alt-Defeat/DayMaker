@@ -1,7 +1,8 @@
 import datetime
 from django.db import models
 from django.urls import reverse
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator 
+from django.utils import timezone
 from django.contrib.auth import get_user_model
 from django.conf import settings
 from .DayMaker import getTags
@@ -11,9 +12,11 @@ from .DayMaker import getTags
 
 class Plan(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE, blank=True, null=True)
-    date = models.DateTimeField('date planned')
-
-
+    date = models.DateTimeField('date planned', default=timezone.now)
+    name = models.CharField('name', max_length=30, default='New Plan')
+    
+    def get_absolute_url(self):
+        return reverse('planner:plan_index')
 
 class Event(models.Model):
     PRICES = (

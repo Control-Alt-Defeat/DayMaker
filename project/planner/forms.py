@@ -1,14 +1,17 @@
 import datetime
+from django import forms
 from django.forms import Form, ModelForm, TimeInput, RadioSelect, TimeField, ChoiceField, Select
 from django.core import validators
 
-from .widgets import SelectTimeWidget
+from .widgets import SelectTimeWidget, DatePickerInput
 from .models import Event, EventFinder, Plan
 
 class PlanForm(ModelForm):
+    date = forms.DateField(input_formats=['%d/%m/%Y'], widget=DatePickerInput())
     class Meta:
         model = Plan
         fields = [
+            'name',
             'date',
         ]
 

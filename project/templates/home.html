@@ -9,7 +9,7 @@
 <div id="app">
   {% if user.is_authenticated %}
     Hi {{ user.username }}
-    <p><a href="{% url 'planner:add_plan' %}">Add Plan</a></p>
+    <p><a href="{% url 'new_plan' %}">Add Plan</a></p>
     <p><a href="{% url 'logout' %}">logout</a></p>
   {% else %}
     <p>You are not logged in</p>

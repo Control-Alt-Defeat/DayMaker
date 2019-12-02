@@ -3,9 +3,6 @@
 
 {% block content %}
 <div id="app" class="form-margin">
-    <div class="eventDateRow">
-                [[ dateOfPlan ]]
-    </div>
     <!-- Top add event button -->
     <div class="eventRow">
         <button class="addEventButton" v-if="showBottomEventButton" onclick="window.location.href='{% url 'planner:plan' plan_id %}'"> [[ addEventString ]] </button>

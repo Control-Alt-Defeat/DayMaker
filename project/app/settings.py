@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'planner.apps.PlannerConfig',
 
+    'crispy_forms',
     'users.apps.UsersConfig',
 ]
 

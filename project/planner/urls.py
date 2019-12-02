@@ -10,7 +10,6 @@ urlpatterns = [
     path('accountDetails',users_views.account_details,name='account_details'),
     path('accountEdit',users_views.account_edit,name='account_edit'),
     path('signup/', users_views.signup, name='signup'),
-    path('addPlan/', views.add_plan, name='add_plan'),
     # ex: /event/5/
     path('planIndex/', views.plan_index, name="plan_index"),
     path('<int:plan_id>/add/', views.add_event, name='add'),

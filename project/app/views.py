@@ -4,6 +4,10 @@ from django.views.decorators.csrf import csrf_exempt
 from geopy.geocoders import Nominatim
 import json
 import datetime
+from django.views.generic import TemplateView, CreateView, DetailView, FormView
+from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
+from planner.forms import PlanForm 
+from planner.models import Plan
 
 
 @csrf_exempt
@@ -44,3 +48,20 @@ def get_response(request):
 		json.dumps(response),
 			content_type="application/json"
 		)
+
+class NewPlanFormView(CreateView):
+	model = Plan
+	form_class = PlanForm
+	template_name = 'newPlanForm.html'
+
+	def post(self, request):
+		form = PlanForm(request.POST)
+		if form.is_valid():
+			plan = form.save()
+			plan.user = request.user
+			plan.save()
+			return redirect("planner:plan_index")
+		else:
+			context = { 'form': form }
+			return render(request, 'newPlanForm.html', context=context)
+
