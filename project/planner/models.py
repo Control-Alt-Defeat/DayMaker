@@ -12,8 +12,8 @@ from .DayMaker import getTags
 
 class Plan(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE, blank=True, null=True)
-    date = models.DateTimeField('date planned', default=timezone.now)
-    name = models.CharField('name', max_length=30, default='New Plan')
+    date = models.DateField('date planned', default=datetime.date.today)
+    name = models.CharField('name', max_length=30, default='My Plan', blank=True)
     
     def get_absolute_url(self):
         return reverse('planner:plan_index')
@@ -105,7 +105,7 @@ class EventFinder(models.Model):
     )
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE, blank=True, null=True)
-    address = models.CharField('Where would you like to search?', max_length=100, null=True, blank=True)
+    address = models.CharField('Where would you like to search?', max_length=100)
     loc_type = models.CharField('Location Type', max_length=100, choices=TYPES)
     loc_category = models.CharField('Location Category', max_length=100, null=True, blank=True)
     price = models.CharField(max_length=1, choices=PRICES, null=True, blank=True, default='')

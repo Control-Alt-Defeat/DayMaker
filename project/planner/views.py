@@ -43,7 +43,16 @@ def checkValidTimeRange(start_time, end_time):
         return False
 
 #
-# View Methods
+# Home view
+#
+def home(request):
+    if request.user.is_authenticated:
+        return redirect('planner:plan_index')
+    else:
+        return redirect('login')
+
+#
+# Planner View Methods
 #
 
 def add_plan(request):
@@ -59,6 +68,22 @@ def add_plan(request):
         form = PlanForm()
         return render(request, template_name, {'form': form})
 
+def edit_plan(request, plan_id):
+    plan_list = list(Plan.objects.filter(user = request.user))
+    template_name = 'planner/plan_index.html'
+    context = {
+        'plan_list': plan_list,
+    }
+    return render(request, template_name, context)
+
+def delete_plan(request, plan_id):
+    plan_list = list(Plan.objects.filter(user = request.user))
+    template_name = 'planner/plan_index.html'
+    context = {
+        'plan_list': plan_list,
+    }
+    return render(request, template_name, context)
+
 def plan_index(request):
     plan_list = list(Plan.objects.filter(user = request.user))
     template_name = 'planner/plan_index.html'
@@ -67,22 +92,25 @@ def plan_index(request):
     }
     return render(request, template_name, context)
 
-def home(request):
-    return render(request,'home.html')
+# 
+# Event View Methods
+# 
 
-def index(request, plan_id):
+def event_index(request, plan_id):
     template_name = 'planner/event_index.html'
 
     Event.delete_hidden()
     EventFinder.delete_searches(request.user)
-
-    event_list = list(Event.objects.filter(plan_id = Plan.objects.get(id = plan_id), show=True).order_by('start_time'))
+    
+    event_list = list(Event.objects.filter(plan=plan_id).order_by('start_time'))
     event_list_json = [event.json() for event in event_list]
+    plan_date = Plan.objects.get(id=plan_id).date
 
     context = {
         'event_list': event_list,
         'event_list_json': json.dumps(event_list_json),
-        'plan_id': plan_id
+        'plan_id': plan_id,
+        'plan_date': plan_date
     }
 
     return render(request, template_name, context)

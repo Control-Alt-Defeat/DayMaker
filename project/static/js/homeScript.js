@@ -9,8 +9,7 @@ window.onload = function () {
                 <p> {{ event.price }} </p>\
             </div>\
             <div class="eventColumnMiddle">\
-                <p class="eventTitle"> {{ event.location }}  \
-                </p>\
+                <p class="eventTitle"> {{ event.location }}</p>\
                 <p class="eventDetails"> {{ event.type }} </p>\
                 <p class="eventDetails"> {{ event.start_formatted }} - {{ event.end_formatted }} </p>\
             </div>\

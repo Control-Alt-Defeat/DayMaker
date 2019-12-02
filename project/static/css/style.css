@@ -66,6 +66,11 @@ html body {
     display: table;
     clear: both;
 }
+#app .eventStyle:after {
+    content: "";
+    display: table;
+    clear: both;
+}
 
 #app .eventColumnLeft,
 .eventColumnMiddle,
@@ -103,6 +108,7 @@ html body {
     cursor: pointer;
     text-align: center;
     margin: 10px;
+    width: 100%;
 }
 
 #app .timeWindow {
@@ -139,8 +145,10 @@ html body {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     border: 5px;
     border-radius: 10px;
-    margin: 10px;
+    margin: 5px;
     background-color: #e8e8e8;
+    width: 80%;
+    padding: inherit;
 }
 
 #app .removeEventButton:hover {
@@ -181,18 +189,6 @@ input:disabled {
 	width: 80% !important;
 	margin: auto;
 }
-
-.back {
-	width: 100%;
-	background-color: red;
-	color: white;
-	padding: 14px 20px;
-	margin: 8px 0;
-	border: none;
-	border-radius: 4px;
-	cursor: pointer;
-	text-align: center
- }
 
 .button-padding {
     margin: 8px 0;

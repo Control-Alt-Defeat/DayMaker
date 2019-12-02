@@ -1,5 +1,5 @@
 {% extends 'base.html' %} 
-
+{% load crispy_forms_tags %}
 {% block javascript %}
 {% load static %}
 <script type="text/javascript" src="{% static '/js/location.js' %}" defer></script>
@@ -9,7 +9,7 @@
 <div id="app" class="form-margin">
 <form id="search_form" action="{% url 'planner:plan' plan_id %}" method="post" data-categories-url="{% url 'planner:ajax_load_categories' %}">
     {% csrf_token %} 
-    {{ form.as_p }}
+    {{ form|crispy }}
     <p id="address_status" class="form-text text-muted"></p>
     <button id = "currentLocationButton" class="btn btn-secondary btn-sm" type='button'>Use My Current Location</button>
     
