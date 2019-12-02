@@ -63,5 +63,5 @@ class NewPlanFormView(CreateView):
 			return redirect("planner:plan_index")
 		else:
 			context = { 'form': form }
-			return render(request, 'newPlanForm.html', context=context)
+			return render(request, 'planner/add_plan.html', context=context)
 
