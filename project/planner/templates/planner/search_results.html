@@ -27,7 +27,8 @@
             </div>
         </div>
         {% endfor %}
-        <input class=".btn-success" type="submit" value="Add Event">
+        <input id="submit_button" name="Save Event" class="btn btn-success btn-block button-padding" type="submit" value="Add Event">
+
     {% else %}
         <p>No search results are available. Try different search criteria! </p>
     {% endif %}

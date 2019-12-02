@@ -22,9 +22,9 @@ class Event(models.Model):
         ('3', '$$$')
     )
     plan = models.ForeignKey(Plan, on_delete=models.CASCADE, default = 1)
-    loc_name = models.CharField('Name of Location', max_length=30)
-    loc_type = models.CharField('Type of Location', max_length=30)
-    address = models.CharField('Address of Location', max_length=30)
+    loc_name = models.CharField('Name of Location', max_length=50)
+    loc_type = models.CharField('Type of Location', max_length=50)
+    address = models.CharField('Address of Location', max_length=80)
     lat_coord = models.DecimalField(max_digits=9, decimal_places=6, default=40.002287)
     long_coord = models.DecimalField(max_digits=9, decimal_places=6, default=-83.016017)
     phone_number = models.CharField('Business Phone Number', max_length=12, null=True)
@@ -81,17 +81,12 @@ class EventFinder(models.Model):
         ('bars', 'bars'),
         ('arts & entertainment', 'arts & entertainment')
     )
-    CATS = (
-        ('0', '--------'),
-        ('1', 'empty')
-    )
     PRICES = (
         ('', 'Choose a price level'),
         ('1', '$'),
         ('2', '$$'),
         ('3', '$$$'),
     )
-    
     MIN_RATINGS = (
         ('', 'Choose a minimum rating'),
         ('1','★'),
@@ -105,19 +100,23 @@ class EventFinder(models.Model):
         ('2','Car'),
         ('3','Both'),
     )
-    
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE, blank=True, null=True)
     address = models.CharField('Where would you like to search?', max_length=100, null=True, blank=True)
-    loc_type = models.CharField('Location Type', max_length=100, choices=TYPES, null=True, blank=True)   
-    loc_category = models.CharField('Location Category', max_length=100, choices=CATS, null=True, blank=True)   
+    loc_type = models.CharField('Location Type', max_length=100, choices=TYPES)
+    loc_category = models.CharField('Location Category', max_length=100, null=True, blank=True)
     price = models.CharField(max_length=1, choices=PRICES, null=True, blank=True, default='')
     min_rating = models.CharField('Minimum Rating', max_length=1, choices=MIN_RATINGS, null=True, blank=True)
     transportation = models.CharField('Mode of Transportation', max_length=1, choices=TRANSPORTATION, null=True, blank=True)
     result_count = models.PositiveIntegerField('Number of Search Results', default=3, validators=[MinValueValidator(1), MaxValueValidator(50)])
-    start_time = models.TimeField('Start Time of Event', default='12:00', null=True, blank=True)
-    end_time = models.TimeField('End Time of Event', default='12:30', null=True, blank=True)
-    search_radius = models.FloatField('Search Radius(in miles)', default=5)
+    start_time = models.TimeField('Start Time of Event')
+    end_time = models.TimeField('End Time of Event')
+    search_radius = models.FloatField('Max Distance Away (in miles)', default=20, null=True, blank=True)
     lat_coord = models.DecimalField(max_digits=9, decimal_places=6, default=40.002287)
     long_coord = models.DecimalField(max_digits=9, decimal_places=6, default=-83.016017)
 
     def __str__(self):
         return f'Query {self.id}: {self.start_time} - {self.start_time}'
+
+    def delete_searches(user_id):
+        EventFinder.objects.filter(user=user_id).delete()

@@ -39,4 +39,7 @@
     <a href="{% url 'planner:index' plan_id %}" class="btn btn-danger btn-block button-padding" role="button" >Back</a>
 </div>
 </div>
+{% if category %}
+<div id="load_category" data="{{ category }}"></div>
+{% endif %}
 {% endblock %}

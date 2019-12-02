@@ -1,5 +1,7 @@
 import datetime
-from django.forms import Form, ModelForm, TimeInput, ModelChoiceField, RadioSelect, TimeField
+from django.forms import Form, ModelForm, TimeInput, RadioSelect, TimeField, ChoiceField, Select
+from django.core import validators
+
 from .widgets import SelectTimeWidget
 from .models import Event, EventFinder, Plan
 
@@ -74,5 +76,14 @@ class EventFinderForm(ModelForm):
         self.fields['lat_coord'].label = ''
         self.fields['long_coord'].label = ''
     
+    loc_category = ChoiceField(label = 'Location Category', widget=Select, required=False, validators=[validators.MaxLengthValidator(100)])
     start_time = TimeField(widget=SelectTimeWidget(twelve_hr=True, minute_step=15, use_seconds=False, required=False), required=False, label=u'Start Time')
     end_time = TimeField(widget=SelectTimeWidget(twelve_hr=True, minute_step=15, use_seconds=False, required=False), required=False, label=u'End Time')
+
+    def clean(self):
+        # Call the clean() method of the super class
+        cleaned_data = super(EventFinderForm, self).clean()
+        # Add location category directly to cleaned data
+        cleaned_data['loc_category'] = self.data['loc_category']
+        # Finally, return the cleaned_data
+        return cleaned_data
