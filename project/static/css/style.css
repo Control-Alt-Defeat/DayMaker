@@ -130,6 +130,8 @@ html body {
     color: black;
 }
 
+.eventStyle.color { background-color: #eccfff !important; }
+
 #app .eventTitle {
     font-size: 20px;
     font-weight: 600;
