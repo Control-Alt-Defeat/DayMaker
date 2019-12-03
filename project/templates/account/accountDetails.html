@@ -5,24 +5,106 @@
 {% block js %}
 <script type="text/javascript" src="/static/js/homeScript.js"></script>
 <script type="text/javascript" src="/static/js/modalScript.js"></script>
-{% endblock %}
-
-{% block content %}
+{% endblock %} {% block css %}{% endblock %} {% block content %}
 <div id="app">
-  {% if user.is_authenticated %}
-    <pre>
-      USERNAME: {{ user.username}}<br>
-      FIRST NAME: {{user.first_name}}<br>
-      LAST NAME: {{user.last_name}}<br>
-      EMAIL: {{user.email}} <br>
-      ACCOUNT CREATION: {{user.date_joined}}<br>
-      LAST LOGIN: {{user.last_login}}
-    </pre>
-    <p><a href="{% url 'logout' %}">logout</a></p>
-  {% else %}
-    <p>You are not logged in</p>
-    <a href="{% url 'login' %}">login</a>
-    <a href="{% url 'signup' %}">signup</a>
-  {% endif %}
+    {% if user.is_authenticated %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="basicInfo-tab" data-toggle="tab" href="#basicInfo" role="tab" aria-controls="basicInfo" aria-selected="true">Basic Info</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content ml-1" id="myTabContent">
+                                    <div class="tab-pane fade show active" id="basicInfo" role="tabpanel" aria-labelledby="basicInfo-tab">
+
+
+                                        <div class="row">
+                                            <div class="col-sm-3 col-md-2 col-5">
+                                                <label style="font-weight:bold;">First Name</label>
+                                            </div>
+                                            <div class="col-md-8 col-6">
+                                                {{ user.first_name}}
+                                            </div>
+                                        </div>
+                                        <hr />
+
+                                        <div class="row">
+                                            <div class="col-sm-3 col-md-2 col-5">
+                                                <label style="font-weight:bold;">Last Name</label>
+                                            </div>
+                                            <div class="col-md-8 col-6">
+                                                {{user.last_name}}
+                                            </div>
+                                        </div>
+                                        <hr />
+
+
+                                        <div class="row">
+                                            <div class="col-sm-3 col-md-2 col-5">
+                                                <label style="font-weight:bold;">Username</label>
+                                            </div>
+                                            <div class="col-md-8 col-6">
+                                                {{user.username}}
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div class="row">
+                                            <div class="col-sm-3 col-md-2 col-5">
+                                                <label style="font-weight:bold;">Email Address</label>
+                                            </div>
+                                            <div class="col-md-8 col-6">
+                                                {{user.email}}
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div class="row">
+                                            <div class="col-sm-3 col-md-2 col-5">
+                                                <label style="font-weight:bold;">Last Login</label>
+                                            </div>
+                                            <div class="col-md-8 col-6">
+                                                {{user.last_login}}
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div class="row">
+                                            <div class="col-sm-3 col-md-2 col-5">
+                                                <label style="font-weight:bold;">Date Joined</label>
+                                            </div>
+                                            <div class="col-md-8 col-6">
+                                                {{user.date_joined}}
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <hr />
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+</div>
+
+{% else %}
+<p>You are not logged in</p>
+<a href="{% url 'login' %}">login</a>
+<a href="{% url 'planner:signup' %}">signup</a> {% endif %}
 </div>
 {% endblock %}

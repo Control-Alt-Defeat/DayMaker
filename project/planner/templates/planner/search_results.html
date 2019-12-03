@@ -1,6 +1,17 @@
-{% extends 'base.html' %} 
-
-{% block content %}
+{% extends 'base.html' %} {% block content %}
+<script>
+$(function(){
+	$('.eventStyle').click(function(){
+        
+		if($(".eventStyle").hasClass("color")){
+            $(".eventStyle").removeClass("color");
+            $(this).addClass("color");}
+        else{
+            $(this).addClass("color");
+        }
+	});
+});
+</script>
 <div id="app" class="form-margin">
 <h2 class="page-title">Search Results</h2>
 <hr>
@@ -13,7 +24,7 @@
         </div>
         {% for result in search_results %}
         <div id="result_{{ forloop.counter }}" class="eventRow">
-            <div class="eventStyle">
+            <label><div class="eventStyle">
                 <div class="buttonColumn eventDetails">
                     <input class="eventRadioButton" type="radio" name="choice" id="{{ result.id }}" value="{{ result.id }}" />
                 </div>
@@ -28,7 +39,7 @@
                     <p> {{ result.price }} </p>
                     <p> {{ result.distance|floatformat }} Miles</p>
                 </div>
-            </div>
+            </div></label>
         </div>
         {% endfor %}
         <input id="submit_button" name="Save Event" class="btn btn-success btn-block button-padding" type="submit" value="Add Event">
