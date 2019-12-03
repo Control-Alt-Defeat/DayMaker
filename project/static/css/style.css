@@ -185,9 +185,9 @@ input:disabled {
     border-radius: 10px;
     background-color: #cfccce;
     color: black;
-    padding: 16px;
+    padding: 16px 0px;
     font-size: 16px;
-    margin: 10px;
+    margin: 10px 0px;
     text-align: center;
 }
 

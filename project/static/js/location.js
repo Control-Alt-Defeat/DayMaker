@@ -88,7 +88,7 @@ function updateCategories(){
   $('#id_loc_category').prop("disabled", true);
   $('#id_loc_category').hide()
   $("#id_loc_category").before(spin_loader);
-
+  disableButton();
   $.ajax({                       // initialize an AJAX request
     url: url,                    // set the url of the request
     data: {
@@ -104,6 +104,7 @@ function updateCategories(){
         $('#id_loc_category').val(category);
         $('#load_category').remove()
       }
+      enableButton();
     }
   });
 }
@@ -119,12 +120,17 @@ if($('#id_loc_type').length){
   $('#id_loc_type').change(updateCategories);
   if($('#id_loc_type').val().length > 0){
     updateCategories();
+  } else {
+    if ($('#id_address').val().length > 0){
+        enableButton();
+    }
   }
+} else{
+    if ($('#id_address').val().length > 0){
+        enableButton();
+    }
 }
 if($('.timeError').length){
   addTimeChangeListeners("start");
   addTimeChangeListeners("end");
-}
-if ($('#id_address').val().length > 0){
-    enableButton();
 }
