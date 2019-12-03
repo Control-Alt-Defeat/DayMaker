@@ -7,6 +7,11 @@
 
 {% block content %}
 <div id="app" class="form-margin">
+<h2 class="page-title">Search</h2>
+<hr>
+<div class="help-text-helper">
+    <div class="page-title help-text">Enter your seach criteria below.</div>
+</div>
 <form id="search_form" action="{% url 'planner:plan' plan_id %}" method="post" data-categories-url="{% url 'planner:ajax_load_categories' %}">
     {% csrf_token %} 
     {{ form|crispy }}

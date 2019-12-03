@@ -6,48 +6,47 @@
     <div class="eventDateRow"> {% if plan_name %} {{ plan_name }} | {% endif %} {{ plan_date }} </div>
 
     <!-- Top add event button -->
-    <div class="eventRow">
-        <button class="addEventButton" onclick="window.location.href='{% url 'planner:plan' plan_id %}'"> Add Event </button>
+    <div class="addButtonContainer">
+        <a class="addButton" href="{% url 'planner:plan' plan_id %}">Add Event</a>
     </div>
 
     {% if event_list %}
         {% for event in event_list_json %}
-        <div class="eventRow">
-            <div class="eventStyle">
-                <div class="eventColumnLeft eventDetails">
-                    <i class="fa fa-car"></i>
-                    <p> {{ event.address }} </p>
-                    <p> {{ event.price }} </p>
+        <div class="eventStyle">
+            <div class="eventColumnLeft eventDetails">
+                <i class="fa fa-car"></i>
+                <p> {{ event.address }} </p>
+                <p> {{ event.price }} </p>
+            </div>
+            <div class="eventColumnMiddle">
+                <p class="eventTitle"> {{ event.location }}</p>
+                <p class="eventDetails"> {{ event.type }} </p>
+                <p class="eventDetails"> {{ event.start_formatted }} - {{ event.end_formatted }} </p>
+            </div>
+            <div class="eventColumnRight">
+                <div>
+                    <a href="{% url 'planner:edit_event' plan_id event.id %}" class="btn removeEventButton eventDetails" role="button">
+                      <i class="fa fa-pencil-square-o"></i>
+                      Edit
+                    </a>
                 </div>
-                <div class="eventColumnMiddle">
-                    <p class="eventTitle"> {{ event.location }}</p>
-                    <p class="eventDetails"> {{ event.type }} </p>
-                    <p class="eventDetails"> {{ event.start_formatted }} - {{ event.end_formatted }} </p>
-                </div>
-                <div class="eventColumnRight">
-                    <div>
-                        <a href="{% url 'planner:edit_event' plan_id event.id %}" class="btn removeEventButton eventDetails" role="button">
-                          <i class="fa fa-pencil-square-o"></i>
-                          Edit
-                        </a>
-                    </div>
-                    <div>
-                        <a href="{% url 'planner:delete_event' plan_id event.id %}" class="btn removeEventButton eventDetails" role="button">
-                          <i class="fa fa-trash"></i>
-                          Remove
-                        </a>
-                    </div>
+                <div>
+                    <a href="{% url 'planner:delete_event' plan_id event.id %}" class="btn removeEventButton eventDetails" role="button">
+                      <i class="fa fa-trash"></i>
+                      Remove
+                    </a>
                 </div>
             </div>
         </div>
+
         {% endfor %}
     {% else %}
         <div class="noEventsBox">
-            No events are available. Click below to add one now!
-        </div>
-        <div>
-            <button class="addEventButton" onclick="window.location.href='{% url 'planner:plan' plan_id %}'"> Add Event </button>
+            No events are available. Click above to add one now!
         </div>
     {% endif %}
+    <div>
+        <a href="{% url 'planner:plan_index' %}" class="btn btn-primary btn-block button-padding" role="button" >Back to All Plans</a>
+    </div>
 </div>
 {% endblock %}

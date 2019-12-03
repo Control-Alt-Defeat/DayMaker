@@ -3,10 +3,15 @@
 
 {% block title %}Login{% endblock %}
 {% block content %}
+<div id="app" class="form-margin">
 <h2>Login</h2>
 <form method="post">
   {% csrf_token %}
   {{ form|crispy }}
-  <button type="submit">Login</button>
+  <input class="btn btn-success btn-block button-padding" type="submit" value="Login">
 </form>
+<div>
+  <a href="{% url 'signup' %}" class="btn btn-primary btn-block button-padding" role="button" >New Here? Sign Up Now!</a>
+</div>
+</div>
 {% endblock %}

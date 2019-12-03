@@ -7,6 +7,11 @@
 
 {% block content %}
 <div id="app" class="form-margin">
+<h2 class="page-title">Edit Event</h2>
+<hr>
+<div class="help-text-helper">
+    <div class="page-title help-text">Please review the details for your event.</div>
+</div>
 <form action="" method="post">
     {% csrf_token %}
     {{ form.as_p }}

@@ -5,7 +5,11 @@
 
 <form action = "" method="post">
     {% csrf_token %}
-    <p>Are you sure you want to delete the event at "{{ object }}"?</p>
+    <h2 class="page-title">Remove Event</h2>
+    <hr>
+    <div class="help-text-helper">
+        <div class="page-title help-text">Are you sure you want to remove the event at "{{ object }}"?</div>
+    </div>
     <input class="btn btn-success btn-block button-padding" type="submit" value="Confirm">
 </form>
 

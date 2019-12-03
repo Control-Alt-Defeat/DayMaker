@@ -3,11 +3,13 @@
 
 {% block content %}
 <div id="app" class="form-margin">
+    <h2 class="page-title">All Plans</h2>
+    <hr>
+    <!-- Top add plan button -->
+    <div class="addButtonContainer">
+      <a class="addButton" href="{% url 'planner:add_plan' %}">Add Plan</a>
+    </div>
     {% if plan_list %}
-      <!-- Top add plan button -->
-      <div class="eventRow">
-        <a class="addEventButton" href="{% url 'new_plan' %}">Add Plan</a>
-      </div>
       {% for plan in plan_list %}
       <div class="eventStyle" onclick="window.location.href='{% url 'planner:index' plan.id %}';">
           <div class="eventColumnLeft eventDetails">
@@ -33,10 +35,7 @@
       {% endfor %}
     {% else %}
         <div class="noEventsBox">
-            No plans are available. Click below to add one now!
-        </div>
-        <div class="eventRow">
-            <a class="addEventButton" href="{% url 'new_plan' %}">Add Plan</a>
+            No plans are available. Click above to add one now!
         </div>
     {% endif %}
 </div>
