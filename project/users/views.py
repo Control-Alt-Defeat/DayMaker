@@ -31,7 +31,7 @@ def account_edit(request):
         form = CustomUserChangeForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
-            return redirect('planner:account_details')
+            return redirect('account_details')
         else:
             print(form.errors)
     else:
