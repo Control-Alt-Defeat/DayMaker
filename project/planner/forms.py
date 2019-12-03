@@ -7,7 +7,7 @@ from .widgets import SelectTimeWidget, DatePickerInput
 from .models import Event, EventFinder, Plan
 
 class PlanForm(ModelForm):
-    date = forms.DateField(input_formats=['%d/%m/%Y'], widget=DatePickerInput())
+    date = forms.DateField(input_formats=['%m/%d/%Y'], widget=DatePickerInput())
     class Meta:
         model = Plan
         fields = [

@@ -54,7 +54,7 @@ def home(request):
         return redirect('login')
 
 #
-# Planner View Methods
+# Planner View Classes/Methods
 #
 
 class PlanCreateView(LoginRequiredMixin, CreateView):
@@ -75,12 +75,14 @@ class PlanUpdateView(UpdateView):
     template_name = 'planner/add_plan.html'
     form_class = PlanForm
 
-    def get_object(self):
+    def get_object(self, **kwargs):
         plan_id = self.kwargs.get("plan_id")
-        return get_object_or_404(Plan, id=plan_id)
+        plan =  get_object_or_404(Plan, id=plan_id)
+        plan.date = plan.date.strftime('%m/%d/%Y')
+        return plan
     
-    def get_context_data(self):
-        context = super(PlanUpdateView, self).get_context_data()
+    def get_context_data(self, **kwargs):
+        context = super(PlanUpdateView, self).get_context_data(**kwargs)
         context['title'] = "Edit Plan"
         return context
 
@@ -233,6 +235,7 @@ def display_results(request, plan_id, user_lat_coord=None, user_long_coord=None,
                 rating = result['rating'],
                 start_time = start_time,
                 end_time = end_time,
+                plan_id = plan_id,
                 show = False
             )
             loc.save()

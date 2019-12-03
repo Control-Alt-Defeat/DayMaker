@@ -39,5 +39,12 @@
         </div>
     {% endif %}
 </div>
+{% endblock %}
 
+{% block javascript %}
+    <script type='text/javascript' defer>
+        $(".removeEventButton").each(function(){
+            $(this).click(function(e){ e.stopPropagation(); });
+        });
+    </script>
 {% endblock %}
