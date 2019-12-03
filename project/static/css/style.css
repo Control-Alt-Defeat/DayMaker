@@ -205,3 +205,15 @@ input:disabled {
 .page-title {
     font-weight: 375;
 }
+
+h2.page-title {
+    margin-top: 10px;
+}
+
+div.page-title {
+    margin-bottom: 10px;
+}
+
+.pad-top {
+    margin-top: 20px;
+}

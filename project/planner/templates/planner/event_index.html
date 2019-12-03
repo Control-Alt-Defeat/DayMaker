@@ -3,8 +3,11 @@
 
 {% block content %}
 <div id="app" class="form-margin">
-    <div class="eventDateRow"> {% if plan_name %} {{ plan_name }} | {% endif %} {{ plan_date }} </div>
-
+    <h2 class="page-title">{% if plan_name %} {{ plan_name }} {% else %} Plan {% endif %}</h2>
+    <hr>
+    <div class="help-text-helper">
+        <div class="page-title help-text">Plan for {{ plan_date }}</div>
+    </div>
     <!-- Top add event button -->
     <div class="addButtonContainer">
         <a class="addButton" href="{% url 'planner:plan' plan_id %}">Add Event</a>
@@ -46,7 +49,7 @@
         </div>
     {% endif %}
     <div>
-        <a href="{% url 'planner:plan_index' %}" class="btn btn-primary btn-block button-padding" role="button" >Back to All Plans</a>
+        <a href="{% url 'planner:plan_index' %}" class="btn btn-primary btn-block button-padding pad-top" role="button" >Back to All Plans</a>
     </div>
 </div>
 {% endblock %}
