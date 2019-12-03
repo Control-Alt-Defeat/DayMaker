@@ -40,7 +40,7 @@
                 <ul class="nav justify-content-end">
                     {% block nav %} 
                     {% if user.is_authenticated %}
-                    <li class="nav-item">
+                    <li class="nav-item toolbar">
                         <span class="navbar-text">
                             Hi, {{ user.first_name }}
                         </span>
@@ -49,10 +49,7 @@
                         <a class="nav-link" href="{% url 'planner:plan_index' %}">Plans</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'account_details' %}">Account Details</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'account_edit' %}">Account Edit</a>
+                        <a class="nav-link" href="{% url 'account_details' %}">Account</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'logout' %}">Logout</a>
@@ -61,7 +58,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'login' %}">Login</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item toolbar">
                         <a class="nav-link" href="{% url 'signup' %}">Sign up</a>
                     </li>
                     {% endif %}

@@ -1,17 +1,17 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 
-{% block title %}Sign Up{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 {% block content %}
 <div id="app" class="form-margin">
-  <h2>Sign Up</h2>
+  <h2>{{ title }}</h2>
   <form method="post">
     {% csrf_token %}
     {{ form|crispy }}
-    <input class="btn btn-success btn-block button-padding" type="submit" value="Sign Up">
+    <input class="btn btn-success btn-block button-padding" type="submit" value="{{ button }}">
   </form>
   <div>
-    <a href="{% url 'login' %}" class="btn btn-danger btn-block button-padding" role="button" >Back</a>
+    <a href="{% url back_url %}" class="btn btn-danger btn-block button-padding" role="button" >Back</a>
   </div>
 </div>
 {% endblock %}

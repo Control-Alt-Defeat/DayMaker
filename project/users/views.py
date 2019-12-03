@@ -6,7 +6,7 @@ from users.forms import CustomUserCreationForm, CustomUserChangeForm
 
 def signup(request):
     template_name = 'account/signup.html'
-
+    context = {}
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
@@ -18,15 +18,19 @@ def signup(request):
             return redirect('planner:plan_index')
     else:
         form = CustomUserCreationForm()
-
-    return render(request, template_name,{'form': form})
+    
+    context['form'] = form
+    context['title'] = 'Sign Up'
+    context['button'] = 'Sign Up'
+    context['back_url'] = 'login'
+    return render(request, template_name, context)
 
 def account_details(request):
     return render(request,'account/accountDetails.html')
 
 def account_edit(request):
-    template_name = 'account/accountEdit.html'
-
+    template_name = 'account/signup.html'
+    context = {}
     if request.method == 'POST':
         form = CustomUserChangeForm(request.POST, instance=request.user)
         if form.is_valid():
@@ -37,5 +41,10 @@ def account_edit(request):
     else:
         user = request.user
         form = CustomUserChangeForm(initial={'username': user.username,'first_name':user.first_name,'last_name': user.last_name,'email': user.email})
-    
-    return render(request, template_name, {'form': form})
+
+    context['form'] = form
+    context['title'] = 'Edit Account'
+    context['button'] = 'Save Account'
+    context['back_url'] = 'account_details'
+
+    return render(request, template_name, context)
