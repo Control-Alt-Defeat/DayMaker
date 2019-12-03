@@ -101,18 +101,20 @@ def event_index(request, plan_id):
 
     Event.delete_hidden()
     EventFinder.delete_searches(request.user)
-    
+
     event_list = list(Event.objects.filter(plan=plan_id).order_by('start_time'))
     event_list_json = [event.json() for event in event_list]
-    plan_date = Plan.objects.get(id=plan_id).date
+    plan = Plan.objects.get(id=plan_id)
+    plan_date = plan.date
+    plan_name = plan.name
 
     context = {
         'event_list': event_list,
-        'event_list_json': json.dumps(event_list_json),
+        'event_list_json': event_list_json,
         'plan_id': plan_id,
-        'plan_date': plan_date
+        'plan_date': plan_date,
+        'plan_name': plan_name
     }
-
     return render(request, template_name, context)
 
 def add_event(request, plan_id):
@@ -245,8 +247,6 @@ def display_results(request, plan_id, user_lat_coord=None, user_long_coord=None,
         selected.show = True
         selected.plan = Plan.objects.get(id=plan_id)
         selected.save()
-        # remove unnecesary hidden search results
-        Event.delete_hidden()
         # redirect to the index url (home page)
         return redirect('planner:index', plan_id=plan_id)
     else:

@@ -3,7 +3,7 @@ window.onload = function () {
         props: ['event'],
         template: '\
         <div>\
-            <div class="eventColumnLeft eventDetails"">\
+            <div class="eventColumnLeft eventDetails">\
                 <i class="fa fa-car"></i>\
                 <p> {{ event.address }} </p>\
                 <p> {{ event.price }} </p>\

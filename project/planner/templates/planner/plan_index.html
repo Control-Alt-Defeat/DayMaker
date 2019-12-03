@@ -9,7 +9,6 @@
         <a class="addEventButton" href="{% url 'new_plan' %}">Add Plan</a>
       </div>
       {% for plan in plan_list %}
-      <a href="{% url 'planner:index' plan.id %}"></a>
       <div class="eventStyle" onclick="window.location.href='{% url 'planner:index' plan.id %}';">
           <div class="eventColumnLeft eventDetails">
               <p></p>
@@ -25,7 +24,7 @@
                 Edit</a>
             </div>
             <div>
-              <a href="{% url 'planner:delete_plan' plan.id %}" class="btn btn-default removeEventButton eventDetails" role="button">
+              <a href="{% url 'planner:delete_plan' plan.id %}" class="btn removeEventButton eventDetails" role="button">
                 <i class="fa fa-trash"></i>
                 Remove</a>
             </div>

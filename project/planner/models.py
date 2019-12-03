@@ -74,15 +74,15 @@ class Event(models.Model):
         time = time.strftime("%I:%M %p") 
         if int(hour) < 10: 
             time = time[1:]
-        return time  
-        
+        return time
+
 
 class EventFinder(models.Model):
 
     TYPES = (
-        ('restaurants', 'restaurants'),
-        ('bars', 'bars'),
-        ('arts & entertainment', 'arts & entertainment')
+        ('restaurants', 'Restaurants'),
+        ('bars', 'Bars'),
+        ('arts & entertainment', 'Arts & Entertainment')
     )
     PRICES = (
         ('', 'Choose a price level'),
