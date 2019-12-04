@@ -7,6 +7,11 @@
 
 {% block content %}
 <div id="app" class="form-margin">
+<h2 class="page-title">Add Existing Event</h2>
+<hr>
+<div class="help-text-helper">
+    <div class="page-title help-text">Please enter the details for your event.</div>
+</div>
 <form name="addEventForm" action="{% url 'planner:add' plan_id %}" method="post" required>
     {% csrf_token %}
     {{ form.as_p }}
@@ -33,6 +38,9 @@
 </form>
 <div>
     <a href="{% url 'planner:plan' plan_id %}" class="btn btn-danger btn-block button-padding" role="button" >Back</a>
+</div>
+<div>
+    <a href="{% url 'planner:index' plan_id %}" class="btn btn-primary btn-block button-padding" role="button" >Back to Plan</a>
 </div>
 </div>
 {% endblock %}

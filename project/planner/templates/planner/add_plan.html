@@ -1,0 +1,28 @@
+<!-- Add New Plan Form -->
+{% extends 'base.html' %}
+
+{% load crispy_forms_filters static %}
+
+{% block extra_head %}
+<!-- DatePicker -->
+<link rel="stylesheet" href="{% static 'vendor/datepicker-1.0.3/datepicker.min.css' %}">
+<script src="{% static 'vendor/datepicker-1.0.3/datepicker.min.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div id="app" class="form-margin">
+    <h2 class="page-title">{{ title }}</h2>
+    <hr>
+    <div class="help-text-helper">
+        <div class="page-title help-text">Choose a name and date for your plan.</div>
+    </div>
+    <form action="" method="post" autocomplete="off" novalidate>
+        {% csrf_token %}
+        {{ form|crispy }}
+        <input class="btn btn-success btn-block" type="submit" value="Save Plan">
+    </form>
+    <div>
+        <a href="{% url 'planner:plan_index' %}" class="btn btn-danger btn-block button-padding" role="button" >Back</a>
+    </div>
+</div>
+{% endblock %}

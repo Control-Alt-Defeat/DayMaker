@@ -1,5 +1,5 @@
 {% extends 'base.html' %} 
-
+{% load crispy_forms_tags %}
 {% block javascript %}
 {% load static %}
 <script type="text/javascript" src="{% static '/js/location.js' %}" defer></script>
@@ -7,17 +7,22 @@
 
 {% block content %}
 <div id="app" class="form-margin">
+<h2 class="page-title">Search</h2>
+<hr>
+<div class="help-text-helper">
+    <div class="page-title help-text">Enter your seach criteria below.</div>
+</div>
 <form id="search_form" action="{% url 'planner:plan' plan_id %}" method="post" data-categories-url="{% url 'planner:ajax_load_categories' %}">
     {% csrf_token %} 
-    {{ form.as_p }}
+    {{ form|crispy }}
     <p id="address_status" class="form-text text-muted"></p>
     <button id = "currentLocationButton" class="btn btn-secondary btn-sm" type='button'>Use My Current Location</button>
     
     {% if timeError %}
     <div class = "eventRow timeError">
-            <div class = "timeWindow">
-                <p>Invalid Time Range! Please enter a valid time range to search.</p>
-            </div>
+        <div class = "timeWindow">
+            <p>Invalid Time Range! Please enter a valid time range to search.</p>
+        </div>
     </div>
     {% endif %}
 
@@ -39,4 +44,7 @@
     <a href="{% url 'planner:index' plan_id %}" class="btn btn-danger btn-block button-padding" role="button" >Back</a>
 </div>
 </div>
+{% if category %}
+<div id="load_category" data="{{ category }}"></div>
+{% endif %}
 {% endblock %}

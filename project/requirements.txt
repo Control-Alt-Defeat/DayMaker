@@ -1,7 +1,6 @@
 Django
 ipython==6.4.0
 selenium
-djangorestframework
 ibm-watson==3.4.0
 ibm-cloud-sdk-core==0.5.1
 dj-database-url==0.5.0

@@ -1,11 +1,13 @@
 import json
-from django.contrib.auth import authenticate, login, logout, get_user_model
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.urls import reverse_lazy, reverse
-from django.views.generic.edit import DeleteView, UpdateView
+from django.views.generic.edit import DeleteView, UpdateView, CreateView
 from decimal import Decimal
+
 
 from .models import Event, EventFinder, Plan
 from .forms import EventForm, EventFinderForm, PlanForm
@@ -21,8 +23,9 @@ def load_categories(request):
     return render(request, template_name, {'categories': categories})
 
 # return true if NO overlap. return False if overlap.
-def checkEventOverlap(start_time, end_time):
-    event_list = Event.objects.filter(show=True).order_by('start_time')
+def checkEventOverlap(start_time, end_time, plan_id):
+    event_list = list(Event.objects.filter(plan_id = Plan.objects.get(id = plan_id), show=True).order_by('start_time'))
+
     times = [(event.start_time, event.end_time) for event in event_list]
     for timeSet in times:
         if timeSet[1] > start_time and timeSet[1] <= end_time:         # end time of existing event inside of time range
@@ -36,34 +39,61 @@ def checkEventOverlap(start_time, end_time):
     return True
 
 def checkValidTimeRange(start_time, end_time):
-    startHour = start_time.strftime("%I")
-    endHour = end_time.strftime("%I")
-    startMin = start_time.strftime("%M")
-    endMin = end_time.strftime("%M")
-
     if start_time < end_time:
         return True
     else:
         return False
 
 #
-# View Methods
+# Home view
+#
+def home(request):
+    if request.user.is_authenticated:
+        return redirect('planner:plan_index')
+    else:
+        return redirect('login')
+
+#
+# Planner View Classes/Methods
 #
 
-
-def add_plan(request):
+class PlanCreateView(LoginRequiredMixin, CreateView):
+    model = Plan
+    form_class = PlanForm
     template_name = 'planner/add_plan.html'
-    if request.method == "POST":
-        form = PlanForm(request.POST)
-        if form.is_valid():
 
-            plan = form.save()
-            plan.user = request.user
-            plan.save()
-            return redirect("planner:plan_index")
-    else:
-        form = PlanForm()
-        return render(request, template_name, {'form': form})
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super(PlanCreateView, self).get_context_data(**kwargs)
+        context['title'] = "Add Plan"
+        return context
+
+class PlanUpdateView(UpdateView):
+    template_name = 'planner/add_plan.html'
+    form_class = PlanForm
+
+    def get_object(self, **kwargs):
+        plan_id = self.kwargs.get("plan_id")
+        plan =  get_object_or_404(Plan, id=plan_id)
+        plan.date = plan.date.strftime('%m/%d/%Y')
+        return plan
+    
+    def get_context_data(self, **kwargs):
+        context = super(PlanUpdateView, self).get_context_data(**kwargs)
+        context['title'] = "Edit Plan"
+        return context
+
+class PlanDeleteView(DeleteView):
+    model = Event
+    template_name = 'planner/confirm_plan_delete.html'
+    success_url = reverse_lazy('planner:plan_index')
+
+    def get_object(self):
+        plan_id = self.kwargs.get('plan_id')
+        return get_object_or_404(Plan, id=plan_id)
 
 def plan_index(request):
     plan_list = list(Plan.objects.filter(user = request.user))
@@ -73,68 +103,33 @@ def plan_index(request):
     }
     return render(request, template_name, context)
 
-def home(request):
-    return render(request,'home.html')
+# 
+# Event View Methods
+# 
 
-def index(request, plan_id):
+def event_index(request, plan_id):
+    template_name = 'planner/event_index.html'
+
     Event.delete_hidden()
-    event_list = list(Event.objects.filter(plan_id = Plan.objects.get(id = plan_id), show=True).order_by('start_time'))
+    EventFinder.delete_searches(request.user)
+
+    event_list = list(Event.objects.filter(plan=plan_id).order_by('start_time'))
     event_list_json = [event.json() for event in event_list]
-    template_name = 'planner/index.html'
+    plan = Plan.objects.get(id=plan_id)
+    plan_date = plan.date
+    plan_name = plan.name
+
     context = {
         'event_list': event_list,
-        'event_list_json': json.dumps(event_list_json),
-        'plan_id': plan_id
+        'event_list_json': event_list_json,
+        'plan_id': plan_id,
+        'plan_date': plan_date,
+        'plan_name': plan_name
     }
     return render(request, template_name, context)
 
-def add_event(request,plan_id):
-    template_name = 'planner/add_event.html'
-    # if this is a POST request we need to process the form data
-    if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
-        form = EventForm(request.POST)
-        # check whether it's valid:
-        if form.is_valid():
-            # process the data in form.cleaned_data as required
-            start_time = form.cleaned_data['start_time']
-            end_time = form.cleaned_data['end_time']
-            
-            context = {
-                'form': form,
-            }
-
-            valid = True
-            # check for valid time range
-            if not checkValidTimeRange(start_time, end_time):
-                valid = False
-                context['timeError'] = 'Time Error!'
-            # check for overlapping event
-            if not checkEventOverlap(start_time, end_time):
-               valid = False
-               context['eventOverlap'] = 'Event Overlap!'
-            # if valid redirect to results
-            if valid:
-                event = form.save()
-                event.plan = Plan.objects.get(id = plan_id)
-                event.save()
-                # redirect to a new URL:
-                return redirect('planner:index', plan_id=plan_id)
-            # if not valid, reload form
-            else:
-                return render(request, template_name, context)
-    # if a GET (or any other method) we'll create a blank form
-    else:
-        form = EventForm()
-        context = {
-            'form': form,
-            'plan_id': plan_id
-        }
-
-    return render(request, template_name, context)
-
 def find_event(request, plan_id):
-    template_name = 'planner/eventFinderForm.html'
+    template_name = 'planner/event_finder.html'
     context = {}
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
@@ -143,6 +138,7 @@ def find_event(request, plan_id):
         # check whether it's valid:
         if form.is_valid():
             loc_type = form.cleaned_data['loc_type']
+            loc_category = form.cleaned_data['loc_category']
             price = form.cleaned_data['price']
             min_rating = form.cleaned_data['min_rating']
             num_results = form.cleaned_data['result_count']
@@ -151,6 +147,10 @@ def find_event(request, plan_id):
             long_coord = form.cleaned_data['long_coord']
             start_time = form.cleaned_data['start_time']
             end_time = form.cleaned_data['end_time']
+
+            search = form.save()
+            search.user = request.user
+            search.save()
 
             query_filter = build_query_filter(price, min_rating)
             coords = {
@@ -171,31 +171,41 @@ def find_event(request, plan_id):
                 valid = False
                 context['timeError'] = 'Time Error!'
             # check for overlapping event
-            if not checkEventOverlap(start_time, end_time):
+            if not checkEventOverlap(start_time, end_time, plan_id):
                valid = False
                context['eventOverlap'] = 'Event Overlap!'
             # if valid redirect to results
             if valid:
                 results = natLangQuery(
-                    loc_type,
-                    query_filter,
-                    num_results,
-                    max_distance,
-                    coords,
-                    timeframe
+                    query_str = loc_category,
+                    query_filter = query_filter,
+                    num_results = num_results,
+                    distance = max_distance,
+                    aCoord = coords,
+                    timeframe = timeframe,
+                    query_tgt = loc_type
                 )
                 return display_results(request, plan_id, lat_coord, long_coord, results['results'], start_time, end_time)
             # if not valid, reload form with base render
-            
+            else:
+                context['category'] = loc_category
     # if a GET (or any other method) we'll create a blank form
     else:
-        form = EventFinderForm()
-    
+        prev_search = None
+        query = EventFinder.objects.filter(user=request.user)
+        if len(query) > 0:
+            prev_search = query.latest('id')
+            category = prev_search.loc_category
+            if(category != ''):
+                context['category'] = category
+
+        form = EventFinderForm(instance=prev_search or None)
+
     context['form'] = form
     context['plan_id'] = plan_id
     return render(request, template_name, context)
 
-def display_results(request, plan_id, user_lat_coord=None, user_long_coord=None, search_results=None, start_time=None, end_time=None,):
+def display_results(request, plan_id, user_lat_coord=None, user_long_coord=None, search_results=None, start_time=None, end_time=None):
 
     template_name = 'planner/search_results.html'
 
@@ -209,8 +219,6 @@ def display_results(request, plan_id, user_lat_coord=None, user_long_coord=None,
         selected.show = True
         selected.plan = Plan.objects.get(id=plan_id)
         selected.save()
-        # remove unnecesary hidden search results
-        Event.delete_hidden()
         # redirect to the index url (home page)
         return redirect('planner:index', plan_id=plan_id)
     else:
@@ -227,8 +235,8 @@ def display_results(request, plan_id, user_lat_coord=None, user_long_coord=None,
                 rating = result['rating'],
                 start_time = start_time,
                 end_time = end_time,
-                show=False
-                
+                plan_id = plan_id,
+                show = False
             )
             loc.save()
             location = loc.json()
@@ -246,30 +254,65 @@ def display_results(request, plan_id, user_lat_coord=None, user_long_coord=None,
         
         return render(request, template_name, context)
 
+def add_event(request, plan_id):
+    template_name = 'planner/add_event.html'
+    context = {}
+    # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = EventForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            # process the data in form.cleaned_data as required
+            start_time = form.cleaned_data['start_time']
+            end_time = form.cleaned_data['end_time']
+            
+            valid = True
+            # check for valid time range
+            if not checkValidTimeRange(start_time, end_time):
+                valid = False
+                context['timeError'] = 'Time Error!'
+            # check for overlapping event
+            if not checkEventOverlap(start_time, end_time, plan_id):
+               valid = False
+               context['eventOverlap'] = 'Event Overlap!'
+            # if valid redirect to results
+            if valid:
+                event = form.save()
+                event.plan = Plan.objects.get(id = plan_id)
+                event.save()
+                # redirect to a new URL:
+                return redirect('planner:index', plan_id=plan_id)
+            # if not valid, reload form through default render
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = EventForm()
 
-class EventDelete(DeleteView):
+    context['form'] = form
+    context['plan_id'] = plan_id
+
+    return render(request, template_name, context)
+
+class EventDeleteView(DeleteView):
     model = Event
-    template_name = 'planner/confirm_delete.html'
-    success_url = 'planner/index.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(EventDelete, self).get_context_data(**kwargs)
-        context['plan_id'] = self.kwargs.get("plan_id")
-        return context
+    template_name = 'planner/confirm_event_delete.html'
+    #success_url = 'planner/index.html'
 
     def get_object(self):
         event_id = self.kwargs.get('event_id')
-
         return get_object_or_404(Event, id=event_id)
 
-    def delete(self, request, *args, **kwargs):
+    def get_context_data(self, **kwargs):
+        context = super(EventDeleteView, self).get_context_data(**kwargs)
+        context['plan_id'] = self.kwargs.get("plan_id")
+        return context
 
+    def delete(self, request, *args, **kwargs):
         event = self.get_object()
         plan_id = event.plan.id
         event_id = event.id
         event = Event.objects.get(id = event_id)
         event.delete()
-
         return redirect('planner:index', plan_id=plan_id)
 
 

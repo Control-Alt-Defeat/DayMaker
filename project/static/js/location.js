@@ -3,6 +3,13 @@ function roundToSix(num) {
     return +(Math.round(num + "e+6")  + "e-6");
 }
 
+function enableButton(){
+    $('#submit_button').prop("disabled", false);
+    const button_name = $('#submit_button').attr("name");
+    $('#submit_button').val(button_name);
+    $('#id_address').keyup(disableButton);
+}
+
 function disableButton(){
   $('#submit_button').prop("disabled", true);
   $('#submit_button').val('Please Enter a Valid Location');
@@ -31,10 +38,7 @@ function currentLocation() {
       $("#address_status").text("Valid Location!");
       $('#id_lat_coord').val(latitude);
       $('#id_long_coord').val(longitude);
-      $('#submit_button').prop("disabled", false);
-      const button_name = $('#submit_button').attr("name");
-      $('#submit_button').val(button_name);
-      address.keyup(disableButton);
+      enableButton();
     }
   
     function error() {
@@ -65,10 +69,7 @@ function checkAddress(){
           if (data.lat) {
             $('#id_lat_coord').val(roundToSix(data.lat));
             $('#id_long_coord').val(roundToSix(data.long));
-            $('#submit_button').prop("disabled", false);
-            const button_name = $('#submit_button').attr("name");
-            $('#submit_button').val(button_name);
-            address_el.keyup(disableButton);
+            enableButton();
           }
           $("#address_status").text(data.msg);
         }
@@ -78,7 +79,7 @@ function checkAddress(){
 
 function updateCategories(){
   var url = $("#search_form").attr("data-categories-url");  // get the url of the `load_categories` view
-  var loc_type = $(this).val(); // get the selected location type from the HTML input
+  var loc_type = $('#id_loc_type').val(); // get the selected location type from the HTML input
   var spin_loader = '<div id="spin_loader" class="d-flex justify-content-center">\
                       <div class="spinner-border" role="status">\
                         <span class="sr-only">Loading...</span>\
@@ -98,6 +99,11 @@ function updateCategories(){
       $("#id_loc_category").prop("disabled", false);
       $("#id_loc_category").show();
       $("#spin_loader").remove();
+      if($('#load_category').length){
+        const category = $('#load_category').attr('data');
+        $('#id_loc_category').val(category);
+        $('#load_category').remove()
+      }
     }
   });
 }
@@ -111,8 +117,14 @@ $('#id_address').keyup(function(event){
 });
 if($('#id_loc_type').length){
   $('#id_loc_type').change(updateCategories);
+  if($('#id_loc_type').val().length > 0){
+    updateCategories();
+  }
 }
 if($('.timeError').length){
   addTimeChangeListeners("start");
   addTimeChangeListeners("end");
+}
+if ($('#id_address').val().length > 0){
+    enableButton();
 }

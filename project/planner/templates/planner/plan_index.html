@@ -2,22 +2,49 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div id="app">
-    <!-- Top add event button -->
-    <div class="eventRow">
-        <a class="btn" href="{% url 'new_plan' %}">Add Plan</a>
+<div id="app" class="form-margin">
+    <h2 class="page-title">All Plans</h2>
+    <hr>
+    <!-- Top add plan button -->
+    <div class="addButtonContainer">
+      <a class="addButton" href="{% url 'planner:add_plan' %}">Add Plan</a>
     </div>
-
     {% if plan_list %}
       {% for plan in plan_list %}
-        <div class="eventRow">
-            <a class="btn" href="{% url 'planner:index' plan.id %}">{{ plan.name }}: {{ plan.date }}</a>
-        </div>
+      <div class="eventStyle" onclick="window.location.href='{% url 'planner:index' plan.id %}';">
+          <div class="eventColumnLeft eventDetails">
+              <p></p>
+          </div>
+          <div class="eventColumnMiddle">
+              <p class="eventTitle"> {{ plan.name }}</p>
+              <p class="eventDetails"> {{ plan.date }} </p>
+          </div>
+          <div class="eventColumnRight">
+            <div>
+              <a href="{% url 'planner:edit_plan' plan.id %}" class="btn removeEventButton eventDetails" role="button">
+                <i class="fa fa-pencil-square-o"></i>
+                Edit</a>
+            </div>
+            <div>
+              <a href="{% url 'planner:delete_plan' plan.id %}" class="btn removeEventButton eventDetails" role="button">
+                <i class="fa fa-trash"></i>
+                Remove</a>
+            </div>
+          </div>
+      </div>
       {% endfor %}
     {% else %}
-        <p>No plans are available. Add a Plan and view them here </p>
+        <div class="noEventsBox">
+            No plans are available. Click above to add one now!
+        </div>
     {% endif %}
-    <!-- Bottom add event button -->
 </div>
+{% endblock %}
 
+{% block javascript %}
+    <script type='text/javascript' defer>
+        $(".removeEventButton").each(function(){
+            $(this).click(function(e){ e.stopPropagation(); });
+        });
+    </script>
 {% endblock %}
