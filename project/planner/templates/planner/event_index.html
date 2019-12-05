@@ -1,5 +1,6 @@
 <!-- Main Home Page -->
 {% extends 'base.html' %}
+{% block title %}{% if plan_name %} {{ plan_name }} {% else %} Plan {% endif %}{% endblock %}
 
 {% block content %}
 <div id="app" class="form-margin">

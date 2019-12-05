@@ -108,7 +108,7 @@ class EventFinder(models.Model):
     address = models.CharField('Where would you like to search?', max_length=100)
     loc_type = models.CharField('Location Type', max_length=100, choices=TYPES)
     loc_category = models.CharField('Location Category', max_length=100, null=True, blank=True)
-    price = models.CharField(max_length=1, choices=PRICES, null=True, blank=True, default='')
+    price = models.CharField(max_length=1, choices=PRICES, blank=True, default='')
     min_rating = models.CharField('Minimum Rating', max_length=1, choices=MIN_RATINGS, null=True, blank=True)
     transportation = models.CharField('Mode of Transportation', max_length=1, choices=TRANSPORTATION, null=True, blank=True)
     result_count = models.PositiveIntegerField('Number of Search Results', default=3, validators=[MinValueValidator(1), MaxValueValidator(50)])

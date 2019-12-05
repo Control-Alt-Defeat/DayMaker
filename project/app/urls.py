@@ -35,7 +35,6 @@ urlpatterns = [
     path('signup/', users_views.signup, name='signup'),
     path('ajax/check_address/', views.check_address, name='check_address'),
     path('ajax/get-date-of-plan/', views.get_date_of_plan, name='get_date_of_plan'),
-    path('new_plan', views.NewPlanFormView.as_view(), name='new_plan'),
 ]
 
 if settings.DEBUG == True:

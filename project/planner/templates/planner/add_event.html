@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% block title %}{{ title }}{% endblock %}
+
 {% block javascript %}
 {% load static %}
 <script type="text/javascript" src="{% static '/js/location.js' %}" defer></script>
@@ -7,17 +9,18 @@
 
 {% block content %}
 <div id="app" class="form-margin">
-<h2 class="page-title">Add Existing Event</h2>
+<h2 class="page-title">{{ title }}</h2>
 <hr>
 <div class="help-text-helper">
-    <div class="page-title help-text">Please enter the details for your event.</div>
+    <div class="page-title help-text">{{ help_text }}</div>
 </div>
-<form name="addEventForm" action="{% url 'planner:add' plan_id %}" method="post" required>
+<form action="{{ submit_url }}" method="post" required>
     {% csrf_token %}
     {{ form.as_p }}
-    <p id="address_status" class="form-text text-muted"></p>
-    <button id = "currentLocationButton" class="btn btn-secondary btn-sm" type='button'>Use My Current Location</button>
-    
+    <div class="form-row">
+        <button id = "currentLocationButton" class="btn btn-secondary btn-sm pad-below" type='button'>Use My Current Location</button>
+        <p id="address_status" class="form-text text-muted"></p>
+    </div>
     {% if timeError %}
     <div class = "eventRow">
             <div class = "timeWindow">
@@ -37,10 +40,12 @@
     <input id="submit_button" name="Save Event" class="btn btn-success btn-block button-padding" type="submit" value="Please Enter a Valid Location" disabled>
 </form>
 <div>
-    <a href="{% url 'planner:plan' plan_id %}" class="btn btn-danger btn-block button-padding" role="button" >Back</a>
+    <a href="{{ back_url }}" class="btn btn-danger btn-block button-padding" role="button" >Back</a>
 </div>
+{% if add_event %}
 <div>
     <a href="{% url 'planner:index' plan_id %}" class="btn btn-primary btn-block button-padding" role="button" >Back to Plan</a>
 </div>
+{% endif %}
 </div>
 {% endblock %}

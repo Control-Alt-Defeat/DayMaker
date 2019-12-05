@@ -225,6 +225,15 @@ div.page-title {
     margin-top: 20px;
 }
 
+.pad-below {
+    margin-bottom: 10px;
+    margin-left: 5px;
+}
+
 .toolbar {
     margin: 0rem 1.5rem;
+}
+
+#address_status {
+    margin: 0px 10px;
 }

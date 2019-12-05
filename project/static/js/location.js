@@ -31,11 +31,12 @@ function currentLocation() {
     address = $('#id_address');
 
     function success(position) {
-      const latitude  = roundToSix(position.coords.latitude);
-      const longitude = roundToSix(position.coords.longitude);
-  
-      address.val(`Latitude: ${latitude}°, Longitude: ${longitude}°`);
-      $("#address_status").text("Valid Location!");
+      let latitude  = roundToSix(position.coords.latitude);
+      let longitude = roundToSix(position.coords.longitude);
+      const lat_display = latitude.toString().slice(0, -2);
+      const long_display = longitude.toString().slice(0, -2);
+      address.val('Current Location');
+      $("#address_status").text(`Valid Location! Latitude: ${lat_display}°, Longitude: ${long_display}°`);
       $('#id_lat_coord').val(latitude);
       $('#id_long_coord').val(longitude);
       enableButton();
@@ -57,7 +58,9 @@ function currentLocation() {
 function checkAddress(){
     address_el = $('#id_address');
     address = address_el.val();
-    if (address != ''){
+    if (address == 'Current Location'){
+        currentLocation();
+    } else if (address != ''){
       $.ajax({
         url: '/ajax/check_address/',
         data: {
@@ -105,6 +108,7 @@ function updateCategories(){
         $('#load_category').remove()
       }
       enableButton();
+      checkAddress();
     }
   });
 }
