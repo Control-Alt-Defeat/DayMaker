@@ -185,9 +185,9 @@ input:disabled {
     border-radius: 10px;
     background-color: #cfccce;
     color: black;
-    padding: 16px;
+    padding: 16px 0px;
     font-size: 16px;
-    margin: 10px;
+    margin: 10px 0px;
     text-align: center;
 }
 
@@ -225,6 +225,15 @@ div.page-title {
     margin-top: 20px;
 }
 
+.pad-below {
+    margin-bottom: 10px;
+    margin-left: 5px;
+}
+
 .toolbar {
     margin: 0rem 1.5rem;
+}
+
+#address_status {
+    margin: 0px 10px;
 }

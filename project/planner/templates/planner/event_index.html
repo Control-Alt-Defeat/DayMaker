@@ -1,13 +1,11 @@
 <!-- Main Home Page -->
 {% extends 'base.html' %}
+{% block title %}{% if plan_name %} {{ plan_name }} {% else %} Plan {% endif %}{% endblock %}
 
 {% block content %}
 <div id="app" class="form-margin">
-    <h2 class="page-title">{% if plan_name %} {{ plan_name }} {% else %} Plan {% endif %}</h2>
+    <h2 class="page-title">{% if plan_name %} {{ plan_name }} {% else %} Plan {% endif %} - {{ plan_date }}</h2>
     <hr>
-    <div class="help-text-helper">
-        <div class="page-title help-text">Plan for {{ plan_date }}</div>
-    </div>
     <!-- Top add event button -->
     <div class="addButtonContainer">
         <a class="addButton" href="{% url 'planner:plan' plan_id %}">Add Event</a>

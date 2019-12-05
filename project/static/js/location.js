@@ -31,11 +31,12 @@ function currentLocation() {
     address = $('#id_address');
 
     function success(position) {
-      const latitude  = roundToSix(position.coords.latitude);
-      const longitude = roundToSix(position.coords.longitude);
-  
-      address.val(`Latitude: ${latitude}°, Longitude: ${longitude}°`);
-      $("#address_status").text("Valid Location!");
+      let latitude  = roundToSix(position.coords.latitude);
+      let longitude = roundToSix(position.coords.longitude);
+      const lat_display = latitude.toString().slice(0, -2);
+      const long_display = longitude.toString().slice(0, -2);
+      address.val('Current Location');
+      $("#address_status").text(`Valid Location! Latitude: ${lat_display}°, Longitude: ${long_display}°`);
       $('#id_lat_coord').val(latitude);
       $('#id_long_coord').val(longitude);
       enableButton();
@@ -57,7 +58,9 @@ function currentLocation() {
 function checkAddress(){
     address_el = $('#id_address');
     address = address_el.val();
-    if (address != ''){
+    if (address == 'Current Location'){
+        currentLocation();
+    } else if (address != ''){
       $.ajax({
         url: '/ajax/check_address/',
         data: {
@@ -88,7 +91,7 @@ function updateCategories(){
   $('#id_loc_category').prop("disabled", true);
   $('#id_loc_category').hide()
   $("#id_loc_category").before(spin_loader);
-
+  disableButton();
   $.ajax({                       // initialize an AJAX request
     url: url,                    // set the url of the request
     data: {
@@ -104,6 +107,8 @@ function updateCategories(){
         $('#id_loc_category').val(category);
         $('#load_category').remove()
       }
+      enableButton();
+      checkAddress();
     }
   });
 }
@@ -119,12 +124,17 @@ if($('#id_loc_type').length){
   $('#id_loc_type').change(updateCategories);
   if($('#id_loc_type').val().length > 0){
     updateCategories();
+  } else {
+    if ($('#id_address').val().length > 0){
+        enableButton();
+    }
   }
+} else{
+    if ($('#id_address').val().length > 0){
+        enableButton();
+    }
 }
 if($('.timeError').length){
   addTimeChangeListeners("start");
   addTimeChangeListeners("end");
-}
-if ($('#id_address').val().length > 0){
-    enableButton();
 }

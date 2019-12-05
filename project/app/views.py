@@ -12,56 +12,21 @@ from planner.models import Plan
 
 @csrf_exempt
 def check_address(request):
-	address = request.GET.get('address', None)
-	locator = Nominatim(user_agent="myGeocoder")
-	location = locator.geocode(address)
-	data = {
-		'lat': location.latitude if location else None,
-		'long': location.longitude if location else None,
-		'msg': f'Valid Location! Latitude: {location.latitude}°, Longitude: {location.longitude}°' if location else 'Invalid Location, please try a different address'
-	}
+    address = request.GET.get('address', None)
+    locator = Nominatim(user_agent="myGeocoder")
+    location = locator.geocode(address)
+    if location:
+        lat_display = '%.4f'%(location.latitude)
+        long_display = '%.4f'%(location.longitude)
+    data = {
+        'lat': location.latitude if location else None,
+        'long': location.longitude if location else None,
+        'msg': f'Valid Location! Latitude: {lat_display}°, Longitude: {long_display}°' if location else 'Invalid Location, please try a different address'
+    }
 
-	return JsonResponse(data)
+    return JsonResponse(data)
 
 @csrf_exempt
 def get_date_of_plan(request):
-	response = {'dateOfPlan': datetime.datetime.now().strftime("%B %d, %Y")}
-	return JsonResponse(response)
-
-@csrf_exempt
-def get_response(request):
-	response = {'status': None}
-
-	if request.method == 'POST':
-		data = json.loads(request.body)
-		message = data['message']
-
-		# chat_response = chatbot.get_response(message).text
-		chat_response = "Chatbot not home, you said: " + message
-		response['message'] = {'text': chat_response, 'user': False, 'chat_bot': True}
-		response['status'] = 'ok'
-
-	else:
-		response['error'] = 'no post data found'
-
-	return HttpResponse(
-		json.dumps(response),
-			content_type="application/json"
-		)
-
-class NewPlanFormView(CreateView):
-	model = Plan
-	form_class = PlanForm
-	template_name = 'planner/add_plan.html'
-
-	def post(self, request):
-		form = PlanForm(request.POST)
-		if form.is_valid():
-			plan = form.save()
-			plan.user = request.user
-			plan.save()
-			return redirect("planner:plan_index")
-		else:
-			context = { 'form': form }
-			return render(request, 'planner/add_plan.html', context=context)
-
+    response = {'dateOfPlan': datetime.datetime.now().strftime("%B %d, %Y")}
+    return JsonResponse(response)

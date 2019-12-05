@@ -278,7 +278,7 @@ def add_event(request, plan_id):
                context['eventOverlap'] = 'Event Overlap!'
             # if valid redirect to results
             if valid:
-                event = form.save()
+                event = form.save(commit=False)
                 event.plan = Plan.objects.get(id = plan_id)
                 event.save()
                 # redirect to a new URL:
@@ -290,8 +290,38 @@ def add_event(request, plan_id):
 
     context['form'] = form
     context['plan_id'] = plan_id
+    context['title'] = 'Add Existing Event'
+    context['help_text'] = 'Please enter the details for your event.'
+    context['submit_url'] = reverse('planner:add', kwargs={'plan_id':plan_id})
+    context['back_url'] = reverse('planner:plan', kwargs={'plan_id':plan_id})
+    context['add_event'] = True
 
     return render(request, template_name, context)
+
+
+class EventUpdateView(UpdateView):
+    template_name = 'planner/add_event.html'
+    form_class = EventForm
+
+    def get_object(self):
+        event_id = self.kwargs.get("event_id")
+        return get_object_or_404(Event, id=event_id)
+
+    def get_context_data(self, **kwargs):
+        context = super(EventUpdateView, self).get_context_data(**kwargs)
+        plan_id = self.kwargs.get("plan_id")
+        context['plan_id'] = plan_id
+        context['title'] = 'Edit Event'
+        context['help_text'] = 'Please review the details for your event.'
+        context['submit_url'] = ""
+        context['back_url'] = reverse('planner:index', kwargs={'plan_id':plan_id})
+        context['add_event'] = False
+        return context
+
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        return super().form_valid(form)
+
 
 class EventDeleteView(DeleteView):
     model = Event
@@ -314,21 +344,3 @@ class EventDeleteView(DeleteView):
         event = Event.objects.get(id = event_id)
         event.delete()
         return redirect('planner:index', plan_id=plan_id)
-
-
-class EventUpdateView(UpdateView):
-    template_name = 'planner/edit_event.html'
-    form_class = EventForm
-
-    def get_object(self):
-        event_id = self.kwargs.get("event_id")
-        return get_object_or_404(Event, id=event_id)
-
-    def get_context_data(self, **kwargs):
-        context = super(EventUpdateView, self).get_context_data(**kwargs)
-        context['plan_id'] = self.kwargs.get("plan_id")
-        return context
-
-    def form_valid(self, form):
-        print(form.cleaned_data)
-        return super().form_valid(form)
