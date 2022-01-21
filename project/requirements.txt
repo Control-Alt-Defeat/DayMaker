@@ -1,5 +1,5 @@
 Django
-ipython==6.4.0
+ipython==7.16.3
 selenium
 djangorestframework
 ibm-watson==3.4.0
